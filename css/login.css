@@ -43,14 +43,14 @@ div.header img#icon {
   width: 130px;
 }
 
-div.header button#icon-button {
+/* div.header button#icon-button {
   float: left;
   margin-left: 30px;
-}
+} */
 
-div.header button {
+/* div.header button {
   display: inline-block;
-}
+} */
 
 div.header button#upload-button {
   color: var(--black);
@@ -75,27 +75,27 @@ div.header button#upload-button {
   font-family: 'Montserrat';
 }
 
-div.main {
+/* div.main {
   margin-top: 200px;
-}
+} */
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+/* ::-webkit-input-placeholder { 
   color: var(--green);
   font-family: 'Montserrat';
   font-size: 20px;
   opacity: 0.7;
-}
+} */
 
-div.search {
+/* div.search {
   text-align: center;
   padding: 20px;
   font-size: 30px;
   margin-top: -15px;
   color: var(--green);
   margin-left: -14px;
-}
+} */
 
-div.main input {
+/* div.main input {
   color: var(--black);
   background-color: transparent;
   border: none;
@@ -106,20 +106,20 @@ div.main input {
   transition: 0.3s;
   cursor: pointer;
   height: 30px;
-}
+} */
 
-div.main input[type=text] {
+/* div.main input[type=text] {
   width: 80%;
   margin-left: 10px;
   padding-left: 40px;
-}
+} */
 
-div.main input:hover {
+/* div.main input:hover {
   color: var(--black);
   opacity: 0.6;
-}
+} */
 
-div.main input:focus {
+/* div.main input:focus {
   outline: none;
 }
 
@@ -129,10 +129,10 @@ div.videos {
 
 div.videos img {
   width: 20em;
-}
+} */
 
-#deco-1 {
+/* #deco-1 {
   position: absolute;
   width: 20px;
   margin: -27em -30px;
-}
+} */
