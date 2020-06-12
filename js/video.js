@@ -1,34 +1,97 @@
 // loading pre-trained PoseNet Model
-const net = await posenet.load({
-    architecture: 'MobileNetV1',
-    outputStride: 16,
-    inputResolution: {
-        width: 640,
-        height: 480
-    },
-    multiplier: 0.75
-});
+// const net = await posenet.load({
+//     architecture: 'MobileNetV1',
+//     outputStride: 16,
+//     inputResolution: {
+//         width: 640,
+//         height: 480
+//     },
+//     multiplier: 0.75
+// });
 
 
 //video player
 var start, end, vid;
 
 $(document).ready(function () {
-    var timestamps = ['00:33', '01:22']
-    vid = videojs("vid", {
+    var timestamps = ['00:03', '00:07', '00:15', '01:22']
+    vid = $('#vid')[0];
+    for (var i = 0; i < timestamps.length; i++) {
+        timestamps[i] = stamp2sec(timestamps[i]);
+    }
+    var starti = -1;
+    var endi = 0;
+    start = 0;
+    if (timestamps.length > 0) end = timestamps[0];
+    else end = vid.duration;
+
+    var video = videojs("vid", {
         plugins: {
             abLoopPlugin: {}
         }
     });
-    for (var i = 0; i < timestamps.length; i++) {
-        timestamps[i] = stamp2sec(timestamps[i]);
-    }
-    start = 0;
-    if (timestamps.length > 0) end = timestamps[0];
-    else end = vid.duration;
-    vid.ready(function () {
+
+    $("#next").click(function () {
+        if (endi < timestamps.length - 1) {
+            starti += 1;
+            endi += 1;
+            start = end;
+            end = timestamps[endi];
+        } else if (endi === timestamps.length - 1) {
+            starti += 1;
+            endi += 1;
+            start = end;
+            end = vid.duration;
+        }
+        video.ready(function () {
+            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
+        });
+    });
+
+    $("#prev").click(function () {
+        if (starti > 0) {
+            starti -= 1;
+            endi -= 1;
+            end = start;
+            start = timestamps[starti];
+        } else if (starti === 0) {
+            starti -= 1;
+            endi -= 1;
+            end = start;
+            start = 0;
+        }
+        video.ready(function () {
+            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
+        });
+    });
+
+    var record = false;
+    $("#rec").click(function () {
+        record = true;
+        video.ready(function () {
+            this.abLoopPlugin.setStart(0).setEnd(vid.duration).togglePauseAfterLooping().playLoop();
+        });
+    });
+
+    video.ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
+
+    //WEBCAM
+    var wc = document.querySelector("#videoElement");
+
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+            .then(function (stream) {
+                wc.srcObject = stream;
+            })
+            .catch(function (err0r) {
+                console.log("Something went wrong!");
+            });
+    }
+
 
 });
 
@@ -39,63 +102,118 @@ function stamp2sec(stamp) {
 
 // https://stackoverflow.com/questions/32699721/javascript-extract-video-frames-reliably
 // extract frames from video
-async function extractFramesFromVideo(vid, fps = 25) {
-    return new Promise(async (resolve) => {
+let imgs = [];
 
-        let seekResolve;
-        vid.addEventListener('seeked', async function () {
-            if (seekResolve) seekResolve();
-        });
+function extractFramesFromVideo(video) {
+    let duration = end - start;
 
-        vid.src = videoObjectUrl;
+    var video = document.querySelector('video');
+    var array = [];
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var pro = document.querySelector('#progress');
 
+    function initCanvas(e) {
+        canvas.width = this.videoWidth;
+        canvas.height = this.videoHeight;
+    }
 
-        video.addEventListener('loadeddata', async function () {
-            let canvas = document.createElement('canvas');
-            let context = canvas.getContext('2d');
-            let [w, h] = [vid.videoWidth, vid.videoHeight]
-            canvas.width = w;
-            canvas.height = h;
+    function drawFrame(e) {
+        this.pause();
+        ctx.drawImage(this, 0, 0);
+        /* 
+        this will save as a Blob, less memory consumptive than toDataURL
+        a polyfill can be found at
+        https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Polyfill
+        */
+        canvas.toBlob(saveFrame, 'image/jpeg');
+        pro.innerHTML = ((this.currentTime / duration) * 100).toFixed(2) + ' %';
+        if (this.currentTime < duration) {
+            this.play();
+        }
+    }
 
-            let frames = [];
-            let interval = 1 / fps;
-            let currentTime = start;
-            let duration = end - start;
+    function saveFrame(blob) {
+        array.push(blob);
+    }
 
-            while (currentTime < duration) {
-                video.currentTime = currentTime;
-                await new Promise(r => seekResolve = r);
+    function revokeURL(e) {
+        URL.revokeObjectURL(this.src);
+    }
 
-                context.drawImage(video, 0, 0, w, h);
-                let base64ImageData = canvas.toDataURL();
-                frames.push(base64ImageData);
+    function onend(e) {
+        var img;
+        // do whatever with the frames
+        for (var i = 0; i < array.length; i++) {
+            img = new Image();
+            img.onload = revokeURL;
+            img.src = URL.createObjectURL(array[i]);
+            document.body.appendChild(img);
+            imgs.push(img);
+        }
+        // we don't need the video's objectURL anymore
+        URL.revokeObjectURL(this.src);
+    }
 
-                currentTime += interval;
-            }
-            resolve(frames);
-        });
+    video.addEventListener('loadedmetadata', initCanvas, false);
+    video.addEventListener('timeupdate', drawFrame, false);
+    video.addEventListener('ended', onend, false);
 
-        // set video src *after* listening to events in case it loads so fast
-        // that the events occur before we were listening.
-        video.src = videoObjectUrl;
-
-    });
+    video.src = URL.createObjectURL(this.files[0]);
+    video.play();
 }
 
-let frames = await extractFramesFromVideo(vid);
 
-var currentFrame = 0;
-var poses = [];
+const getFrames = async () => {
 
-// single pose
-var flipHorizontal = false;
-while (currentFrame <= frames.length) {
-    posenet.load().then(function (net) {
-        const pose = net.estimateSinglePose(imageElement, {
-            flipHorizontal: true
-        });
-        poses.push(pose);
-    }).then(function (pose) {
+    const frames = await extractFramesFromVideo('testvid.mp4');
+    var currentFrame = 0;
+    var poses = [];
+
+    // PoseNet model on all frames of the video
+    var flipHorizontal = false;
+    console.log('test');
+
+    while (currentFrame <= frames.length) {
+        async function estimatePoseOnImage(currentFrame) {
+            // load the posenet model from a checkpoint
+            const net = await posenet.load();
+
+            const pose = await net.estimateSinglePose(currentFrame, {
+                flipHorizontal: false
+            });
+            poses.push(pose);
+            // return pose;
+        }
+
+        const pose = estimatePoseOnImage(currentFrame);
+
         console.log(pose);
-    })
+    }
+    console.log(poses);
+
 }
+
+// extractFramesFromVideo.then(getFrames()).catch((error) => {
+//     return error;
+// });
+
+// var currentFrame = 0;
+// var poses = [];
+
+
+
+// TEST: PoseNet model on a single frame
+// var flipHorizontal = false;
+
+// var imageElement = document.getElementById('dance');
+
+
+// posenet.load().then(function (net) {
+//     const pose = net.estimateSinglePose(imageElement, {
+//         flipHorizontal: true
+//     });
+//     return pose;
+// }).then(function (pose) {
+//     console.log(pose);
+// })
