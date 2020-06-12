@@ -27,10 +27,18 @@
   <video id="vid" controls="controls" class="video-js">
     <source src="testvid.mp4">
   </video>
-  <button id="next" type="button">Next</button>
+  <button id="prev" type="button">Previous Section</button>
+  <button id="next" type="button">Next Section</button>
+  <button id="rec" type="button">Record</button>
 
   <button type="button" onclick="extractFramesFromVideo('testvid.mp4')">Get Frames</button>
   <button type="button" onclick="getFrames()">Run Posenet</button>
+
+  <div id="container">
+    <video autoplay="true" id="videoElement">
+    
+    </video>
+  </div>
 
 </body>
 
