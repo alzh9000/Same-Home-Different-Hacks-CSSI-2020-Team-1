@@ -70,6 +70,7 @@ div.search {
   font-size: 30px;
   margin-top: -15px;
   color: var(--green);
+  margin-left: -14px;
 }
 
 div.main input {
@@ -102,4 +103,10 @@ div.main input:focus {
 
 div.videos img {
   width: 280px;
+}
+
+#deco-1 {
+  position: absolute;
+  width: 20px;
+  margin: -630px -30px;
 }
