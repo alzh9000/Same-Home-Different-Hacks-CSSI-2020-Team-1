@@ -21,7 +21,7 @@ body {
 div.container {
   display: absolute;
   margin:0 auto;
-  width: 730px;
+  width: 70%;
   padding: 30px 50px;
   --block-background-color: var(--background);
 }
@@ -112,5 +112,5 @@ div.videos img {
 #deco-1 {
   position: absolute;
   width: 20px;
-  margin: -4px -200px;
+  margin: -27em -30px;
 }
