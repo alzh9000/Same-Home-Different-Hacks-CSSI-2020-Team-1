@@ -37,7 +37,7 @@ div.header img#icon {
 
 div.header button#icon-button {
   float: left;
-  margin-left: 10px;
+  margin-left: 30px;
 }
 
 div.header button {
@@ -46,7 +46,7 @@ div.header button {
 
 div.header button#upload-button {
   margin-top: 50px;
-  margin-right: 10px;
+  margin-right: 30px;
   float: right;
   padding: 10px 20px;
   font-size: 20px;
@@ -108,5 +108,5 @@ div.videos img {
 #deco-1 {
   position: absolute;
   width: 20px;
-  margin: -630px -30px;
+  margin: -27em -30px;
 }
