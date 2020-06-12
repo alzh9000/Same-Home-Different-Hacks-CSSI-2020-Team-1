@@ -1,4 +1,4 @@
-const url = "http://localhost:5001/daince-b612d/us-central1/api";
+const url = "https://us-central1-daince-b612d.cloudfunctions.net/api";
 
 // Helper function
 async function sendRequest(method, path, body= null) {
@@ -48,6 +48,11 @@ class Authentication {
     // Revoke a user's session
     static async logout() {
         return await sendRequest("GET", "/authentication/logout");
+    }
+
+    // Get user data
+    static async self() {
+        return await sendRequest("GET", "/self");
     }
 }
 
