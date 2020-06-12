@@ -1,97 +1,34 @@
 // loading pre-trained PoseNet Model
-// const net = await posenet.load({
-//     architecture: 'MobileNetV1',
-//     outputStride: 16,
-//     inputResolution: {
-//         width: 640,
-//         height: 480
-//     },
-//     multiplier: 0.75
-// });
+const net = await posenet.load({
+    architecture: 'MobileNetV1',
+    outputStride: 16,
+    inputResolution: {
+        width: 640,
+        height: 480
+    },
+    multiplier: 0.75
+});
 
 
 //video player
 var start, end, vid;
 
 $(document).ready(function () {
-    var timestamps = ['00:03', '00:07', '00:15', '01:22']
-    vid = $('#vid')[0];
-    for (var i = 0; i < timestamps.length; i++) {
-        timestamps[i] = stamp2sec(timestamps[i]);
-    }
-    var starti = -1;
-    var endi = 0;
-    start = 0;
-    if (timestamps.length > 0) end = timestamps[0];
-    else end = vid.duration;
-
-    var video = videojs("vid", {
+    var timestamps = ['00:33', '01:22']
+    vid = videojs("vid", {
         plugins: {
             abLoopPlugin: {}
         }
     });
-
-    $("#next").click(function () {
-        if (endi < timestamps.length - 1) {
-            starti += 1;
-            endi += 1;
-            start = end;
-            end = timestamps[endi];
-        } else if (endi === timestamps.length - 1) {
-            starti += 1;
-            endi += 1;
-            start = end;
-            end = vid.duration;
-        }
-        video.ready(function () {
-            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
-        });
-    });
-
-    $("#prev").click(function () {
-        if (starti > 0) {
-            starti -= 1;
-            endi -= 1;
-            end = start;
-            start = timestamps[starti];
-        } else if (starti === 0) {
-            starti -= 1;
-            endi -= 1;
-            end = start;
-            start = 0;
-        }
-        video.ready(function () {
-            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
-        });
-    });
-
-    var record = false;
-    $("#rec").click(function () {
-        record = true;
-        video.ready(function () {
-            this.abLoopPlugin.setStart(0).setEnd(vid.duration).togglePauseAfterLooping().playLoop();
-        });
-    });
-
-    video.ready(function () {
+    for (var i = 0; i < timestamps.length; i++) {
+        timestamps[i] = stamp2sec(timestamps[i]);
+    }
+    start = 0;
+    if (timestamps.length > 0) end = timestamps[0];
+    else end = vid.duration;
+    vid.ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
-
-    //WEBCAM
-    var wc = document.querySelector("#videoElement");
-
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({
-                video: true
-            })
-            .then(function (stream) {
-                wc.srcObject = stream;
-            })
-            .catch(function (err0r) {
-                console.log("Something went wrong!");
-            });
-    }
-
 
 });
 
@@ -169,58 +106,59 @@ async function extractFramesFromVideo(video) {
     // video.play();
 }
 
+vid.src = videoObjectUrl;
 
-const getFrames = async () => {
 
-    const frames = await extractFramesFromVideo('testvid.mp4');
-    var currentFrame = 0;
-    var poses = [];
+video.addEventListener('loadeddata', async function () {
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+    let [w, h] = [vid.videoWidth, vid.videoHeight]
+    canvas.width = w;
+    canvas.height = h;
 
-    // PoseNet model on all frames of the video
-    var flipHorizontal = false;
-    console.log('test');
+    let frames = [];
+    let interval = 1 / fps;
+    let currentTime = start;
+    let duration = end - start;
 
-    while (currentFrame <= frames.length) {
-        async function estimatePoseOnImage(currentFrame) {
-            // load the posenet model from a checkpoint
-            const net = await posenet.load();
+    while (currentTime < duration) {
+        video.currentTime = currentTime;
+        await new Promise(r => seekResolve = r);
 
-            const pose = await net.estimateSinglePose(currentFrame, {
-                flipHorizontal: false
-            });
-            poses.push(pose);
-            // return pose;
-        }
-        currentFrame++;
-
-        const pose = estimatePoseOnImage(currentFrame);
-
-        console.log(pose);
+        const pose = await net.estimateSinglePose(currentFrame, {
+            flipHorizontal: false
+        });
+        poses.push(pose);
+        // return pose;
     }
-    console.log(poses);
+    currentFrame++;
 
+    currentTime += interval;
+}
+resolve(frames);
+});
+
+// set video src *after* listening to events in case it loads so fast
+// that the events occur before we were listening.
+video.src = videoObjectUrl;
+
+});
 }
 
-// extractFramesFromVideo.then(getFrames()).catch((error) => {
-//     return error;
-// });
+let frames = await extractFramesFromVideo(vid);
 
-// var currentFrame = 0;
-// var poses = [];
+var currentFrame = 0;
+var poses = [];
 
-
-
-// TEST: PoseNet model on a single frame
-// var flipHorizontal = false;
-
-// var imageElement = document.getElementById('dance');
-
-
-// posenet.load().then(function (net) {
-//     const pose = net.estimateSinglePose(imageElement, {
-//         flipHorizontal: true
-//     });
-//     return pose;
-// }).then(function (pose) {
-//     console.log(pose);
-// })
+// single pose
+var flipHorizontal = false;
+while (currentFrame <= frames.length) {
+    posenet.load().then(function (net) {
+        const pose = net.estimateSinglePose(imageElement, {
+            flipHorizontal: true
+        });
+        poses.push(pose);
+    }).then(function (pose) {
+        console.log(pose);
+    })
+}
