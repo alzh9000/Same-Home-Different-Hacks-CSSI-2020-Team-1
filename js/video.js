@@ -48,9 +48,35 @@ $(document).ready(function () {
         });
     });
 
+    $("#prev").click(function () {
+        if (starti > 0) {
+            starti -= 1;
+            endi -= 1;
+            end = start;
+            start = timestamps[starti];
+        } else if (starti === 0) {
+            starti -= 1;
+            endi -= 1;
+            end = start;
+            start = 0;
+        }
+        video.ready(function () {
+            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
+        });
+    });
+
+    var record = false;
+    $("#rec").click(function () {
+        record = true;
+        video.ready(function () {
+            this.abLoopPlugin.setStart(0).setEnd(vid.duration).playLoop();
+        });
+    });
+
     video.ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
+    
 
 });
 
