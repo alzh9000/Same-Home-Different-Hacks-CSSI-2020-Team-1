@@ -1,20 +1,19 @@
 // loading pre-trained PoseNet Model
-const net = await posenet.load({
-    architecture: 'MobileNetV1',
-    outputStride: 16,
-    inputResolution: {
-        width: 640,
-        height: 480
-    },
-    multiplier: 0.75
-});
+// const net = await posenet.load({
+//     architecture: 'MobileNetV1',
+//     outputStride: 16,
+//     inputResolution: {
+//         width: 640,
+//         height: 480
+//     },
+//     multiplier: 0.75
+// });
 
 
 //video player
 var start, end, vid;
 
 $(document).ready(function () {
-    var timestamps = ['00:33', '01:22']
     var timestamps = ['00:03', '00:07', '00:15', '01:22']
     vid = $('#vid')[0];
     for (var i = 0; i < timestamps.length; i++) {
@@ -25,7 +24,6 @@ $(document).ready(function () {
     start = 0;
     if (timestamps.length > 0) end = timestamps[0];
     else end = vid.duration;
-    vid.addEventListener('timeupdate', timeupdate, false);
 
     var video = videojs("vid", {
         plugins: {
@@ -55,7 +53,6 @@ $(document).ready(function () {
     });
 
 });
-
 
 function stamp2sec(stamp) {
     return parseInt(stamp.slice(0, 2)) * 60 + parseInt(stamp.slice(3));
