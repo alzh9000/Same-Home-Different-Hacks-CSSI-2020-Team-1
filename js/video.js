@@ -104,8 +104,14 @@ function stamp2sec(stamp) {
 // extract frames from video
 let imgs = [];
 
-function extractFramesFromVideo(video) {
+async function extractFramesFromVideo(video) {
+    var playPromise = video.play();
+
     let duration = end - start;
+
+    let videoBlob = await fetch(video).then(r => r.blob());
+    let videoObjectUrl = URL.createObjectURL(videoBlob);
+
 
     var video = document.querySelector('video');
     var array = [];
@@ -159,8 +165,8 @@ function extractFramesFromVideo(video) {
     video.addEventListener('timeupdate', drawFrame, false);
     video.addEventListener('ended', onend, false);
 
-    video.src = URL.createObjectURL(this.files[0]);
-    video.play();
+    video.src = videoObjectUrl;
+    // video.play();
 }
 
 
@@ -185,6 +191,7 @@ const getFrames = async () => {
             poses.push(pose);
             // return pose;
         }
+        currentFrame++;
 
         const pose = estimatePoseOnImage(currentFrame);
 
