@@ -40,40 +40,47 @@ function stamp2sec(stamp) {
 // https://stackoverflow.com/questions/32699721/javascript-extract-video-frames-reliably
 // extract frames from video
 async function extractFramesFromVideo(vid, fps = 25) {
-return new Promise(async (resolve) => {
+    return new Promise(async (resolve) => {
 
-    let seekResolve;
-    vid.addEventListener('seeked', async function () {
-        if (seekResolve) seekResolve();
+        let seekResolve;
+        vid.addEventListener('seeked', async function () {
+            if (seekResolve) seekResolve();
+        });
+
+        vid.src = videoObjectUrl;
+
+
+        video.addEventListener('loadeddata', async function () {
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            let [w, h] = [vid.videoWidth, vid.videoHeight]
+            canvas.width = w;
+            canvas.height = h;
+
+            let frames = [];
+            let interval = 1 / fps;
+            let currentTime = start;
+            let duration = end - start;
+
+            while (currentTime < duration) {
+                video.currentTime = currentTime;
+                await new Promise(r => seekResolve = r);
+
+                context.drawImage(video, 0, 0, w, h);
+                let base64ImageData = canvas.toDataURL();
+                frames.push(base64ImageData);
+
+                currentTime += interval;
+            }
+            resolve(frames);
+        });
+
+        // set video src *after* listening to events in case it loads so fast
+        // that the events occur before we were listening.
+        video.src = videoObjectUrl;
+
     });
-
-    vid.src = videoObjectUrl;
-
-    let duration = end - start;
-
-    let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d');
-    let [w, h] = [vid.videoWidth, vid.videoHeight]
-    canvas.width = w;
-    canvas.height = h;
-
-    let frames = [];
-    let interval = 1 / fps;
-    let currentTime = 0;
-
-    while (currentTime < duration) {
-        vid.currentTime = currentTime;
-        await new Promise(r => seekResolve = r);
-
-        context.drawImage(vid, 0, 0, w, h);
-        let base64ImageData = canvas.toDataURL();
-        frames.push(base64ImageData);
-
-        currentTime += interval;
-    }
-    resolve(frames);
-});
-});
+}
 
 let frames = await extractFramesFromVideo(vid);
 

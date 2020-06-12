@@ -7,15 +7,18 @@
 
   <title>DAINCE: training</title>
   <link rel="stylesheet" href="css/video.css">
+  <link href="https://vjs.zencdn.net/5.6.0/video-js.css" rel="stylesheet" />
 
   <!-- Load TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <!-- Load Posenet -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
-  <script src="js/video.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://vjs.zencdn.net/5.6.0/video.js"></script>
   <script src="https://unpkg.com/videojs-abloop/dist/videojs-abloop.min.js"></script>
+
+  <script src="js/video.js"></script>
 
 
 </head>
@@ -23,7 +26,7 @@
 <body>
 
 
-  <video width="320" height="240" controls class="video-js">
+  <video controls class="video-js">
     <source src=testvid.mp4>
   </video>
 
