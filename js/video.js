@@ -104,7 +104,7 @@ async function extractFramesFromVideo(videoUrl, fps = 25) {
         vid.src = videoObjectUrl;
 
 
-        video.addEventListener('loadeddata', async function () {
+        vid.addEventListener('loadeddata', async function () {
             let canvas = document.createElement('canvas');
             let context = canvas.getContext('2d');
             let [w, h] = [vid.videoWidth, vid.videoHeight]
@@ -117,7 +117,7 @@ async function extractFramesFromVideo(videoUrl, fps = 25) {
             let duration = end - start;
 
             while (currentTime < duration) {
-                video.currentTime = currentTime;
+                vid.currentTime = currentTime;
                 await new Promise(r => seekResolve = r);
 
                 context.drawImage(video, 0, 0, w, h);
