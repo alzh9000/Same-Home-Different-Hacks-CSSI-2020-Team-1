@@ -18,7 +18,7 @@ router.get("/session", (req, res) => {
     // Attempt to create session cookie
     admin.auth().createSessionCookie(token, { expiresIn })
         .then(cookie => {
-            res.cookie("session", cookie, Object.assign(options, { domain: req.get("Origin") }));
+            res.cookie("session", cookie, options);
             return res.status(200).json({ success: true });
         })
         .catch(_ => res.status(401).json({ success: false, reason: "unauthorized" }));
