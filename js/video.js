@@ -81,15 +81,17 @@ $(document).ready(function () {
     var video = document.querySelector("#videoElement");
 
     if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices.getUserMedia({
+                video: true
+            })
             .then(function (stream) {
-            video.srcObject = stream;
+                video.srcObject = stream;
             })
             .catch(function (err0r) {
-            console.log("Something went wrong!");
+                console.log("Something went wrong!");
             });
     }
-    
+
 
 });
 
@@ -100,54 +102,67 @@ function stamp2sec(stamp) {
 
 // https://stackoverflow.com/questions/32699721/javascript-extract-video-frames-reliably
 // extract frames from video
-async function extractFramesFromVideo(videoUrl, fps = 25) {
+let imgs = [];
 
-    return new Promise(async (resolve) => {
+function extractFramesFromVideo(video) {
+    let duration = end - start;
 
-        let videoBlob = await fetch(videoUrl).then(r => r.blob());
-        let videoObjectUrl = URL.createObjectURL(videoBlob);
-        let vid = document.createElement("vid");
+    var video = document.querySelector('video');
+    var array = [];
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var pro = document.querySelector('#progress');
 
+    function initCanvas(e) {
+        canvas.width = this.videoWidth;
+        canvas.height = this.videoHeight;
+    }
 
-        let seekResolve;
-        vid.addEventListener('seeked', async function () {
-            if (seekResolve) seekResolve();
-        });
+    function drawFrame(e) {
+        this.pause();
+        ctx.drawImage(this, 0, 0);
+        /* 
+        this will save as a Blob, less memory consumptive than toDataURL
+        a polyfill can be found at
+        https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Polyfill
+        */
+        canvas.toBlob(saveFrame, 'image/jpeg');
+        pro.innerHTML = ((this.currentTime / duration) * 100).toFixed(2) + ' %';
+        if (this.currentTime < duration) {
+            this.play();
+        }
+    }
 
-        vid.src = videoObjectUrl;
+    function saveFrame(blob) {
+        array.push(blob);
+    }
 
+    function revokeURL(e) {
+        URL.revokeObjectURL(this.src);
+    }
 
-        vid.addEventListener('loadeddata', async function () {
-            let canvas = document.createElement('canvas');
-            let context = canvas.getContext('2d');
-            let [w, h] = [vid.videoWidth, vid.videoHeight]
-            canvas.width = w;
-            canvas.height = h;
+    function onend(e) {
+        var img;
+        // do whatever with the frames
+        for (var i = 0; i < array.length; i++) {
+            img = new Image();
+            img.onload = revokeURL;
+            img.src = URL.createObjectURL(array[i]);
+            document.body.appendChild(img);
+            imgs.push(img);
+        }
+        // we don't need the video's objectURL anymore
+        URL.revokeObjectURL(this.src);
+    }
 
-            let frames = [];
-            let interval = 1 / fps;
-            let currentTime = start;
-            let duration = end - start;
+    video.addEventListener('loadedmetadata', initCanvas, false);
+    video.addEventListener('timeupdate', drawFrame, false);
+    video.addEventListener('ended', onend, false);
 
-            while (currentTime < duration) {
-                vid.currentTime = currentTime;
-                await new Promise(r => seekResolve = r);
-
-                context.drawImage(video, 0, 0, w, h);
-                let base64ImageData = canvas.toDataURL();
-                frames.push(base64ImageData);
-
-                currentTime += interval;
-            }
-            resolve(frames);
-        });
-
-        // set video src *after* listening to events in case it loads so fast
-        // that the events occur before we were listening.
-        vid.src = videoObjectUrl;
-        console.log(frames);
-    });
+    video.src = URL.createObjectURL(this.files[0]);
+    video.play();
 }
+
 
 const getFrames = async () => {
 
@@ -183,8 +198,8 @@ const getFrames = async () => {
 //     return error;
 // });
 
-var currentFrame = 0;
-var poses = [];
+// var currentFrame = 0;
+// var poses = [];
 
 
 
