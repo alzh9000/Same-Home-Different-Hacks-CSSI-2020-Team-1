@@ -51,17 +51,37 @@ div.header-info h1 {
   font-size: 50px;
 }
 
-div.header button#upload-button {
-  margin-top: 50px;
-  margin-right: 30px;
-  float: right;
-  padding: 10px 20px;
-  font-size: 20px;
+div.main button#upload-button {
+  padding: 10px 18px;
+  font-size: 16px;
   font-family: 'Montserrat';
 }
 
-div.chart {
-  margin-top: 200px;
+div.upload p {
+  margin-left: 10px;
+  display: inline-block;
+  color: var(--green);
+  border-bottom: 2px solid var(--green);
+}
+
+div.upload button {
+  display: inline-block;
+}
+
+div.timestamps {
+  margin-top: 40px;
+}
+
+div.timestamps textarea {
+  resize: none;
+  margin-top: -7px;
+  background-color: var(--background);
+  border: 2px solid var(--black);
+}
+
+div.timestamps textarea:focus {
+  border-radius: 0px;
+  outline: none;
 }
 
 img#deco-2 {
@@ -77,4 +97,9 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
+}
+
+button#ok-button {
+  margin-top: 20px;
+  padding: 10px 20px;
 }
