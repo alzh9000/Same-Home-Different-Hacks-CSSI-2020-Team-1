@@ -26,10 +26,6 @@ div.container {
   --block-background-color: var(--background);
 }
 
-button {
-  --block-shadow-color: var(--black);
-}
-
 div.header {
   width: 100%;
   margin-top: 45px;
@@ -77,5 +73,4 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-  box-shadow: none;
 }

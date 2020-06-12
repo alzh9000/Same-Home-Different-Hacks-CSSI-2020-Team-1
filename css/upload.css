@@ -18,10 +18,6 @@ body {
   padding-bottom: 50px;
 }
 
-button {
-  --block-shadow-color: var(--black);
-}
-
 div.container {
   display: absolute;
   margin:0 auto;
