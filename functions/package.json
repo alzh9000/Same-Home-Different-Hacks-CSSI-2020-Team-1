@@ -5,6 +5,7 @@
     "lint": "eslint .",
     "emulate": "firebase serve --only functions,hosting",
     "deploy": "firebase deploy --only functions",
+    "deploy:all": "firebase deploy --only functions,hosting",
     "logs": "firebase functions:log"
   },
   "engines": {

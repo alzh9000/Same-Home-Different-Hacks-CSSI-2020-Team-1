@@ -11,7 +11,8 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://daince-b612d.firebaseio.com"
+        databaseURL: "https://daince-b612d.firebaseio.com",
+        storageBucket: "gs://daince-b612d.appspot.com/"
     });
 } else admin.initializeApp();
 
@@ -28,7 +29,8 @@ app.use(cors({ origin: ["http://localhost:5000"], credentials: true }))
             return;
         }
 
-        if (req.path === "/videos/" && req.method === "POST") {
+        if (req.path.startsWith("/videos")) {
+            httpContext.set("uid", "4JRTBgTZuJTx84RbGOOMwzr6vg93");
             next();
             return;
         }
