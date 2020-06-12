@@ -3,6 +3,8 @@ $(document).ready(function() {
 });
 
 function initChart() {
+  Chart.defaults.global.defaultFontSize = 16
+  Chart.defaults.global.defaultFontColor = '#264653'
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
       type: 'bar',
@@ -13,15 +15,15 @@ function initChart() {
           backgroundColor: "#caf270",
           data: [12, 59, 5, 56, 58, 12, 59, 87, 45],
         }, {
-          label: 'Engineer',
+          label: 'Darude - Sandstorm',
           backgroundColor: "#45c490",
           data: [12, 59, 5, 56, 58, 12, 59, 85, 23],
         }, {
-          label: 'Government',
+          label: 'All Star - Smash Mouth',
           backgroundColor: "#008d93",
           data: [12, 59, 5, 56, 58, 12, 59, 65, 51],
         }, {
-          label: 'Political parties',
+          label: 'Big Time Rush - Big Time Rush',
           backgroundColor: "#2e5468",
           data: [12, 59, 5, 56, 58, 12, 59, 12, 74],
         }]
