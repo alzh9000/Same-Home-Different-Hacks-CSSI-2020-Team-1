@@ -61,6 +61,7 @@ div.header button#upload-button {
   padding: 10px 20px;
   font-size: 25px;
   font-family: 'Montserrat';
+  --block-shadow-color: var(--black);
 }
 
 .opening {
@@ -68,11 +69,20 @@ div.header button#upload-button {
   position: absolute;
   margin-top: 10%;
   margin-right: auto;
-  margin-left: 15%;
+  margin-left: 17%;
   float: left;
-  padding: 10px 20px;
   font-size: 40px;
+  line-height: 40px;
   font-family: 'Montserrat';
+}
+
+.opening p {
+  font-size: 20px;
+  font-family: 'Montserrat';
+}
+
+.green-text {
+  color: var(--green);
 }
 
 /* div.main {
