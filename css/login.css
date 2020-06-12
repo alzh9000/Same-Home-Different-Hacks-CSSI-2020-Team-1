@@ -63,6 +63,12 @@ div.header button#upload-button {
 }
 
 div.header h1#title {
+  position: absolute;
+  margin-top: 10%;
+  margin-right: auto;
+  margin-left: 20%;
+  float: left;
+  padding: 10px 20px;
   font-size: 40px;
   font-family: 'Montserrat';
 }
