@@ -10,6 +10,10 @@
   --black: rgb(038, 070, 083);
 }
 
+button {
+  --block-shadow-color: var(--black);
+}
+
 body {
   background-color: var(--green);
   font-family: 'Montserrat';
@@ -45,10 +49,10 @@ div.header button {
 }
 
 div.header button#upload-button {
-  margin-top: 50px;
+  margin-top: 10px;
   margin-right: 30px;
   float: right;
-  padding: 10px 20px;
+  padding: 10px 40px;
   font-size: 20px;
   font-family: 'Montserrat';
 }
@@ -71,6 +75,11 @@ div.search {
   margin-top: -15px;
   color: var(--green);
   margin-left: -14px;
+}
+
+div.search i {
+  position: absolute;
+  margin: 8px 12px;
 }
 
 div.main input {
