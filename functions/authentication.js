@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const httpContext = require("express-http-context");
 
 const admin = require("firebase-admin");
 
@@ -18,15 +19,25 @@ router.get("/session", (req, res) => {
     // Attempt to create session cookie
     admin.auth().createSessionCookie(token, { expiresIn })
         .then(cookie => {
-            res.cookie("session", cookie, options);
+            res.cookie("__session", cookie, options);
             return res.status(200).json({ success: true });
         })
         .catch(_ => res.status(401).json({ success: false, reason: "unauthorized" }));
 });
 
 // Logout a user by clearing their cookie
-router.get("/logout", (req, res) => {
-    res.clearCookie("session");
+router.get("/logout", async (req, res) => {
+    // Clear the cookie`
+    res.clearCookie("__session");
+
+    // Revoke the session
+    try {
+        await admin.auth().revokeRefreshTokens(httpContext.get("sub"))
+    } catch (e) {
+        res.status(500).json({ success: false, reason: "failed to revoke session" });
+        return;
+    }
+
     res.status(200).json({ success: true });
 })
 

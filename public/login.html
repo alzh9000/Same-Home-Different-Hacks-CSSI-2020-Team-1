@@ -25,8 +25,9 @@
     <button id="login" type="button">Login with Google</button>
     <script>
         $(document).ready(() => {
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error)
+
             $("#login").on("click", function(event) {
-                console.log("clicked");
                 let provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope("profile");
                 provider.addScope("email");
@@ -40,12 +41,12 @@
                     })
                     .then(() => firebase.auth().currentUser.getIdToken())
                     .then(Authentication.session)
-                    .then(res => {
-                        if (res.success) window.location.assign("/index.html");
-                        else console.error("failed to login");
-                    })
+                    // .then(res => {
+                    //     if (res.success) window.location.assign("/index.html");
+                    //     else console.error("failed to login");
+                    // })
                     .catch(err => console.error(err));
-            })
+            });
         })
     </script>
 </body>

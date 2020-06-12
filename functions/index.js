@@ -28,16 +28,22 @@ app.use(cors({ origin: ["http://localhost:5000"], credentials: true }))
             return;
         }
 
+        if (req.path === "/videos/" && req.method === "POST") {
+            next();
+            return;
+        }
+
         // Ensure cookie exists
-        if (!req.cookies || !req.cookies.session) {
+        if (!req.cookies || !req.cookies.__session) {
             res.status(401).json({ success: false, reason: "unauthorized" });
             return;
         }
 
         // Verify cookie value
-        admin.auth().verifySessionCookie(req.cookies.session, true)
+        admin.auth().verifySessionCookie(req.cookies.__session, true)
             .then(claims => {
                 httpContext.set("uid", claims.uid);
+                httpContext.set("sub", claims.sub);
                 return next();
             })
             .catch(_ => res.status(401).json({ success: false, reason: "unauthorized" }));
