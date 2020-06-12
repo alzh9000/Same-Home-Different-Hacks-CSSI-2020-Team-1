@@ -101,8 +101,12 @@ div.main input:focus {
   outline: none;
 }
 
+div.videos {
+  margin-left: 26px;
+}
+
 div.videos img {
-  width: 280px;
+  width: 20em;
 }
 
 #deco-1 {
