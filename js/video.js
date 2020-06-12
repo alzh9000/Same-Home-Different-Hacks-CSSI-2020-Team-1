@@ -1,54 +1,32 @@
 // loading pre-trained PoseNet Model
-// const net = await posenet.load({
-//     architecture: 'MobileNetV1',
-//     outputStride: 16,
-//     inputResolution: {
-//         width: 640,
-//         height: 480
-//     },
-//     multiplier: 0.75
-// });
+const net = await posenet.load({
+    architecture: 'MobileNetV1',
+    outputStride: 16,
+    inputResolution: {
+        width: 640,
+        height: 480
+    },
+    multiplier: 0.75
+});
 
 
 //video player
 var start, end, vid;
 
 $(document).ready(function () {
-    var timestamps = ['00:03', '00:07', '00:15', '01:22']
-    vid = $('#vid')[0];
-    for (var i = 0; i < timestamps.length; i++) {
-        timestamps[i] = stamp2sec(timestamps[i]);
-    }
-    var starti = -1;
-    var endi = 0;
-    start = 0;
-    if (timestamps.length > 0) end = timestamps[0];
-    else end = vid.duration;
-
-    var video = videojs("vid", {
+    var timestamps = ['00:33', '01:22']
+    vid = videojs("vid", {
         plugins: {
             abLoopPlugin: {}
         }
     });
-
-    $("#next").click(function () {
-        if (endi < timestamps.length - 1) {
-            starti += 1;
-            endi += 1;
-            start = end;
-            end = timestamps[endi];
-        } else if (endi === timestamps.length - 1) {
-            starti += 1;
-            endi += 1;
-            start = end;
-            end = vid.duration;
-        }
-        video.ready(function () {
-            this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
-        });
-    });
-
-    video.ready(function () {
+    for (var i = 0; i < timestamps.length; i++) {
+        timestamps[i] = stamp2sec(timestamps[i]);
+    }
+    start = 0;
+    if (timestamps.length > 0) end = timestamps[0];
+    else end = vid.duration;
+    vid.ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
 
@@ -125,54 +103,49 @@ function extractFramesFromVideo(video) {
 
 const getFrames = async () => {
 
-    const frames = await extractFramesFromVideo('testvid.mp4');
-    var currentFrame = 0;
-    var poses = [];
+const frames = await extractFramesFromVideo('testvid.mp4');
+var currentFrame = 0;
+var poses = [];
 
-    // PoseNet model on all frames of the video
-    var flipHorizontal = false;
-    console.log('test');
+// PoseNet model on all frames of the video
+var flipHorizontal = false;
+console.log('test');
 
-    while (currentFrame <= frames.length) {
-        async function estimatePoseOnImage(currentFrame) {
-            // load the posenet model from a checkpoint
-            const net = await posenet.load();
+while (currentFrame <= frames.length) {
+    async function estimatePoseOnImage(currentFrame) {
+        // load the posenet model from a checkpoint
+        const net = await posenet.load();
 
-            const pose = await net.estimateSinglePose(currentFrame, {
-                flipHorizontal: false
-            });
-            poses.push(pose);
-            // return pose;
-        }
-
-        const pose = estimatePoseOnImage(currentFrame);
-
-        console.log(pose);
+        const pose = await net.estimateSinglePose(currentFrame, {
+            flipHorizontal: false
+        });
+        poses.push(pose);
+        // return pose;
     }
-    console.log(poses);
 
+    const pose = estimatePoseOnImage(currentFrame);
+
+    console.log(pose);
+}
+console.log(poses);
+
+});
 }
 
-// extractFramesFromVideo.then(getFrames()).catch((error) => {
-//     return error;
-// });
+let frames = await extractFramesFromVideo(vid);
 
 var currentFrame = 0;
 var poses = [];
 
-
-
-// TEST: PoseNet model on a single frame
-// var flipHorizontal = false;
-
-// var imageElement = document.getElementById('dance');
-
-
-// posenet.load().then(function (net) {
-//     const pose = net.estimateSinglePose(imageElement, {
-//         flipHorizontal: true
-//     });
-//     return pose;
-// }).then(function (pose) {
-//     console.log(pose);
-// })
+// single pose
+var flipHorizontal = false;
+while (currentFrame <= frames.length) {
+    posenet.load().then(function (net) {
+        const pose = net.estimateSinglePose(imageElement, {
+            flipHorizontal: true
+        });
+        poses.push(pose);
+    }).then(function (pose) {
+        console.log(pose);
+    })
+}
