@@ -62,7 +62,8 @@ div.header button#upload-button {
   font-family: 'Montserrat';
 }
 
-div.header h1#title {
+
+.opening {
   position: absolute;
   margin-top: 10%;
   margin-right: auto;
