@@ -18,13 +18,43 @@ body {
   padding-bottom: 50px;
 }
 
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile+label, #ok-button {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: var(--black);
+  background-color: var(--background);
+  border: 2px solid var(--black);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.inputfile:focus+label,
+.inputfile+label:hover, #ok-button:hover {
+  background-color: var(--black);
+  color: var(--background);
+}
+
+#ok-button {
+  padding: 5px 10px;
+}
+
 button {
   --block-shadow-color: var(--black);
 }
 
 div.container {
   display: absolute;
-  margin:0 auto;
+  margin: 0 auto;
   width: 500px;
   padding: 30px 50px;
   --block-background-color: var(--background);
@@ -49,12 +79,6 @@ div.header-info h1 {
   font-family: 'Sacramento';
   color: var(--green);
   font-size: 50px;
-}
-
-div.main button#upload-button {
-  padding: 10px 18px;
-  font-size: 16px;
-  font-family: 'Montserrat';
 }
 
 div.upload p {
@@ -97,9 +121,4 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-}
-
-button#ok-button {
-  margin-top: 20px;
-  padding: 10px 20px;
 }

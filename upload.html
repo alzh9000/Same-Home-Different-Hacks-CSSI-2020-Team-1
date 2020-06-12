@@ -20,15 +20,17 @@
       <button class="block" id="x-button" onclick="goHome()" style="font-family: 'Montserrat';">X</button>
     </div>
     <div class="main">
+      <form id="uploadform">
       <div class="upload">
-        <button class="block" id="upload-button">UPLOAD</button>
-        <p>No file selected.</p>
+        <input type="file" name="file" id="file" class="inputfile" />
+        <label for="file">Choose a file</label>
       </div>
       <div class="timestamps">
         <p>timestamps</p>
-        <textarea rows="4" cols="52" placeholder="(mm:ss, ex: 01:55)"></textarea>
+        <textarea form="uploadform" rows="4" cols="52" placeholder="(mm:ss, ex: 01:55)"></textarea>
       </div>
-      <button class="block" id="ok-button">OK</button>
+      <input type="submit" value="Submit" id="ok-button"></button>
+    </form>
     </div>
   </div>
 </body>
