@@ -62,8 +62,14 @@ function stamp2sec(stamp) {
 
 // https://stackoverflow.com/questions/32699721/javascript-extract-video-frames-reliably
 // extract frames from video
-async function extractFramesFromVideo(vid, fps = 25) {
+async function extractFramesFromVideo(videoUrl, fps = 25) {
+
     return new Promise(async (resolve) => {
+
+        let videoBlob = await fetch(videoUrl).then(r => r.blob());
+        let videoObjectUrl = URL.createObjectURL(videoBlob);
+        let vid = document.createElement("vid");
+
 
         let seekResolve;
         vid.addEventListener('seeked', async function () {
@@ -102,17 +108,19 @@ async function extractFramesFromVideo(vid, fps = 25) {
         // set video src *after* listening to events in case it loads so fast
         // that the events occur before we were listening.
         vid.src = videoObjectUrl;
-
     });
 }
 
 const getFrames = async () => {
-    const frames = await extractFramesFromVideo(vid);
+
+    const frames = await extractFramesFromVideo('testvid.mp4');
     var currentFrame = 0;
     var poses = [];
 
     // PoseNet model on all frames of the video
     var flipHorizontal = false;
+    console.log('test');
+
     while (currentFrame <= frames.length) {
         async function estimatePoseOnImage(currentFrame) {
             // load the posenet model from a checkpoint
@@ -129,6 +137,7 @@ const getFrames = async () => {
 
         console.log(pose);
     }
+    console.log(poses);
 
 }
 
@@ -139,17 +148,17 @@ const getFrames = async () => {
 
 
 
-// PoseNet model on a single frame (test)
-var flipHorizontal = false;
+// TEST: PoseNet model on a single frame
+// var flipHorizontal = false;
 
-var imageElement = document.getElementById('dance');
+// var imageElement = document.getElementById('dance');
 
 
-posenet.load().then(function (net) {
-    const pose = net.estimateSinglePose(imageElement, {
-        flipHorizontal: true
-    });
-    return pose;
-}).then(function (pose) {
-    console.log(pose);
-})
+// posenet.load().then(function (net) {
+//     const pose = net.estimateSinglePose(imageElement, {
+//         flipHorizontal: true
+//     });
+//     return pose;
+// }).then(function (pose) {
+//     console.log(pose);
+// })

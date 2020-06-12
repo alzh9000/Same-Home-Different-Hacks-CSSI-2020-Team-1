@@ -23,9 +23,12 @@
 
 <body>
   <video id="vid" controls="controls" class="video-js">
-    <source src="testvid.mp4">
+    <source crossorigin='anonymous' src="testvid.mp4">
   </video>
   <button id="next" type="button">Next</button>
+
+  <button type="button" onclick="extractFramesFromVideo('testvid.mp4')">Get Frames</button>
+  <button type="button" onclick="getFrames()">Run Posenet</button>
 
 </body>
 
