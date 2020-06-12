@@ -69,7 +69,7 @@ $(document).ready(function () {
     $("#rec").click(function () {
         record = true;
         video.ready(function () {
-            this.abLoopPlugin.setStart(0).setEnd(vid.duration).playLoop();
+            this.abLoopPlugin.setStart(0).setEnd(vid.duration).togglePauseAfterLooping().playLoop();
         });
     });
 
