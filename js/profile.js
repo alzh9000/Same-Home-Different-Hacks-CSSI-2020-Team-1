@@ -6,7 +6,12 @@ function initChart() {
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
-    data: {},
+    data: {labels: ['Risk Level'],
+  datasets: [
+    { /* dataset one */ },
+    { /* dataset two */ },
+    { /* dataset three */ }
+  ]},
     options: {}
   });
 }
