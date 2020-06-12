@@ -1,34 +1,28 @@
 // loading pre-trained PoseNet Model
-const net = await posenet.load({
-    architecture: 'MobileNetV1',
-    outputStride: 16,
-    inputResolution: {
-        width: 640,
-        height: 480
-    },
-    multiplier: 0.75
-});
+
+// const net = await posenet.load({
+//     architecture: 'MobileNetV1',
+//     outputStride: 16,
+//     inputResolution: {
+//         width: 640,
+//         height: 480
+//     },
+//     multiplier: 0.75
+// });
 
 
 //video player
 var start, end, vid;
 
 $(document).ready(function () {
+    vid = $("#vid")[0];
     var timestamps = ['00:33', '01:22']
-    vid = videojs("vid", {
-        plugins: {
-            abLoopPlugin: {}
-        }
-    });
     for (var i = 0; i < timestamps.length; i++) {
         timestamps[i] = stamp2sec(timestamps[i]);
     }
     start = 0;
     if (timestamps.length > 0) end = timestamps[0];
     else end = vid.duration;
-    vid.ready(function () {
-        this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
-    });
 
 });
 
@@ -50,7 +44,7 @@ async function extractFramesFromVideo(vid, fps = 25) {
         vid.src = videoObjectUrl;
 
 
-        video.addEventListener('loadeddata', async function () {
+        vid.addEventListener('loadeddata', async function () {
             let canvas = document.createElement('canvas');
             let context = canvas.getContext('2d');
             let [w, h] = [vid.videoWidth, vid.videoHeight]
@@ -58,15 +52,16 @@ async function extractFramesFromVideo(vid, fps = 25) {
             canvas.height = h;
 
             let frames = [];
-            let interval = 1 / fps;
+            // let interval = 1 / fps;
+            let interval = 1;
             let currentTime = start;
             let duration = end - start;
 
             while (currentTime < duration) {
-                video.currentTime = currentTime;
+                vid.currentTime = currentTime;
                 await new Promise(r => seekResolve = r);
 
-                context.drawImage(video, 0, 0, w, h);
+                context.drawImage(vid, 0, 0, w, h);
                 let base64ImageData = canvas.toDataURL();
                 frames.push(base64ImageData);
 
@@ -77,25 +72,55 @@ async function extractFramesFromVideo(vid, fps = 25) {
 
         // set video src *after* listening to events in case it loads so fast
         // that the events occur before we were listening.
-        video.src = videoObjectUrl;
+        vid.src = videoObjectUrl;
 
     });
 }
 
-let frames = await extractFramesFromVideo(vid);
+const getFrames = async () => {
+    const frames = await extractFramesFromVideo(vid);
+    var currentFrame = 0;
+    var poses = [];
 
-var currentFrame = 0;
-var poses = [];
+    // PoseNet model on all frames of the video
+    var flipHorizontal = false;
+    while (currentFrame <= frames.length) {
+        async function estimatePoseOnImage(currentFrame) {
+            // load the posenet model from a checkpoint
+            const net = await posenet.load();
 
-// single pose
-var flipHorizontal = false;
-while (currentFrame <= frames.length) {
-    posenet.load().then(function (net) {
-        const pose = net.estimateSinglePose(imageElement, {
-            flipHorizontal: true
-        });
-        poses.push(pose);
-    }).then(function (pose) {
+            const pose = await net.estimateSinglePose(currentFrame, {
+                flipHorizontal: false
+            });
+            poses.push(pose);
+            // return pose;
+        }
+
+        const pose = estimatePoseOnImage(currentFrame);
+
         console.log(pose);
-    })
+    }
+
 }
+
+// extractFramesFromVideo.then(getFrames()).catch((error) => {
+//     return error;
+// });
+
+
+
+
+// PoseNet model on a single frame (test)
+var flipHorizontal = false;
+
+var imageElement = document.getElementById('dance');
+
+
+posenet.load().then(function (net) {
+    const pose = net.estimateSinglePose(imageElement, {
+        flipHorizontal: true
+    });
+    return pose;
+}).then(function (pose) {
+    console.log(pose);
+})
