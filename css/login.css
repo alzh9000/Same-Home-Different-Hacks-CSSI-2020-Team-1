@@ -20,15 +20,19 @@ body {
 
 }
 div.container {
+  display: absolute;
+  margin: 0 auto;
+  width: 1000px;
+  padding: 30px 30px;
   --block-background-color: var(--background);
 }
+
 div.header button#upload-button {
   padding: 10px 20px;
   font-size: 25px;
   font-family: 'Montserrat';
   --block-shadow-color: var(--black);
 }
-
 
 .opening {
   font-family: 'Montserrat';
@@ -77,13 +81,11 @@ div.header button#upload-button {
         display: block;
       }
 
-  div.container {
-    width: 70%;
-  }
   div.header {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: scale(0.9);
   }
   div.header button#upload-button {
     margin-right: auto;
@@ -92,31 +94,35 @@ div.header button#upload-button {
   }
 
 }
+
 @media only screen and (max-width: 900px) {
   .dancing-person{
     display: flex;
     justify-content: center;
   }
+
   #dancing-person {
     width: 45%;
     height: auto;
     display: block;
 
   }
+
   .logo{
     width: 75%;
     margin-top: 20px;
   }
+
   div.container {
     width: 90%;
     height: 90vh;
   }
+
   div.header {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
   }
 
   div.side-left{
