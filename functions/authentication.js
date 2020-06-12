@@ -4,7 +4,7 @@ const admin = require("firebase-admin");
 
 // week long token lifetime
 const expiresIn = 60 * 60 * 24 * 7 * 1000;
-const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+const options = { maxAge: expiresIn, httpOnly: true, secure: false, sameSite: "none" };
 
 // Create a session token for a user
 router.get("/session", (req, res) => {
@@ -18,7 +18,7 @@ router.get("/session", (req, res) => {
     // Attempt to create session cookie
     admin.auth().createSessionCookie(token, { expiresIn })
         .then(cookie => {
-            res.cookie("session", cookie, options);
+            res.cookie("session", cookie, Object.assign(options, { domain: req.get("Origin") }));
             return res.status(200).json({ success: true });
         })
         .catch(_ => res.status(401).json({ success: false, reason: "unauthorized" }));

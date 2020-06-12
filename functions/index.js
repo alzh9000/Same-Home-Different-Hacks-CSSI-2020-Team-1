@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const httpContext = require("express-http-context");
 
@@ -15,9 +16,10 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
 } else admin.initializeApp();
 
 const app = express();
-app.use(cors({ origin: "*" }))
+app.use(cors({ origin: ["http://localhost:5000"], credentials: true }))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
+    .use(cookieParser())
     .use(httpContext.middleware)
     .use((req, res, next) => {
         // Defer to header verification for session generation
@@ -27,7 +29,7 @@ app.use(cors({ origin: "*" }))
         }
 
         // Ensure cookie exists
-        if (!req.cookies || req.cookies.hasOwnProperty("session")) {
+        if (!req.cookies || !req.cookies.session) {
             res.status(401).json({ success: false, reason: "unauthorized" });
             return;
         }
