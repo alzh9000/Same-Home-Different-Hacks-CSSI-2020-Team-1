@@ -40,6 +40,7 @@ app.use(cors({ origin: "*" }))
             })
             .catch(_ => res.status(401).json({ success: false, reason: "unauthorized" }));
     })
+    .use("/authentication", require("./authentication"))
     .all("*", (_, res) => res.status(404).json({ success: false, reason: "not found" }));
 
 // Export API app as function
