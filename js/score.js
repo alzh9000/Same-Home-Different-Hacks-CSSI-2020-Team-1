@@ -12,7 +12,7 @@ let options = {
   tooltips: {enabled: false},
   hover:{mode:null},
   responsive: true,
-  cutoutPercentage: 85,
+  cutoutPercentage: 90,
   animationEasing: 'easeOutQuart',
   title: {
     display: true,
