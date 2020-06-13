@@ -161,5 +161,5 @@ function weightedDistanceMatching(poseVector1, poseVector2) {
   }
   // console.log(summation1)
   // console.log(summation2)
-  return summation1 * summation2;
+  return 1 - summation1 * summation2;
 }
