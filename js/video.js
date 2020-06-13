@@ -14,7 +14,7 @@ async function loadPosenet() {
 
 
 //video player
-var start, end, vid;
+var start, end, video;
 var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
@@ -26,7 +26,7 @@ $(document).ready(function () {
         timestamps[i] = stamp2sec(timestamps[i]);
     }
 
-    var video = videojs("vid", {
+    video = videojs("vid", {
         plugins: {
             abLoopPlugin: {}
         }
@@ -213,6 +213,8 @@ function posenetImg(inputimg) {
             flipHorizontal: true
         }).then(function(pose) {
             console.log(pose);
+            console.log(poses.length);
+            console.log(poses[Math.round(video.currentTime()/0.2)]);
         });
     })
 }
