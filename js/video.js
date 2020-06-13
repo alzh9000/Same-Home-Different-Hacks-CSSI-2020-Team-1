@@ -1,3 +1,14 @@
+import {
+    drawBoundingBox,
+    drawKeypoints,
+    drawSkeleton,
+    isMobile,
+    toggleLoadingUI,
+    tryResNetButtonName,
+    tryResNetButtonText,
+    updateTryResNetButtonDatGuiCss
+} from 'js/demo_util.js';
+
 // loading pre-trained PoseNet Model
 let net;
 async function loadPosenet() {
@@ -12,14 +23,49 @@ async function loadPosenet() {
     });
 }
 
+var videoWidth = '640px';
+var videoHeight = '360px';
+
+async function setupCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error(
+            'Browser API navigator.mediaDevices.getUserMedia not available');
+    }
+
+    const vid = document.getElementById('videoElement');
+    vid.width = videoWidth;
+    vid.height = videoHeight;
+
+    const mobile = isMobile();
+    const stream = await navigator.mediaDevices.getUserMedia({
+        'audio': false,
+        'video': {
+            facingMode: 'user',
+            width: mobile ? undefined : videoWidth,
+            height: mobile ? undefined : videoHeight,
+        },
+    });
+    vid.srcObject = stream;
+
+    return vid;
+}
+
+async function loadVideo() {
+    const vid = await setupCamera();
+    vid.play();
+
+    return vid;
+}
+
+
 
 //video player
-var start, end, vid;
+var start, end;
 var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
-
 $(document).ready(function () {
+    bindPage();
     var d = 10000;
 
     for (var i = 0; i < timestamps.length; i++) {
@@ -83,21 +129,21 @@ $(document).ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
 
-    //WEBCAM
-    var wc = document.querySelector("#videoElement");
+    // //WEBCAM
+    // var wc = document.querySelector("#videoElement");
 
-    //running into error here: Uncaught TypeError: Cannot read property 'getUserMedia' of undefined
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({
-                video: true
-            })
-            .then(function (stream) {
-                wc.srcObject = stream;
-            })
-            .catch(function (err0r) { //0 lol
-                console.log("Something went wrong!");
-            });
-    }
+    // //running into error here: Uncaught TypeError: Cannot read property 'getUserMedia' of undefined
+    // if (navigator.mediaDevices.getUserMedia) {
+    //     navigator.mediaDevices.getUserMedia({
+    //             video: true
+    //         })
+    //         .then(function (stream) {
+    //             wc.srcObject = stream;
+    //         })
+    //         .catch(function (err0r) { //0 lol
+    //             console.log("Something went wrong!");
+    //         });
+    // }
 
 });
 
@@ -194,10 +240,12 @@ function applyPosenet() {
     }
 
 }
-console.log(poses);
+// applyPosenet();
+// console.log(poses);
+// this takes a while to load so the above won't work.
 
 
-// CAMERA POSENET
+// CAMERA POSENET real time detection
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
     const ctx = canvas.getContext('2d');
@@ -211,9 +259,43 @@ function detectPoseInRealTime(video, net) {
     canvas.width = videoWidth;
     canvas.height = videoHeight;
 
-    let poses = [];
-    let minPoseConfidence;
-    let minPartConfidence;
+    async function poseDetectionFrame() {
+        let poses = [];
+        let minPoseConfidence;
+        let minPartConfidence;
+
+        const pose = guiState.net.estimatePoses(video, {
+            flipHorizontal: flipPoseHorizontal,
+            decodingMethod: 'single-person'
+        });
+        poses = poses.concat(pose);
+        console.log(poses);
+
+    }
+
+    poseDetectionFrame();
+
+}
 
 
+/**
+ * Kicks off the demo by loading the posenet model, finding and loading
+ * available camera devices, and setting off the detectPoseInRealTime function.
+ */
+
+async function bindPage() {
+    let webcamVideo;
+
+    try {
+        webcamVideo = await loadVideo();
+    } catch (e) {
+        // let info = document.getElementById('info');
+        // info.textContent = 'this browser does not support video capture,' +
+        // 'or this device does not have a camera';
+        // info.style.display = 'block';
+        throw e;
+    }
+
+    // setupGui([], net);
+    detectPoseInRealTime(video, net);
 }

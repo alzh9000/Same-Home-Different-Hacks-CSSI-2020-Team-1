@@ -25,7 +25,6 @@ button {
 div.container {
   display: absolute;
   margin:0 auto;
-  width: 500px;
   padding: 30px 50px;
   --block-background-color: var(--background);
 }
@@ -67,13 +66,11 @@ div.upload p {
 img#deco-2 {
   position: absolute;
   z-index: 2;
-  width: 500px;
   margin: -80px -53px;
 }
 
 button#x-button {
   position: absolute;
-  margin: -1px 455px;
   width: 42px;
   height: 31px;
   z-index: 3;
@@ -87,7 +84,6 @@ button#ok-button {
 
 h1#score-text {
   position: absolute;
-  margin: -200px 135px;
   font-size: 60px;
   color: var(--green);
 }
@@ -95,9 +91,66 @@ h1#score-text {
 div.main p {
   font-weight: 400;
 }
+@keyframes pulse-grow {
+100% {
+    transform: scale(1.01);
+}
+}
 
 img#deco-3 {
   position: absolute;
-  width: 380px;
   margin: 30px -15px;
+}
+
+img#deco-3:hover{
+  animation-direction: alternate;
+  animation-duration: 0.3s;
+  animation-iteration-count: infinite;
+  animation-name: pulse-grow;
+  animation-timing-function: linear;
+}
+/* Attempted to make the circle canvas rotate - text in canvas rotates too, will try to fix
+#myChart{
+   -webkit-transition: -webkit-transform .8s ease-in-out;
+           transition:         transform .8s ease-in-out;
+}
+#myChart:hover{
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+  transform-origin: 50% 50%
+}
+*/
+@media only screen and (max-width: 600px) {
+  div.container{
+    width: 400px;
+  }
+  img#deco-2 {
+    width: 400px;
+  }
+  button#x-button {
+    margin: -1px 355px;
+  }
+  h1#score-text{
+    margin: -150px 90px;
+  }
+  img#deco-3 {
+    width: 280px;
+  }
+}
+@media only screen and (min-width: 601px) {
+  div.container {
+    width: 500px;
+  }
+  img#deco-2 {
+    width: 500px;
+  }
+  button#x-button {
+    margin: -1px 455px;
+  }
+  h1#score-text {
+    margin: -200px 135px;
+  }
+  img#deco-3 {
+    width: 380px;
+  }
 }
