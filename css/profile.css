@@ -15,7 +15,10 @@ body {
   font-family: 'Montserrat';
   color: var(--black);
   padding-top: 30px;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -25,7 +28,6 @@ button {
 div.container {
   display: absolute;
   margin:0 auto;
-  width: 500px;
   padding: 30px 50px;
   --block-background-color: var(--background);
 }
@@ -39,9 +41,7 @@ div.header img#icon {
   width: 140px;
 }
 
-div.header-info {
-  margin: -130px 170px;
-  width: 200px;
+div.header-info{
   padding: 20px;
 }
 
@@ -78,13 +78,11 @@ div.chart {
 img#deco-2 {
   position: absolute;
   z-index: 2;
-  width: 500px;
   margin: -80px -53px;
 }
 
 button#x-button {
   position: absolute;
-  margin: -1px 455px;
   width: 42px;
   height: 31px;
   z-index: 3;
@@ -118,4 +116,33 @@ button#x-button {
   100% {
     transform: translateY(-5px);
   }
+}
+@media only screen and (max-width: 600px) {
+  div.container{
+    width: 400px;
+  }
+  img#deco-2 {
+    width: 400px;
+  }
+  button#x-button {
+    margin: -1px 355px;
+  }
+  div.header-info {
+    margin: -130px 150px;
+  }
+}
+@media only screen and (min-width: 601px) {
+ div.container{
+   width: 500px;
+ }
+ img#deco-2 {
+   width: 500px;
+ }
+ button#x-button {
+   margin: -1px 455px;
+ }
+ div.header-info {
+   margin: -130px 170px;
+   width: 200px;
+ }
 }
