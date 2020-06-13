@@ -51,7 +51,7 @@ router.get("/:video", async (req, res) => {
 
     // Ensure owner has permissions to access video
     let videoData = video.data();
-    if (videoData.owner !== httpContext.get("uid")) return res.status(403).json({ success: false, reason: "video does not exist" });
+    if (videoData.owner !== httpContext.get("uid") && !videoData.public) return res.status(403).json({ success: false, reason: "video does not exist" });
 
     return res.status(200).json({ success: true, data: Object.assign(videoData, { id: video.id }) });
 });
