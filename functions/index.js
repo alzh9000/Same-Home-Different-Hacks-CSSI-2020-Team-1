@@ -8,6 +8,9 @@ const common = require("./common");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
+const algolia = require("algoliasearch")(functions.config().algolia.app_id, functions.config().algolia.api_key);
+const videos_index = algolia.initIndex(functions.config().algolia.index);
+
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
     admin.initializeApp({
@@ -62,3 +65,14 @@ exports.userSetup = functions.auth.user().onCreate(user => admin.firestore().col
     profile: user.photoURL,
     email: user.email
 }));
+
+// Add new videos to Algolia
+exports.addVideoToAlgolia = functions.firestore.document("videos/{videoId}").onCreate((snapshot) =>
+    videos_index.saveObject(snapshot.data(), { autoGenerateObjectIDIfNotExist: true })
+        .then(({ objectID }) => snapshot.ref.set({ objectID }, { merge: true }))
+        .catch(err => console.error(`failed to add video to Algolia: ${err}`)));
+
+// Delete videos from Algolia when document is removed
+exports.deleteVideoFromAlgolia = functions.firestore.document("videos/{videoId}").onDelete((snapshot) =>
+    videos_index.deleteObject(snapshot.data().objectID)
+        .catch(err => console.error(`failed to remove video from Algolia: ${err}`)));

@@ -3,7 +3,7 @@
   "description": "Cloud Functions for Firebase",
   "scripts": {
     "lint": "eslint .",
-    "emulate": "firebase serve --only functions,hosting",
+    "emulate": "firebase emulators:start --only functions,hosting,firestore",
     "deploy": "firebase deploy --only functions",
     "deploy:all": "firebase deploy --only functions,hosting",
     "logs": "firebase functions:log"
@@ -12,6 +12,7 @@
     "node": "10"
   },
   "dependencies": {
+    "algoliasearch": "^4.3.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
