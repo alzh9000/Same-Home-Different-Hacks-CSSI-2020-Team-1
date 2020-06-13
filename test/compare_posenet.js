@@ -2,29 +2,29 @@
 // The function will take the posenet objects and wrap a box around each, then use the positions of the body parts to convert the positions into relative positions based on the dimensions of the box
 
 var flipHorizontal = false;
- 
+
 var imageElement = document.getElementById('dancer');
 
-posenet.load().then(function(net) {
+posenet.load().then(function (net) {
   const pose = net.estimateSinglePose(imageElement, {
     flipHorizontal: true
   });
   return pose;
-}).then(function(pose){
+}).then(function (pose) {
   console.log(pose["keypoints"]);
   console.log(typeof pose["keypoints"]);
   console.log(pose["keypoints"][0]);
   console.log(pose["keypoints"][0]["position"]);
   console.log(pose["keypoints"][0]["position"]["x"]);
 
-  for (keypoint in pose["keypoints"]){
+  for (keypoint in pose["keypoints"]) {
     console.log(pose["keypoints"][keypoint]);
   }
 })
 
 
 function compPoseNet(poseNet1, poseNet2) {
-  for (keypoint in pose["keypoints"]){
+  for (keypoint in pose["keypoints"]) {
     console.log(pose["keypoints"][keypoint]);
   }
 }
