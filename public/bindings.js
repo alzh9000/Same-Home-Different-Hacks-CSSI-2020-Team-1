@@ -96,3 +96,22 @@ class Videos {
         return await sendRequest("DELETE", `/videos/${id}`);
     }
 }
+
+class Scores {
+    // Retrieve all a user's scores
+    static async all(days=7) {
+        return await sendRequest("GET", `/scores?days=${days}`);
+    }
+
+    // Retrieve all a user's scores for a video
+    static async for_video(id, days=7) {
+        return await sendRequest("GET", `/scores/${id}?days=${days}`)
+    }
+
+    // Submit a score
+    static async submit(id, score) {
+        return await sendRequest("POST", `/scores/${id}`, {
+            score: score
+        });
+    }
+}
