@@ -46,3 +46,12 @@ function searchAndFilter(searchTerm) {
     });
   }
 }
+
+//ADD STUFF LATER//
+function generateVideo(parent, name, thumb){
+  let vid = document.createElement('button');
+  parent.appendChild(vid);
+  vid.setAttribute("class", "thumbnail");
+  let img = document.createElement('img');
+  img.setAttribute('src', thumb);
+}
