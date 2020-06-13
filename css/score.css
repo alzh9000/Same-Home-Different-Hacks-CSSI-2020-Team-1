@@ -87,9 +87,17 @@ button#ok-button {
 
 h1#score-text {
   position: absolute;
-  margin: -104px 165px;
+  margin: -200px 135px;
+  font-size: 60px;
+  color: var(--green);
 }
 
 div.main p {
   font-weight: 400;
+}
+
+img#deco-3 {
+  position: absolute;
+  width: 380px;
+  margin: 30px -15px;
 }
