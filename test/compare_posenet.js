@@ -1,7 +1,38 @@
 // ok, so I'm gonna work on creating a function in JavaScript that compares 2 posenet objects (1 from the user, 1 from the template, at the same frame), and returns a decimal from 1 to 0 indicating how closely the user matches the template, with 1 being a perfect match and 0 being a terrible match
 // The function will take the posenet objects and wrap a box around each, then use the positions of the body parts to convert the positions into relative positions based on the dimensions of the box
 
-var flipHorizontal = false;
+// This array looks like a bunch of (0,0)'s and (1,1)'s
+let testArray1 = new Array(34);
+for (i = 0; i < 33; i += 4) {
+  testArray1[i] = 0;
+}
+for (i = 2; i < 33; i += 4) {
+  testArray1[i] = 0;
+}
+for (i = 1; i < 34; i += 4) {
+  testArray1[i] = 0;
+}
+for (i = 3; i < 34; i += 4) {
+  testArray1[i] = 1;
+}
+
+// This array looks like a bunch of (0,1)'s and (1,0)'s
+let testArray2 = new Array(34);
+for (i = 0; i < 33; i += 4) {
+  testArray2[i] = 0;
+}
+for (i = 2; i < 33; i += 4) {
+  testArray2[i] = 0;
+}
+for (i = 1; i < 34; i += 4) {
+  testArray2[i] = 0;
+}
+for (i = 3; i < 34; i += 4) {
+  testArray2[i] = 1;
+}
+
+
+  var flipHorizontal = false;
 
 var imageElement = document.getElementById('dancer');
 
@@ -12,23 +43,23 @@ posenet.load().then(function (net) {
   return pose;
 }).then(function (pose) {
   let pose2 = pose;
-  score =  compPoseNet(pose, pose2);
+  score = compPoseNet(pose, pose2);
   console.log(score)
 })
 
 
 function compPoseNet(poseNet1, poseNet2) {
   let score = 2000
-  vec1 = vectorizePoseNet(poseNet1);
+  vec1 = vectorizePoseNet(poseNet1, testArray1);
   // console.log(vec1)
-  vec2 = vectorizePoseNet(poseNet2)
+  vec2 = vectorizePoseNet(poseNet2, testArray2)
   // console.log(vec2)
   score = weightedDistanceMatching(vec1, vec2);
   // console.log(score)
   return score
 }
 
-function vectorizePoseNet(poseNet1) {
+function vectorizePoseNet(poseNet1, array1) {
   // Initialize the PoseNet vector as an empty arrays that we'll add to
   let vec1 = new Array();
 
@@ -42,13 +73,14 @@ function vectorizePoseNet(poseNet1) {
     // console.log(vec1);
   }
 
-  // console.log(vec1)
+  vec1 = array1;
+  console.log(vec1)
 
   // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
   // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
   minX = Number.MAX_VALUE
   minY = Number.MAX_VALUE
-  for (i = 0; i < 33; i+=2) {
+  for (i = 0; i < 33; i += 2) {
     // console.log(minX)
     currentX = vec1[i];
     // console.log(currentX)
@@ -57,7 +89,7 @@ function vectorizePoseNet(poseNet1) {
     }
     // console.log(i);
   }
-  for (i = 1; i < 34; i+=2) {
+  for (i = 1; i < 34; i += 2) {
     // console.log(minY)
     currentY = vec1[i];
     // console.log(currentY)
@@ -66,10 +98,10 @@ function vectorizePoseNet(poseNet1) {
     }
     // console.log(i);
   }
-  for (i = 0; i < 33; i+=2) {
+  for (i = 0; i < 33; i += 2) {
     vec1[i] -= minX;
   }
-  for (i = 1; i < 34; i+=2) {
+  for (i = 1; i < 34; i += 2) {
     vec1[i] -= minY;
   }
 
