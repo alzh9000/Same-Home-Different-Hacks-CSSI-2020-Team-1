@@ -10,6 +10,8 @@ $(document).ready(function() {
   initName();
   getList();
 
+  if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
+
   //header buttons//
   $("#search-input").on('keyup', function() {
     searchAndFilter($(this).val());
