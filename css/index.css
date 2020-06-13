@@ -39,9 +39,7 @@ div.header img#icon {
 }
 
 div.main input[type=text] {
-  width: 80%;
-  margin-left: 10px;
-  padding-left: 40px;
+  width: 75%;
 }
 div.header button#icon-button {
   float: left;
@@ -53,7 +51,6 @@ div.header button {
 }
 
 div.header button#upload-button {
-  font-family: 'Montserrat';
   margin-top: 10px;
   margin-right: 30px;
   float: right;
@@ -80,9 +77,92 @@ div.search {
   margin-left: -14px;
 }
 
-div.search i {
-  position: absolute;
-  margin: 8px 12px;
+.td button
+{
+    position: relative;
+    display: block;
+    width: 42px;
+    height: 48px;
+    border: none;
+    background-color: var(--background);
+}
+
+#s-circle
+{
+    position: relative;
+    top: -8px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin-top: 0;
+
+    border: 5px solid var(--green);
+    border-radius: 50%;
+    transition: 0.5s ease all;
+}
+
+button span
+{
+    position: absolute;
+    top: 30px;
+    left: 22px;
+    display: block;
+    width: 10px;
+    height: 5px;
+    border-radius: 10px;
+    transform: rotateZ(52deg);
+    transition: 0.5s ease all;
+}
+
+button span:before, button span:after
+{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 10px;
+    background-color: var(--green);
+    border-radius: 10px;
+    transform: rotateZ(0);
+    transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle
+{
+    top: 1px;
+    width: 15px;
+    height: 8px;
+    border-width: 0;
+    background-color: var(--green);
+    border-radius: 20px;
+}
+
+#s-cover:hover span
+{
+    top: 70%;
+    left: 10px;
+    width: 25px;
+    margin-top: -9px;
+    transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before
+{
+    bottom: 3px;
+    transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after
+{
+    bottom: -3px;
+    transform: rotateZ(-52deg);
+}
+#s-cover:hover button span:before, #s-cover:hover button span:after
+{
+    right: 0px;
+    width: 20px;
+    background-color: var(--green);
 }
 
 div.main input {
@@ -115,10 +195,11 @@ div.main input:hover {
 }
 
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 749px) {
   body {
     padding-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
+    overflow-x: hidden;
   }
 
   div.container {
@@ -133,12 +214,13 @@ div.videos{
   align-items: center;
   justify-content: center;
 }
-  div.main input[type=text] {
-    width: 80%;
-    margin-left: 10px;
-    padding-left: 40px;
+.td button{
+  margin-left: 15px; 
+}
+  div.search{
+    margin-top: 10px;
+    display: inline-flex;
   }
-
   div.videos img {
     width: 100%;
     object-fit: cover;
@@ -150,7 +232,7 @@ div.videos{
 
   }
 }
-@media only screen and (min-width: 749px) {
+@media only screen and (min-width: 750px) {
   body {
     padding-top: 30px;
     padding-bottom: 50px;
@@ -167,7 +249,14 @@ div.videos{
     width: 100%;
     margin-top: 20px;
   }
-
+  .td button{
+    margin-left: 20px;
+  }
+  div.search{
+    width: 100%;
+    display: flex;
+    float: left;
+  }
   div.videos img {
     width: 20em;
   }
