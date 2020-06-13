@@ -1,16 +1,27 @@
-
-<!doctype html>
-
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <title>DAINCE: login</title>
+  <script src="public/bindings.js"></script>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="js/login.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/blocks.css/dist/blocks.min.css" />
   <link rel="stylesheet" href="css/login.css">
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+  <script>
+      // Initialize Firebase
+      firebase.initializeApp({
+          apiKey: "AIzaSyBKETMfUqRr80_qumkfCx92wBOEHOd-C78",
+          authDomain: "daince-b612d.firebaseapp.com",
+          databaseURL: "https://daince-b612d.firebaseio.com",
+          projectId: "daince-b612d",
+          storageBucket: "daince-b612d.appspot.com",
+          messagingSenderId: "109949199255",
+          appId: "1:109949199255:web:92a0d12c5014785ea91ad2"
+      });
+  </script>
 </head>
 
 <body>
@@ -19,7 +30,34 @@
       <div class="side-left">
         <img class="logo" src="assets/logo.png" alt="Daince"/>
         <p>Learn to dance with AI!</p>
-        <button class="block" id="upload-button">Login with Google</button>
+        <button class="block" id="login">Login with Google</button>
+        <script>
+            $(document).ready(() => {
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error)
+
+                $("#login").on("click", function(event) {
+                    let provider = new firebase.auth.GoogleAuthProvider();
+                    provider.addScope("profile");
+                    provider.addScope("email");
+
+                    firebase.auth().signInWithPopup(provider)
+                        .then(res => {
+                            // Set user information
+                            localStorage.setItem("name", res.user.displayName);
+                            localStorage.setItem("uid", res.user.uid);
+                            localStorage.setItem("photo", res.user.photoURL);
+                            window.location.href = "index.html";
+                        })
+                        .then(() => firebase.auth().currentUser.getIdToken())
+                        .then(Authentication.session)
+                        // .then(res => {
+                        //     if (res.success) window.location.assign("/index.html");
+                        //     else console.error("failed to login");
+                        // })
+                        .catch(err => console.error(err));
+                });
+            })
+        </script>
       </div>
       <div class="side-right">
         <div class="dancing-person bob-animation">
