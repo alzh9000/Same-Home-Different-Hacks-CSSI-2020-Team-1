@@ -42,29 +42,58 @@ function vectorizePoseNet(poseNet1) {
     // console.log(vec1);
   }
 
+  // console.log(vec1)
+
   // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
   // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
   minX = Number.MAX_VALUE
   minY = Number.MAX_VALUE
   for (i = 0; i < 33; i+=2) {
     // console.log(minX)
-    currentX = vec1[i]
+    currentX = vec1[i];
     // console.log(currentX)
     if (currentX < minX) {
-      minX = currentX
+      minX = currentX;
     }
     // console.log(i);
   }
   for (i = 1; i < 34; i+=2) {
     // console.log(minY)
-    currentY = vec1[i]
+    currentY = vec1[i];
     // console.log(currentY)
     if (currentY < minY) {
-      minY = currentY
+      minY = currentY;
     }
     // console.log(i);
   }
-  
+  for (i = 0; i < 33; i+=2) {
+    vec1[i] -= minX;
+  }
+  for (i = 1; i < 34; i+=2) {
+    vec1[i] -= minY;
+  }
+
+  // console.log(vec1)
+
+  // Conduct L2 Vector Normalization
+
+  let squaredSum = 0
+  for (i = 0; i < 34; i++) {
+    squaredSum += Math.pow(vec1[i], 2)
+  }
+  console.log(squaredSum)
+
+  let normalizedCoefficient = Math.sqrt(squaredSum)
+  console.log(normalizedCoefficient)
+
+  for (i = 0; i < 34; i++) {
+    vec1[i] /= normalizedCoefficient
+  }
+
+  console.log(vec1)
+
+
+  // Finish by adding the other values needed in the vector
   let total_confidence1 = 0;
   for (keypoint in poseNet1["keypoints"]) {
     let confidence = poseNet1["keypoints"][keypoint]["score"];
