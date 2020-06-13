@@ -7,9 +7,8 @@ function goUpload() {
 }
 
 $(document).ready(function() {
-  getList();
-
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
+  getVideos();
 
   //header buttons//
   $("#search-input").on('keyup', function() {
@@ -18,7 +17,7 @@ $(document).ready(function() {
 
   $("button.video").mouseover(function(e){
     $("#tag").show();
-    $("#tag").html(e.currentTarget.id);
+    $("#tag").html(e.currentTarget.value);
   });
 
   $("button.video").mouseleave(function(){
@@ -42,7 +41,7 @@ function searchAndFilter(searchTerm) {
     });
   } else {
     $("button.video").each(function() {
-      if($(this).attr('id').toLowerCase().includes(searchTerm)) {
+      if($(this).attr('value').toLowerCase().includes(searchTerm)) {
         $(this).show();
         if(!$(".videos").is(":visible")) $(".videos").show();
       }
@@ -52,14 +51,32 @@ function searchAndFilter(searchTerm) {
 }
 
 //ADD STUFF LATER//
-function generateVideo(parent, name, thumb){
-  let vid = document.createElement('button');
-  parent.appendChild(vid);
-  vid.setAttribute("class", "thumbnail");
-  let img = document.createElement('img');
-  img.setAttribute('src', thumb);
+function getVideos(){
+  generateVideo('asjdfsfksd', 'assets/daince-art.png', 'daince logo');
+  generateVideo('jfiovkxvd', 'assets/sample-thumb-1.png', 'lofi beats to study/relax to');
+
+  /*
+  Videos.list().then(function(e) {
+    videosArray = e.data;
+    for(let i=0;i < videosArray.length; i++) {
+      generateVideo(videosArray[i].id, videosArray[i].thumb, videosArray[i].name);
+    }
+  });*/
 }
 
-function getList(){
-  Videos.list().then(console.log);
+function generateVideo(id, thumb, name){
+  let parent = document.getElementById('video-parent');
+  let video = document.createElement('button');
+  parent.appendChild(video);
+  video.setAttribute("id", id);
+  video.setAttribute("value", name);
+  video.setAttribute("class", "wrapper block video");
+
+  let videoImage = document.createElement('img');
+  video.appendChild(videoImage);
+  videoImage.setAttribute("src", thumb); //CHECK THIS LATER
+
+  video.addEventListener('click', function(){
+    alert("you clicked on " + name);
+  });
 }

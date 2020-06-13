@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>DAINCE: search</title>
+  <title>DAINCE: Home</title>
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -17,6 +17,7 @@
 <body>
   <div id="tag" class="wrapper block">hello gamers!</div>
   <div class="container card fixed block">
+    <img src="assets/logo.png" id="deco-2"></img>
     <div class="header">
       <button class="wrapper block" id="icon-button" onclick="goProfile()"><img id="icon" src="assets/user-icon.png"></img>
       <button class="block" id="upload-button" onclick="goUpload()">UPLOAD</button>
@@ -32,17 +33,7 @@
         </div>
         <input type="text" id="search-input" placeholder="search..."></input>
       </div>
-
-
-
-
-      </form>
-      <div class="videos">
-        <button id="hello" class="wrapper block video"><img src="assets/sample-thumb-1.png"></img>
-        <button id="there" class="wrapper block video"><img src="assets/sample-thumb-1.png"></img>
-        <button id="world" class="wrapper block video"><img src="assets/sample-thumb-1.png"></img>
-        <button id="world!!!" class="wrapper block video"><img src="assets/sample-thumb-1.png"></img>
-      </div>
+      <div class="videos" id="video-parent"></div>
     </div>
   </div>
 </body>

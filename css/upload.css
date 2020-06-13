@@ -33,7 +33,7 @@ body {
 }
 
 .inputfile+label, #ok-button {
-  font-size: 1.25em;
+  font-size: 14px;
   font-weight: 700;
   color: var(--black);
   background-color: var(--background);
@@ -73,21 +73,6 @@ div.header {
   margin-top: 45px;
 }
 
-div.header img#icon {
-  width: 140px;
-}
-
-div.header-info {
-  margin: -110px 170px;
-  width: 200px;
-  line-height: 2px;
-}
-
-div.header-info h1 {
-  font-family: 'Sacramento';
-  color: var(--green);
-  font-size: 50px;
-}
 div.upload{
   transform: translateZ(0px);
   transition-duration: 0.3s;

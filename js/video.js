@@ -20,6 +20,8 @@ var endi = 0;
 
 
 $(document).ready(function () {
+    loadPosenet();
+
     var d = 10000;
 
     for (var i = 0; i < timestamps.length; i++) {
@@ -90,11 +92,11 @@ $(document).ready(function () {
         image_format: 'jpeg',
         jpeg_quality: 90,
         flip_horiz: true
-       });
-    Webcam.attach( '#webcam' );
-    Webcam.on( 'live', function() {
+    });
+    Webcam.attach('#webcam');
+    Webcam.on('live', function () {
         take_snapshot();
-    } );
+    });
 
 });
 
@@ -105,95 +107,102 @@ function stamp2sec(stamp) {
 
 var frames = [];
 
-// https://cwestblog.com/2017/05/03/javascript-snippet-get-video-frame-as-an-image/
-// extract frames from video
-function getVideoImage(path, secs, callback) {
-    var me = this,
-        video = document.createElement('video');
-    video.onloadedmetadata = function () {
-        if ('function' === typeof secs) {
-            secs = secs(this.duration);
-        }
-        this.currentTime = Math.min(Math.max(0, (secs < 0 ? this.duration : 0) + secs), this.duration);
-    };
-    video.onseeked = function (e) {
-        var canvas = document.createElement('canvas');
-        canvas.height = video.videoHeight;
-        canvas.width = video.videoWidth;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        var img = new Image();
-        img.src = canvas.toDataURL();
-        // frames.push(img); for some reason this doesn't work, the push is in the showImageAt function for now
-        callback.call(me, img, this.currentTime, e);
-    };
-    video.onerror = function (e) {
-        callback.call(me, undefined, undefined, e);
-    };
-    video.src = path;
-}
+// MOVED TO UPLOAD
+// // extract frames from video
+// function getVideoImage(path, secs, callback) {
+//     var me = this,
+//         video = document.createElement('video');
+//     video.onloadedmetadata = function () {
+//         if ('function' === typeof secs) {
+//             secs = secs(this.duration);
+//         }
+//         this.currentTime = Math.min(Math.max(0, (secs < 0 ? this.duration : 0) + secs), this.duration);
+//     };
+//     video.onseeked = function (e) {
+//         var canvas = document.createElement('canvas');
+//         canvas.height = video.videoHeight;
+//         canvas.width = video.videoWidth;
+//         var ctx = canvas.getContext('2d');
+//         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+//         var img = new Image();
+//         img.src = canvas.toDataURL();
+//         // frames.push(img); for some reason this doesn't work, the push is in the showImageAt function for now
+//         callback.call(me, img, this.currentTime, e);
+//     };
+//     video.onerror = function (e) {
+//         callback.call(me, undefined, undefined, e);
+//     };
+//     video.src = path;
+// }
+
+// MOVED TO UPLOAD.JS
+// function showImageAt(secs) {
+//     getVideoImage(
+//         'testvid.mp4',
+//         function (totalTime) {
+//             duration = totalTime;
+//             return secs;
+//         },
+//         function (img, secs, event) {
+//             if (event.type == 'seeked') {
+//                 //var li = document.createElement('li');
+//                 //li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
+//                 frames.push(img);
+//                 //li.appendChild(img);
+//                 //document.getElementById('olFrames').appendChild(li);
+//                 if (duration >= (secs += 0.2)) {
+//                     showImageAt(secs);
+//                 };
+//                 // ok we need to store all of the frames together in one big frames[] array
+//             }
+//         }
+//     );
+// }
+// showImageAt(0);
+
+// setTimeout(() => {
+//     console.log(frames);
+// }, 100000);
 
 
-function showImageAt(secs) {
-    getVideoImage(
-        'testvid.mp4',
-        function (totalTime) {
-            duration = totalTime;
-            return secs;
-        },
-        function (img, secs, event) {
-            if (event.type == 'seeked') {
-                //var li = document.createElement('li');
-                //li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
-                frames.push(img);
-                //li.appendChild(img);
-                //document.getElementById('olFrames').appendChild(li);
-                if (duration >= (secs += 0.2)) {
-                    showImageAt(secs);
-                };
-                // ok we need to store all of the frames together in one big frames[] array
-            }
-        }
-    );
-}
-showImageAt(0);
 
+// MOVED TO UPLOAD.JS
+// var poses = [];
 
-console.log(frames);
+// function applyPosenet() {
 
-var poses = [];
+//     var currentFrame = 0;
 
-function applyPosenet() {
+//     // single pose
+//     var flipHorizontal = false;
+//     while (currentFrame <= frames.length) {
+//         posenet.load().then(function (net) {
+//             var img = new Image();
+//             img.onload = function () {
 
-    var currentFrame = 0;
+//             };
 
-    // single pose
-    var flipHorizontal = false;
-    while (currentFrame <= frames.length) {
-        posenet.load().then(function (net) {
-            var img = new Image();
-            img.onload = function () {
+//             img.setAttribute('src', frames[currentFrame].src);
+//             img.setAttribute('width', '640px');
+//             img.setAttribute('height', '360px');
 
-            };
+//             net.estimateSinglePose(img, {
+//                     flipHorizontal: true
+//                 }).then(function (pose) {
+//                     poses.push(pose);
+//                 })
+//                 .then(function (pose) {
+//                     console.log(poses);
+//                 });
 
-            img.setAttribute('src', frames[currentFrame].src);
-            img.setAttribute('width', '640px');
-            img.setAttribute('height', '360px');
+//         });
+//         currentFrame++;
+//     }
 
-            net.estimateSinglePose(img, {
-                flipHorizontal: true
-            }).then(function(pose) {
-                poses.push(pose);
-            });
-
-        });
-        currentFrame++;
-    }
-    
-}
+// }
 
 function take_snapshot() {
-    Webcam.snap( function(photo) {
+    Webcam.snap(function (photo) {
         var phot = new Image();
         phot.onload = function () {
 
@@ -211,10 +220,9 @@ function posenetImg(inputimg) {
     posenet.load().then(function (net) {
         net.estimateSinglePose(inputimg, {
             flipHorizontal: true
-        }).then(function(pose) {
-            console.log(pose);
-            console.log(poses.length);
-            console.log(poses[Math.round(video.currentTime()/0.2)]);
+        }).then(function (pose) {
+            //console.log(pose);
+            //console.log(poses[Math.round(video.currentTime() / 0.2)]);
         });
     })
 }
