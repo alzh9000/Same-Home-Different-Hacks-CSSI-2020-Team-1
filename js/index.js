@@ -23,6 +23,11 @@ $(document).ready(function() {
 
 });
 
+function initName(){
+  let myName = localStorage.getItem("name") || 'Name';
+  $("#name").html(myName);
+}
+
 $(document).bind('mousemove', function(e) {
   $("#tag").css({
     left: e.pageX + 5,

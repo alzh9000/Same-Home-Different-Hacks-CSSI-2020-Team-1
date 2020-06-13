@@ -36,7 +36,6 @@ $(document).ready(function () {
     start = 0;
     if (timestamps.length > 0) end = timestamps[0];
     else end = d;
-    console.log(d);
 
     $("#next").click(function () {
         if (endi < timestamps.length - 1) {
@@ -147,11 +146,11 @@ function showImageAt(secs) {
         },
         function (img, secs, event) {
             if (event.type == 'seeked') {
-                var li = document.createElement('li');
-                li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
+                // var li = document.createElement('li');
+                // li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
                 frames.push(img);
-                li.appendChild(img);
-                document.getElementById('olFrames').appendChild(li);
+                // li.appendChild(frames[frames.length - 1]);
+                // document.getElementById('olFrames').appendChild(li);
                 if (duration >= (secs += 0.2)) {
                     showImageAt(secs);
                 };
@@ -162,28 +161,59 @@ function showImageAt(secs) {
 }
 showImageAt(0);
 
-
-console.log(frames);
+var poses = [];
 
 function applyPosenet() {
 
     var currentFrame = 0;
-    var poses = [];
 
     // single pose
     var flipHorizontal = false;
     while (currentFrame <= frames.length) {
         posenet.load().then(function (net) {
-            // something wrong with this reference? should it be poses[currentFrame].value ?
-            const pose = net.estimateSinglePose(poses[currentFrame], {
+            var img = new Image();
+            img.onload = function () {
+
+            };
+
+            img.setAttribute('src', frames[currentFrame].src);
+            img.setAttribute('width', '640px');
+            img.setAttribute('height', '360px');
+
+            const pose = net.estimateSinglePose(img, {
                 flipHorizontal: true
             });
-        }).then(function (pose) {
-            poses.push(pose);
             console.log(pose);
+            poses.push(pose);
+
+
+        }).then(function (pose) {
+
         })
         currentFrame++;
     }
 
 }
 console.log(poses);
+
+
+// CAMERA POSENET
+function detectPoseInRealTime(video, net) {
+    const canvas = document.getElementById('output');
+    const ctx = canvas.getContext('2d');
+
+    // since images are being fed from a webcam, we want to feed in the
+    // original image and then just flip the keypoints' x coordinates. If instead
+    // we flip the image, then correcting left-right keypoint pairs requires a
+    // permutation on all the keypoints.
+    const flipPoseHorizontal = true;
+
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
+
+    let poses = [];
+    let minPoseConfidence;
+    let minPartConfidence;
+
+
+}
