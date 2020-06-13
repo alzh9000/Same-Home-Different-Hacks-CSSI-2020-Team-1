@@ -41,6 +41,8 @@ function vectorizePoseNet(poseNet1) {
     vec1.push(yCoor);
     // console.log(vec1);
   }
+
+  // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
   
   let total_confidence1 = 0;
   for (keypoint in poseNet1["keypoints"]) {
