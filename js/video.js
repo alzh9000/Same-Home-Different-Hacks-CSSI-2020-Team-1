@@ -105,9 +105,11 @@ function stamp2sec(stamp) {
     return parseInt(stamp.slice(0, 2)) * 60 + parseInt(stamp.slice(3));
 }
 
-var frames = [];
 
 // MOVED TO UPLOAD
+
+// var frames = [];
+
 // // extract frames from video
 // function getVideoImage(path, secs, callback) {
 //     var me = this,
