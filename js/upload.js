@@ -1,12 +1,19 @@
+var fileUrl;
 $(document).ready(function () {
+  //$("#vidiv").hide();
   $('#file').change(function (e) {
+    var fileInput = document.getElementById('file');
+    fileUrl = window.URL.createObjectURL(fileInput.files[0]);
     $('#file-label').html(getfileName(e.currentTarget.value));
+    $("#vidiv").attr("src", fileUrl);
+    console.log(fileUrl);
   });
   loadPosenet();
-  showImageAt(0);
+
+
 
   $('#ok-button').click(function () {
-
+    showImageAt(0);
   });
 });
 
@@ -26,8 +33,8 @@ async function loadPosenet() {
   });
 }
 
-// https://cwestblog.com/2017/05/03/javascript-snippet-get-video-frame-as-an-image/
-// extract frames from video
+var frames = [];
+
 function getVideoImage(path, secs, callback) {
   var me = this,
     video = document.createElement('video');
@@ -54,9 +61,11 @@ function getVideoImage(path, secs, callback) {
   video.src = path;
 }
 
+var extract_complete = false;
+
 function showImageAt(secs) {
   getVideoImage(
-    'testvid.mp4',
+    fileUrl,
     function (totalTime) {
       duration = totalTime;
       return secs;
@@ -70,6 +79,11 @@ function showImageAt(secs) {
         //document.getElementById('olFrames').appendChild(li);
         if (duration >= (secs += 0.2)) {
           showImageAt(secs);
+          console.log("working");
+        } else {
+          extract_complete = true;
+          console.log('done working');
+          applyPosenet();
         };
         // ok we need to store all of the frames together in one big frames[] array
       }
@@ -77,14 +91,17 @@ function showImageAt(secs) {
   );
 }
 
+
 var poses = [];
 
 function applyPosenet() {
+  // execute after showImageAt(0) is completely done executing
+  // const result = await showImageAt(0);
+  console.log(frames);
 
   var currentFrame = 0;
 
   // single pose
-  var flipHorizontal = false;
   while (currentFrame <= frames.length) {
     posenet.load().then(function (net) {
       var img = new Image();
@@ -102,14 +119,15 @@ function applyPosenet() {
           poses.push(pose);
         })
         .then(function (pose) {
-          console.log(poses);
+          console.log(currentFrame);
         });
 
     });
     currentFrame++;
   }
-
+  console.log(poses);
 }
+
 
 /* POSENET STUFF ENDS HERE */
 
