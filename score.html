@@ -11,7 +11,6 @@
   <script src="js/score.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <link rel="stylesheet" href="https://unpkg.com/blocks.css/dist/blocks.min.css" />
-  <script src="/path/to/jquery.easy-pie-chart.js"></script>
 </head>
 
 <body>
@@ -21,9 +20,12 @@
       <button class="block" id="x-button" onclick="goHome()" style="font-family: 'Montserrat';">X</button>
     </div>
     <div class="main">
+      <img id="deco-3" src="assets/deco-3.png"></img>
       <div class="chart">
-        <canvas id="myChart"></canvas>
+        <canvas id="myChart" width="20" height="18"></canvas>
+        <h1 id="score-text">40%</h1>
       </div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       <button class="block" id="ok-button">OK</button>
     </div>
   </div>
