@@ -173,18 +173,18 @@ function stamp2sec(stamp) {
 
 // function applyPosenet() {
 
-//     var currentFrame = 0;
+//     var i = 0;
 
 //     // single pose
 //     var flipHorizontal = false;
-//     while (currentFrame <= frames.length) {
+//     while (i <= frames.length) {
 //         posenet.load().then(function (net) {
 //             var img = new Image();
 //             img.onload = function () {
 
 //             };
 
-//             img.setAttribute('src', frames[currentFrame].src);
+//             img.setAttribute('src', frames[i].src);
 //             img.setAttribute('width', '640px');
 //             img.setAttribute('height', '360px');
 
@@ -198,7 +198,7 @@ function stamp2sec(stamp) {
 //                 });
 
 //         });
-//         currentFrame++;
+//         i++;
 //     }
 
 // }
