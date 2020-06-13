@@ -9,14 +9,17 @@
   --green: rgb(042, 157, 143);
   --black: rgb(038, 070, 083);
 }
+
 body {
   background-color: var(--green);
   font-family: 'Montserrat';
   color: var(--black);
 }
+
 button {
   --block-shadow-color: var(--black);
 }
+
 div.container {
   --block-background-color: var(--background);
 }
@@ -41,6 +44,7 @@ div.header img#icon {
 div.main input[type=text] {
   width: 75%;
 }
+
 div.header button#icon-button {
   float: left;
   margin-left: 30px;
@@ -58,7 +62,8 @@ div.header button#upload-button {
   font-size: 20px;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
   color: var(--green);
   font-family: 'Montserrat';
   font-size: 20px;
@@ -77,92 +82,83 @@ div.search {
   margin-left: -14px;
 }
 
-.td button
-{
-    position: relative;
-    display: block;
-    width: 42px;
-    height: 48px;
-    border: none;
-    background-color: var(--background);
+.td button {
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 48px;
+  border: none;
+  background-color: var(--background);
 }
 
-#s-circle
-{
-    position: relative;
-    top: -8px;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    margin-top: 0;
-
-    border: 5px solid var(--green);
-    border-radius: 50%;
-    transition: 0.5s ease all;
+#s-circle {
+  position: relative;
+  top: -8px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: 0;
+  border: 5px solid var(--green);
+  border-radius: 50%;
+  transition: 0.5s ease all;
 }
 
-button span
-{
-    position: absolute;
-    top: 30px;
-    left: 22px;
-    display: block;
-    width: 10px;
-    height: 5px;
-    border-radius: 10px;
-    transform: rotateZ(52deg);
-    transition: 0.5s ease all;
+button span {
+  position: absolute;
+  top: 30px;
+  left: 22px;
+  display: block;
+  width: 10px;
+  height: 5px;
+  border-radius: 10px;
+  transform: rotateZ(52deg);
+  transition: 0.5s ease all;
 }
 
-button span:before, button span:after
-{
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 20px;
-    height: 10px;
-    background-color: var(--green);
-    border-radius: 10px;
-    transform: rotateZ(0);
-    transition: 0.5s ease all;
+button span:before, button span:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 10px;
+  background-color: var(--green);
+  border-radius: 10px;
+  transform: rotateZ(0);
+  transition: 0.5s ease all;
 }
 
-#s-cover:hover #s-circle
-{
-    top: 1px;
-    width: 15px;
-    height: 8px;
-    border-width: 0;
-    background-color: var(--green);
-    border-radius: 20px;
+#s-cover:hover #s-circle {
+  top: 1px;
+  width: 15px;
+  height: 8px;
+  border-width: 0;
+  background-color: var(--green);
+  border-radius: 20px;
 }
 
-#s-cover:hover span
-{
-    top: 70%;
-    left: 10px;
-    width: 25px;
-    margin-top: -9px;
-    transform: rotateZ(0);
+#s-cover:hover span {
+  top: 70%;
+  left: 10px;
+  width: 25px;
+  margin-top: -9px;
+  transform: rotateZ(0);
 }
 
-#s-cover:hover button span:before
-{
-    bottom: 3px;
-    transform: rotateZ(52deg);
+#s-cover:hover button span:before {
+  bottom: 3px;
+  transform: rotateZ(52deg);
 }
 
-#s-cover:hover button span:after
-{
-    bottom: -3px;
-    transform: rotateZ(-52deg);
+#s-cover:hover button span:after {
+  bottom: -3px;
+  transform: rotateZ(-52deg);
 }
-#s-cover:hover button span:before, #s-cover:hover button span:after
-{
-    right: 0px;
-    width: 20px;
-    background-color: var(--green);
+
+#s-cover:hover button span:before, #s-cover:hover button span:after {
+  right: 0px;
+  width: 20px;
+  background-color: var(--green);
 }
 
 div.main input {
@@ -178,9 +174,11 @@ div.main input {
   font-size: 24px;
   height: 30px;
 }
+
 div.main {
   margin-top: 200px;
 }
+
 div.main input:focus {
   outline: none;
 }
@@ -194,7 +192,6 @@ div.main input:hover {
   opacity: 0.6;
 }
 
-
 @media only screen and (max-width: 749px) {
   body {
     padding-top: 30px;
@@ -204,34 +201,45 @@ div.main input:hover {
 
   div.container {
     display: absolute;
-    margin:0 auto;
-    width: 100%;
+    margin: 0 auto;
+    width: 500px;
     padding: 30px 30px;
   }
-div.videos{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.td button{
-  margin-left: 15px; 
-}
-  div.search{
+
+  div.videos {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+  }
+
+  div.videos img {
+    width: 180px;
+    height: 102px;
+    object-fit: contain;
+  }
+
+  .td button {
+    margin-left: 15px;
+  }
+
+  div.search {
     margin-top: 10px;
     display: inline-flex;
   }
-  div.videos img {
-    width: 100%;
-    object-fit: cover;
-  }
+
   #deco-1 {
     position: absolute;
     width: 20px;
     margin: -4px -185px;
+  }
 
+  #deco-2 {
+    width: 150px;
+    margin: -6px -10px;
   }
 }
+
 @media only screen and (min-width: 750px) {
   body {
     padding-top: 30px;
@@ -240,7 +248,7 @@ div.videos{
 
   div.container {
     display: absolute;
-    margin:0 auto;
+    margin: 0 auto;
     width: 730px;
     padding: 30px 50px;
   }
@@ -249,20 +257,31 @@ div.videos{
     width: 100%;
     margin-top: 20px;
   }
-  .td button{
+
+  .td button {
     margin-left: 20px;
   }
-  div.search{
+
+  div.search {
     width: 100%;
     display: flex;
     float: left;
   }
-  div.videos img {
-    width: 20em;
-  }
+
   #deco-1 {
     position: absolute;
     width: 20px;
     margin: -4px -200px;
+  }
+
+  #deco-2 {
+    width: 150px;
+    margin: -6px -20px;
+  }
+
+  div.videos img {
+    width: 270px;
+    height: 152px;
+    object-fit: contain;
   }
 }
