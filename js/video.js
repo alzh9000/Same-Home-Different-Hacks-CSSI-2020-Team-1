@@ -87,6 +87,7 @@ $(document).ready(function () {
     //WEBCAM
     var wc = document.querySelector("#videoElement");
 
+    //running into error here: Uncaught TypeError: Cannot read property 'getUserMedia' of undefined
     if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({
                 video: true
@@ -127,7 +128,7 @@ function getVideoImage(path, secs, callback) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         var img = new Image();
         img.src = canvas.toDataURL();
-        frames.push(img);
+        // frames.push(img); for some reason this doesn't work, the push is in the showImageAt function for now
         callback.call(me, img, this.currentTime, e);
     };
     video.onerror = function (e) {
@@ -148,6 +149,7 @@ function showImageAt(secs) {
             if (event.type == 'seeked') {
                 var li = document.createElement('li');
                 li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
+                frames.push(img);
                 li.appendChild(img);
                 document.getElementById('olFrames').appendChild(li);
                 if (duration >= (secs += 0.2)) {
@@ -161,9 +163,9 @@ function showImageAt(secs) {
 showImageAt(0);
 
 
+console.log(frames);
 
 function applyPosenet() {
-    let frames = showImageAt(0);
 
     var currentFrame = 0;
     var poses = [];
@@ -172,14 +174,16 @@ function applyPosenet() {
     var flipHorizontal = false;
     while (currentFrame <= frames.length) {
         posenet.load().then(function (net) {
-            const pose = net.estimateSinglePose(imageElement, {
+            // something wrong with this reference? should it be poses[currentFrame].value ?
+            const pose = net.estimateSinglePose(poses[currentFrame], {
                 flipHorizontal: true
             });
-            poses.push(pose);
         }).then(function (pose) {
+            poses.push(pose);
             console.log(pose);
         })
         currentFrame++;
     }
 
 }
+console.log(poses);

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/video.css">
 
   <!-- Load TensorFlow.js -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
   <!-- Load Posenet -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
 
@@ -23,6 +23,9 @@
 </head>
 
 <body onload="loadPosenet()">
+  <div id="webcam">
+    <video autoplay="true" id="videoElement"></video>
+  </div>
 
   <video id="vid" controls="controls" class="video-js"
     data-setup='{ "playbackRates": [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2] }'>
@@ -36,9 +39,6 @@
   <!-- <p id="progress"></p> -->
   <ol id="olFrames"></ol>
 
-  <div id="webcam">
-    <video autoplay="true" id="videoElement"></video>
-  </div>
 
 </body>
 
