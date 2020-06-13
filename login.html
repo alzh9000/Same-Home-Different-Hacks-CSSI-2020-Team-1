@@ -32,33 +32,6 @@
         <img class="logo" src="assets/logo.png" alt="Daince"/>
         <p>Learn to dance with AI!</p>
         <button class="block" id="login">Login with Google</button>
-        <script>
-            $(document).ready(() => {
-                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error)
-
-                $("#login").on("click", function(event) {
-                    let provider = new firebase.auth.GoogleAuthProvider();
-                    provider.addScope("profile");
-                    provider.addScope("email");
-
-                    firebase.auth().signInWithPopup(provider)
-                        .then(res => {
-                            // Set user information
-                            localStorage.setItem("name", res.user.displayName);
-                            localStorage.setItem("uid", res.user.uid);
-                            localStorage.setItem("photo", res.user.photoURL);
-                            window.location.href = "../index.html";
-                        })
-                        .then(() => firebase.auth().currentUser.getIdToken())
-                        .then(Authentication.session)
-                        // .then(res => {
-                        //     if (res.success) window.location.assign("/index.html");
-                        //     else console.error("failed to login");
-                        // })
-                        .catch(err => console.error(err));
-                });
-            })
-        </script>
       </div>
       <div class="side-right">
         <div class="dancing-person bob-animation">
@@ -66,6 +39,32 @@
       </div>
     </div>
   </div>
+  <script>
+    $(document).ready(() => {
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error)
+
+      $("#login").on("click", function(event) {
+        let provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope("profile");
+        provider.addScope("email");
+
+        firebase.auth().signInWithPopup(provider)
+                .then(res => {
+                  // Set user information
+                  localStorage.setItem("name", res.user.displayName);
+                  localStorage.setItem("uid", res.user.uid);
+                  localStorage.setItem("photo", res.user.photoURL);
+                })
+                .then(() => firebase.auth().currentUser.getIdToken())
+                .then(Authentication.session)
+                .then(res => {
+                  if (res.success) window.location.assign("/index.html");
+                  else console.error("failed to login");
+                })
+                .catch(err => console.error(err));
+      });
+    })
+  </script>
 </body>
 
 </html>
