@@ -12,14 +12,25 @@ posenet.load().then(function (net) {
   return pose;
 }).then(function (pose) {
   let pose2 = pose;
-  compPoseNet(pose, pose2);
+  score =  compPoseNet(pose, pose2);
+  console.log(score)
 })
 
 
 function compPoseNet(poseNet1, poseNet2) {
-  // Initialize the two PoseNet vectors as arrays that we'll compare
+  let score = 2000
+  vec1 = vectorizePoseNet(poseNet1);
+  console.log(vec1)
+  vec2 = vectorizePoseNet(poseNet2)
+  console.log(vec2)
+  score = weightedDistanceMatching(vec1, vec2);
+  console.log(score)
+  return score
+}
+
+function vectorizePoseNet(poseNet1) {
+  // Initialize the PoseNet vector as an empty arrays that we'll add to
   let vec1 = new Array();
-  let vec2 = new Array();
 
   for (keypoint in poseNet1["keypoints"]) {
     let coordinates = poseNet1["keypoints"][keypoint]["position"];
@@ -39,6 +50,7 @@ function compPoseNet(poseNet1, poseNet2) {
     total_confidence1 += confidence;
   }
   vec1.push(total_confidence1);
+  return vec1;
 }
 
 // poseVector1 and poseVector2 are 52-float vectors composed of:
@@ -63,6 +75,7 @@ function weightedDistanceMatching(poseVector1, poseVector2) {
     let tempSum = vector1Confidences[tempConf] * Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
     summation2 = summation2 + tempSum;
   }
-
+  console.log(summation1)
+  console.log(summation2)
   return summation1 * summation2;
 }
