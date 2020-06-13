@@ -23,32 +23,22 @@ function compPoseNet(poseNet1, poseNet2) {
 
   for (keypoint in poseNet1["keypoints"]) {
     let coordinates = poseNet1["keypoints"][keypoint]["position"];
-    console.log(coordinates);
+    // console.log(coordinates);
     let xCoor = coordinates['x'];
     let yCoor = coordinates['y'];
     vec1.push(xCoor);
     vec1.push(yCoor);
-    console.log(vec1)
-    // console.log(poseNet1["keypoints"]);
-    // console.log(typeof poseNet1["keypoints"]);
-    // console.log(poseNet1["keypoints"][0]);
-    // console.log(poseNet1["keypoints"][0]["position"]);
-    // console.log(poseNet1["keypoints"][0]["position"]["x"]);
+    // console.log(vec1);
   }
+  
+  let total_confidence1 = 0;
   for (keypoint in poseNet1["keypoints"]) {
-    let coordinates = poseNet1["keypoints"][keypoint]["position"];
-    console.log(coordinates);
-    let xCoor = coordinates['x'];
-    let yCoor = coordinates['y'];
-    vec1.push(xCoor);
-    vec1.push(yCoor);
-    console.log(vec1)
-    // console.log(poseNet1["keypoints"]);
-    // console.log(typeof poseNet1["keypoints"]);
-    // console.log(poseNet1["keypoints"][0]);
-    // console.log(poseNet1["keypoints"][0]["position"]);
-    // console.log(poseNet1["keypoints"][0]["position"]["x"]);
+    let confidence = poseNet1["keypoints"][keypoint]["score"];
+    // console.log(total_confidence1);
+    vec1.push(confidence);
+    total_confidence1 += confidence;
   }
+  vec1.push(total_confidence1);
 }
 
 // poseVector1 and poseVector2 are 52-float vectors composed of:
