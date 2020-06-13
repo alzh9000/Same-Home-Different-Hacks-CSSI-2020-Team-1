@@ -59,15 +59,15 @@ function searchAndFilter(searchTerm) {
 
 //ADD STUFF LATER//
 function getVideos(){
-  generateVideo('daince', 'assets/daince-art.png', 'daince logo');
-  generateVideo('wave', 'assets/wave.png', 'waving');
-  /*
+  generateVideo('asjdfsfksd', 'assets/daince-art.png', 'daince logo');
+  generateVideo('jfiovkxvd', 'assets/sample-thumb-1.png', 'lofi beats to study/relax to');
+
   Videos.list().then(function(e) {
     videosArray = e.data;
     for(let i=0;i < videosArray.length; i++) {
-      generateVideo(videosArray[i].id, videosArray[i].thumb, videosArray[i].name);
+      generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
-  });*/
+  });
 }
 
 function generateVideo(id, thumb, name){

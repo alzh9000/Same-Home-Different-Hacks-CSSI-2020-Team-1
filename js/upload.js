@@ -1,19 +1,12 @@
-var fileUrl;
 $(document).ready(function () {
-  //$("#vidiv").hide();
   $('#file').change(function (e) {
-    var fileInput = document.getElementById('file');
-    fileUrl = window.URL.createObjectURL(fileInput.files[0]);
     $('#file-label').html(getfileName(e.currentTarget.value));
-    $("#vidiv").attr("src", fileUrl);
-    console.log(fileUrl);
   });
   loadPosenet();
-
-
+  showImageAt(0);
 
   $('#ok-button').click(function () {
-    showImageAt(0);
+
   });
 });
 
@@ -33,8 +26,8 @@ async function loadPosenet() {
   });
 }
 
-var frames = [];
-
+// https://cwestblog.com/2017/05/03/javascript-snippet-get-video-frame-as-an-image/
+// extract frames from video
 function getVideoImage(path, secs, callback) {
   var me = this,
     video = document.createElement('video');
@@ -61,11 +54,9 @@ function getVideoImage(path, secs, callback) {
   video.src = path;
 }
 
-var extract_complete = false;
-
 function showImageAt(secs) {
   getVideoImage(
-    fileUrl,
+    'testvid.mp4',
     function (totalTime) {
       duration = totalTime;
       return secs;
@@ -90,7 +81,6 @@ function showImageAt(secs) {
     }
   );
 }
-
 
 var poses = [];
 
@@ -123,9 +113,8 @@ function applyPosenet() {
       });
 
   }
-  console.log(poses);
-}
 
+}
 
 /* POSENET STUFF ENDS HERE */
 
