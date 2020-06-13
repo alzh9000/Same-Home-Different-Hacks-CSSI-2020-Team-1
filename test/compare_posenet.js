@@ -43,6 +43,27 @@ function vectorizePoseNet(poseNet1) {
   }
 
   // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
+  // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
+  minX = Number.MAX_VALUE
+  minY = Number.MAX_VALUE
+  for (i = 0; i < 33; i+=2) {
+    // console.log(minX)
+    currentX = vec1[i]
+    // console.log(currentX)
+    if (currentX < minX) {
+      minX = currentX
+    }
+    // console.log(i);
+  }
+  for (i = 1; i < 34; i+=2) {
+    // console.log(minY)
+    currentY = vec1[i]
+    // console.log(currentY)
+    if (currentY < minY) {
+      minY = currentY
+    }
+    // console.log(i);
+  }
   
   let total_confidence1 = 0;
   for (keypoint in poseNet1["keypoints"]) {
