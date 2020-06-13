@@ -27,8 +27,8 @@ div.container {
   --block-background-color: var(--background);
 }
 
-div.header button#upload-button {
-  padding: 10px 20px;
+div.header button#login {
+  padding: 10px 40px;
   font-size: 25px;
   font-family: 'Montserrat';
   --block-shadow-color: var(--black);
@@ -91,7 +91,7 @@ p {
     transform: scale(0.9);
   }
 
-  div.header button#upload-button {
+  div.header button#login {
     margin-right: auto;
     float: left;
   }
