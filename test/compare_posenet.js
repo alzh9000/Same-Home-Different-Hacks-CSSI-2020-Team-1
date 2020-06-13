@@ -20,11 +20,11 @@ posenet.load().then(function (net) {
 function compPoseNet(poseNet1, poseNet2) {
   let score = 2000
   vec1 = vectorizePoseNet(poseNet1);
-  console.log(vec1)
+  // console.log(vec1)
   vec2 = vectorizePoseNet(poseNet2)
-  console.log(vec2)
+  // console.log(vec2)
   score = weightedDistanceMatching(vec1, vec2);
-  console.log(score)
+  // console.log(score)
   return score
 }
 
@@ -81,16 +81,16 @@ function vectorizePoseNet(poseNet1) {
   for (i = 0; i < 34; i++) {
     squaredSum += Math.pow(vec1[i], 2)
   }
-  console.log(squaredSum)
+  // console.log(squaredSum)
 
   let normalizedCoefficient = Math.sqrt(squaredSum)
-  console.log(normalizedCoefficient)
+  // console.log(normalizedCoefficient)
 
   for (i = 0; i < 34; i++) {
     vec1[i] /= normalizedCoefficient
   }
 
-  console.log(vec1)
+  // console.log(vec1)
 
 
   // Finish by adding the other values needed in the vector
@@ -127,7 +127,7 @@ function weightedDistanceMatching(poseVector1, poseVector2) {
     let tempSum = vector1Confidences[tempConf] * Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
     summation2 = summation2 + tempSum;
   }
-  console.log(summation1)
-  console.log(summation2)
+  // console.log(summation1)
+  // console.log(summation2)
   return summation1 * summation2;
 }
