@@ -11,24 +11,51 @@ posenet.load().then(function (net) {
   });
   return pose;
 }).then(function (pose) {
-  console.log(pose["keypoints"]);
-  console.log(typeof pose["keypoints"]);
-  console.log(pose["keypoints"][0]);
-  console.log(pose["keypoints"][0]["position"]);
-  console.log(pose["keypoints"][0]["position"]["x"]);
-
-  for (keypoint in pose["keypoints"]) {
-    console.log(pose["keypoints"][keypoint]);
-  }
+  let pose2 = pose;
+  compPoseNet(pose, pose2);
 })
 
 
 function compPoseNet(poseNet1, poseNet2) {
-  for (keypoint in pose["keypoints"]) {
-    console.log(pose["keypoints"][keypoint]);
+  // Initialize the two PoseNet vectors as arrays that we'll compare
+  let vec1 = new Array();
+  let vec2 = new Array();
+
+  for (keypoint in poseNet1["keypoints"]) {
+    let coordinates = poseNet1["keypoints"][keypoint]["position"];
+    console.log(coordinates);
+    let xCoor = coordinates['x'];
+    let yCoor = coordinates['y'];
+    vec1.push(xCoor);
+    vec1.push(yCoor);
+    console.log(vec1)
+    // console.log(poseNet1["keypoints"]);
+    // console.log(typeof poseNet1["keypoints"]);
+    // console.log(poseNet1["keypoints"][0]);
+    // console.log(poseNet1["keypoints"][0]["position"]);
+    // console.log(poseNet1["keypoints"][0]["position"]["x"]);
+  }
+  for (keypoint in poseNet1["keypoints"]) {
+    let coordinates = poseNet1["keypoints"][keypoint]["position"];
+    console.log(coordinates);
+    let xCoor = coordinates['x'];
+    let yCoor = coordinates['y'];
+    vec1.push(xCoor);
+    vec1.push(yCoor);
+    console.log(vec1)
+    // console.log(poseNet1["keypoints"]);
+    // console.log(typeof poseNet1["keypoints"]);
+    // console.log(poseNet1["keypoints"][0]);
+    // console.log(poseNet1["keypoints"][0]["position"]);
+    // console.log(poseNet1["keypoints"][0]["position"]["x"]);
   }
 }
 
+// poseVector1 and poseVector2 are 52-float vectors composed of:
+// Values 0-33: are x,y coordinates for 17 body parts in alphabetical order
+// Values 34-51: are confidence values for each of the 17 body parts in alphabetical order
+// Value 51: A sum of all the confidence values
+// Again the lower the number, the closer the distance
 function weightedDistanceMatching(poseVector1, poseVector2) {
   let vector1PoseXY = poseVector1.slice(0, 34);
   let vector1Confidences = poseVector1.slice(34, 51);
