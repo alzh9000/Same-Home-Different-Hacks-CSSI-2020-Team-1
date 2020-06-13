@@ -30,6 +30,10 @@ div.header img#icon {
   width: 130px;
 }
 
+#name {
+  overflow-wrap: break-word;
+}
+
 #tag {
   z-index: 2;
   position: absolute;

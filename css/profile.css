@@ -40,20 +40,27 @@ div.header img#icon {
 }
 
 div.header-info {
-  margin: -110px 170px;
+  margin: -130px 170px;
   width: 200px;
+  padding: 20px;
 }
 
 div.header-info h1 {
   font-family: 'Sacramento';
   color: var(--green);
   font-size: 60px;
-  margin-top: -20px;
-  line-height: 40px;
+  line-height: 50px;
+  margin-top: 10px;
 }
 
 div.header-info p {
-  margin-top: -30px;
+  margin-top: -40px;
+}
+
+p#uid {
+  width: 250px;
+  overflow-wrap: break-word;
+  font-size: 13px;
 }
 
 div.header button#upload-button {
