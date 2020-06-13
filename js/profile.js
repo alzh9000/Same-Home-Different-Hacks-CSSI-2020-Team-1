@@ -10,11 +10,14 @@ let green = 'rgb(042, 157, 143)';
 let black = 'rgb(038, 070, 083)';
 
 function initProfile() {
+  if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
   let myName = localStorage.getItem("name") || 'Name';
-  let myID = localStorage.getItem("uid") || 'ID';
+  $("#name").html(getFirstWord(myName));
+}
 
-  $("#name").html(myName);
-  $("#uid").html("user id: " + myID);
+function getFirstWord(string){
+  let firstWord = string.replace(/ .*/,'');
+  return firstWord;
 }
 
 function initChart() {
@@ -70,10 +73,6 @@ function initChart() {
         }
     }
   });
-}
-
-function logData() {
-
 }
 
 function goHome() {

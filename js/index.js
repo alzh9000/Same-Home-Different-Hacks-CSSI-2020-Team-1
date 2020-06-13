@@ -7,7 +7,6 @@ function goUpload() {
 }
 
 $(document).ready(function() {
-  initName();
   getList();
 
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
@@ -27,11 +26,6 @@ $(document).ready(function() {
   });
 
 });
-
-function initName(){
-  let myName = localStorage.getItem("name") || 'Name';
-  $("#name").html(myName);
-}
 
 $(document).bind('mousemove', function(e) {
   $("#tag").css({

@@ -26,14 +26,12 @@ button {
 }
 
 div.container {
-  display: absolute;
   margin:0 auto;
   padding: 30px 50px;
   --block-background-color: var(--background);
 }
 
 div.header {
-  width: 100%;
   margin-top: 45px;
 }
 
@@ -49,8 +47,7 @@ div.header-info h1 {
   font-family: 'Sacramento';
   color: var(--green);
   font-size: 60px;
-  line-height: 50px;
-  margin-top: 10px;
+  margin-top: -20px;
 }
 
 div.header-info p {
