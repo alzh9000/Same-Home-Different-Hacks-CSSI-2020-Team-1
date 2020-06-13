@@ -32,23 +32,30 @@ $(document).bind('mousemove', function(e) {
     top: e.pageY - 20
   });
 });
-
+var shownImages = [];
 function searchAndFilter(searchTerm) {
   searchTerm=searchTerm.toLowerCase();
   if (searchTerm == '') {
     $("button.video").each(function() {
       $(this).show();
+      $("#no-results").hide();
     });
   } else {
     $("button.video").each(function() {
       if($(this).attr('value').toLowerCase().includes(searchTerm)) {
         $(this).show();
-        if(!$(".videos").is(":visible")) $(".videos").show();
+        if(!$(".videos").is(":visible")){
+          $(".videos").show();
+        }
       }
-      else $(this).hide();
+      else {
+        $(this).hide();
+      }
     });
   }
+
 }
+
 
 //ADD STUFF LATER//
 function getVideos(){
