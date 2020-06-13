@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>DAINCE: upload</title>
+  <title>DAINCE: Upload</title>
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="css/upload.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -24,8 +24,9 @@
     <div class="main">
       <form id="uploadform">
       <div class="upload">
-        <input type="file" name="file" id="file" class="inputfile" />
-        <label for="file"><i class="fa fa-upload" aria-hidden="true"></i> Choose a video</label>
+        <input type="file" name="file" id="file" class="inputfile" accept="video/mp4,video/x-m4v,video/*"/>
+        <label for="file"><i class="fa fa-upload" aria-hidden="true"></i> UPLOAD</label>
+        <p id="file-label">No file selected.</p>
       </div>
       <div class="timestamps">
         <p>Timestamps</p>
