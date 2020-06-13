@@ -25,7 +25,7 @@ button {
 div.container {
   display: absolute;
   margin:0 auto;
-  width: 75%;
+  width: 500px;
   padding: 30px 50px;
   --block-background-color: var(--background);
 }
@@ -42,13 +42,18 @@ div.header img#icon {
 div.header-info {
   margin: -110px 170px;
   width: 200px;
-  line-height: 2px;
 }
 
 div.header-info h1 {
   font-family: 'Sacramento';
   color: var(--green);
-  font-size: 50px;
+  font-size: 60px;
+  margin-top: -20px;
+  line-height: 40px;
+}
+
+div.header-info p {
+  margin-top: -30px;
 }
 
 div.header button#upload-button {
@@ -63,7 +68,6 @@ div.header button#upload-button {
 div.chart {
   margin-top: 200px;
 }
-
 img#deco-2 {
   position: absolute;
   z-index: 2;
@@ -77,4 +81,34 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
+}
+.bob-animation {
+  object-fit: contain;
+  animation-delay: 0s, 0.3s;
+  animation-direction: normal, alternate;
+  animation-duration: 0.3s, 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1, infinite;
+  animation-name: bob, bob-float;
+  animation-timing-function: ease-out, ease-in-out;
+}
+
+@keyframes bob {
+  0% {
+    transform: translateY(-1px);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes bob-float {
+  100% {
+    transform: translateY(-5px);
+  }
 }
