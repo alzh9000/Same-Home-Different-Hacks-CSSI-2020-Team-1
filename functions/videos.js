@@ -7,8 +7,7 @@ const firestore = admin.firestore();
 
 router.get("/", (req, res) =>
     firestore.collection("videos")
-        .where("owner", "==", httpContext.get("uid"))
-        .where("public", "==", true).get()
+        .where("owner", "==", httpContext.get("uid")).get()
         .then(snapshot => snapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id })))
         .then(documents => res.status(200).json({ success: true, data: documents }))
         .catch(common.internalError(res, "list-videos")));
