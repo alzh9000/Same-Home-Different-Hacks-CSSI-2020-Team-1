@@ -88,7 +88,7 @@ div.search {
   width: 42px;
   height: 48px;
   border: none;
-  background-color: var(--background);
+  background-color: transparent;
 }
 
 #s-circle {
@@ -185,13 +185,17 @@ div.main input:focus {
 
 div.videos {
   margin-left: 26px;
+  min-height: 100px;
 }
 
 div.main input:hover {
   color: var(--black);
   opacity: 0.6;
 }
-
+#no-results{
+  text-align: center;
+  display: none; 
+}
 @media only screen and (max-width: 749px) {
   body {
     padding-top: 30px;
