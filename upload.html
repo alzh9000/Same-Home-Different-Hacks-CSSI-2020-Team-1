@@ -32,6 +32,9 @@
       appId: "1:109949199255:web:92a0d12c5014785ea91ad2"
     });
   </script>
+  <script>
+    Authentication.self().then(res => (res.code !== 200) ? window.location.href = "login.html" : null).catch(console.error);
+  </script>
 </head>
 
 <body onload="loadPosenet()" class="cursor">
