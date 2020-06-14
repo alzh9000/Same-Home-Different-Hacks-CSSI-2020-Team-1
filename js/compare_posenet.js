@@ -1,146 +1,131 @@
-// ok, so I'm gonna work on creating a function in JavaScript that compares 2 posenet objects (1 from the user, 1 from the template, at the same frame), and returns a decimal from 1 to 0 indicating how closely the user matches the template, with 1 being a perfect match and 0 being a terrible match
-// The function will take the posenet objects and wrap a box around each, then use the positions of the body parts to convert the positions into relative positions based on the dimensions of the box
+var flipHorizontal = false;
+
+var imageElement = document.getElementById('dancer');
+
+posenet.load().then(function (net) {
+  const pose = net.estimateSinglePose(imageElement, {
+    flipHorizontal: true
+  });
+  return pose;
+}).then(function (pose) {
+  let pose2 = pose;
+  score = compPoseNet(pose, pose2);
+  console.log(score)
+})
 
 
+function compPoseNet(poseNet1, poseNet2) {
+  let score = 2000
+  vec1 = vectorizePoseNet(poseNet1);
+  // console.log(vec1)
+  vec2 = vectorizePoseNet(poseNet2)
+  // console.log(vec2)
+  score = weightedDistanceMatching(vec1, vec2);
+  // console.log(score)
+  return score
+}
 
-{
-  "score": 0.32371445304906,
-  "keypoints": [
-    {
-      "position": {
-        "y": 76.291801452637,
-        "x": 253.36747741699
-      },
-      "part": "nose",
-      "score": 0.99539834260941
-    },
-    {
-      "position": {
-        "y": 71.10383605957,
-        "x": 253.54365539551
-      },
-      "part": "leftEye",
-      "score": 0.98781454563141
-    },
-    {
-      "position": {
-        "y": 71.839515686035,
-        "x": 246.00454711914
-      },
-      "part": "rightEye",
-      "score": 0.99528175592422
-    },
-    {
-      "position": {
-        "y": 72.848854064941,
-        "x": 263.08151245117
-      },
-      "part": "leftEar",
-      "score": 0.84029853343964
-    },
-    {
-      "position": {
-        "y": 79.956565856934,
-        "x": 234.26812744141
-      },
-      "part": "rightEar",
-      "score": 0.92544466257095
-    },
-    {
-      "position": {
-        "y": 98.34538269043,
-        "x": 399.64068603516
-      },
-      "part": "leftShoulder",
-      "score": 0.99559044837952
-    },
-    {
-      "position": {
-        "y": 95.082359313965,
-        "x": 458.21868896484
-      },
-      "part": "rightShoulder",
-      "score": 0.99583911895752
-    },
-    {
-      "position": {
-        "y": 94.626205444336,
-        "x": 163.94561767578
-      },
-      "part": "leftElbow",
-      "score": 0.9518963098526
-    },
-    {
-      "position": {
-        "y": 150.2349395752,
-        "x": 245.06030273438
-      },
-      "part": "rightElbow",
-      "score": 0.98052614927292
-    },
-    {
-      "position": {
-        "y": 113.9603729248,
-        "x": 393.19735717773
-      },
-      "part": "leftWrist",
-      "score": 0.94009721279144
-    },
-    {
-      "position": {
-        "y": 186.47859191895,
-        "x": 257.98034667969
-      },
-      "part": "rightWrist",
-      "score": 0.98029226064682
-    },
-    {
-      "position": {
-        "y": 208.5266418457,
-        "x": 284.46710205078
-      },
-      "part": "leftHip",
-      "score": 0.97870296239853
-    },
-    {
-      "position": {
-        "y": 209.9910736084,
-        "x": 243.31219482422
-      },
-      "part": "rightHip",
-      "score": 0.97424703836441
-    },
-    {
-      "position": {
-        "y": 281.61965942383,
-        "x": 310.93188476562
-      },
-      "part": "leftKnee",
-      "score": 0.98368924856186
-    },
-    {
-      "position": {
-        "y": 282.80120849609,
-        "x": 203.81164550781
-      },
-      "part": "rightKnee",
-      "score": 0.96947449445724
-    },
-    {
-      "position": {
-        "y": 360.62716674805,
-        "x": 292.21047973633
-      },
-      "part": "leftAnkle",
-      "score": 0.8883239030838
-    },
-    {
-      "position": {
-        "y": 347.41177368164,
-        "x": 203.88229370117
-      },
-      "part": "rightAnkle",
-      "score": 0.8255187869072
+function vectorizePoseNet(poseNet1) {
+  // Initialize the PoseNet vector as an empty arrays that we'll add to
+  let vec1 = new Array();
+
+  for (keypoint in poseNet1["keypoints"]) {
+    let coordinates = poseNet1["keypoints"][keypoint]["position"];
+    // console.log(coordinates);
+    let xCoor = coordinates['x'];
+    let yCoor = coordinates['y'];
+    vec1.push(xCoor);
+    vec1.push(yCoor);
+    // console.log(vec1);
+  }
+
+  // vec1 = array1;
+  // console.log(vec1)
+
+  // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
+  // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
+  minX = Number.MAX_VALUE
+  minY = Number.MAX_VALUE
+  for (i = 0; i < 33; i += 2) {
+    // console.log(minX)
+    currentX = vec1[i];
+    // console.log(currentX)
+    if (currentX < minX) {
+      minX = currentX;
     }
-  ]
+    // console.log(i);
+  }
+  for (i = 1; i < 34; i += 2) {
+    // console.log(minY)
+    currentY = vec1[i];
+    // console.log(currentY)
+    if (currentY < minY) {
+      minY = currentY;
+    }
+    // console.log(i);
+  }
+  for (i = 0; i < 33; i += 2) {
+    vec1[i] -= minX;
+  }
+  for (i = 1; i < 34; i += 2) {
+    vec1[i] -= minY;
+  }
+
+  // console.log(vec1)
+
+  // Conduct L2 Vector Normalization
+
+  let squaredSum = 0
+  for (i = 0; i < 34; i++) {
+    squaredSum += Math.pow(vec1[i], 2)
+  }
+  // console.log(squaredSum)
+
+  let normalizedCoefficient = Math.sqrt(squaredSum)
+  // console.log(normalizedCoefficient)
+
+  for (i = 0; i < 34; i++) {
+    vec1[i] /= normalizedCoefficient
+  }
+
+  // console.log(vec1)
+
+
+  // Finish by adding the other values needed in the vector
+  let total_confidence1 = 0;
+  for (keypoint in poseNet1["keypoints"]) {
+    let confidence = poseNet1["keypoints"][keypoint]["score"];
+    // console.log(total_confidence1);
+    vec1.push(confidence);
+    total_confidence1 += confidence;
+  }
+  vec1.push(total_confidence1);
+  return vec1;
+}
+
+// poseVector1 and poseVector2 are 52-float vectors composed of:
+// Values 0-33: are x,y coordinates for 17 body parts in alphabetical order
+// Values 34-51: are confidence values for each of the 17 body parts in alphabetical order
+// Value 51: A sum of all the confidence values
+// Again the lower the number, the closer the distance
+function weightedDistanceMatching(poseVector1, poseVector2) {
+  let vector1PoseXY = poseVector1.slice(0, 34);
+  let vector1Confidences = poseVector1.slice(34, 51);
+  let vector1ConfidenceSum = poseVector1.slice(51, 52);
+
+  let vector2PoseXY = poseVector2.slice(0, 34);
+
+  // First summation
+  let summation1 = 1 / vector1ConfidenceSum;
+
+  // Second summation
+  let summation2 = 0;
+  for (let i = 0; i < vector1PoseXY.length; i++) {
+    let tempConf = Math.floor(i / 2);
+    let tempSum = vector1Confidences[tempConf] * Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
+    summation2 = summation2 + tempSum;
+  }
+  // console.log(summation1)
+  // console.log(summation2)
+  return 1 - summation1 * summation2;
 }
