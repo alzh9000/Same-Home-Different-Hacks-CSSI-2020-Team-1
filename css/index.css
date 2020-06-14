@@ -22,9 +22,6 @@ body {
 .pointer{
   cursor: pointer;
 }
-.text{
-  cursor: default;
-}
 button {
   --block-shadow-color: var(--black);
 }

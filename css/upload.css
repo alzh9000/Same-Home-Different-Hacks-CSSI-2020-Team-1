@@ -29,7 +29,6 @@ body {
   cursor: pointer;
 }
 .text{
-  cursor: default;
 }
 .inputfile {
   width: 0.1px;
