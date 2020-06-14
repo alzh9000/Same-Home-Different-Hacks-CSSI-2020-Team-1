@@ -35,12 +35,13 @@ $(document).ready(function () {
     });
     document.getElementById("name").innerHTML = name;
 
-    var video = document.getElementById('vid');
-    console.log(video);
-    var source = document.createElement('source');
-    source.setAttribute('src', videourl);
-    video.appendChild(source);
-    video.play();
+    // var video = document.getElementById('vid');
+    // var source = document.createElement('source');
+    // source.setAttribute("src", videourl);
+    // console.log(source);
+
+    // video.appendChild(source);
+    // video.play();
 
 
 
