@@ -1,4 +1,4 @@
-# Same Home Different Hacks: Daince
+# Same Home Different Hacks: DAInce
 Submitted for the "Educational" track. It also can be considered for the "Best use of Google Cloud" since it uses Firebase and "Best Domain Name".
 
 ### Check it out at http://daince.tech and https://devpost.com/software/same-home-different-hacks-cssi-2020-team-1.  and https://youtu.be/M2PPPX7IPhw
