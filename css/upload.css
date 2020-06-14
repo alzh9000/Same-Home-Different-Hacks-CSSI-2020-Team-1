@@ -75,7 +75,6 @@ label#title-label {
   transform: translateY(-4px);
 }
 
-
 button {
   --block-shadow-color: var(--black);
 }
@@ -132,7 +131,6 @@ input#title:focus {
   background-color: var(--orange);
 }
 
-
 div.timestamps textarea{
   height: 100px;
   width: 100%;
@@ -158,6 +156,7 @@ button#x-button {
   width: 100%;
   display: none;
 }
+
 @media only screen and (max-width: 600px) {
   div.container {
     width: 400px;

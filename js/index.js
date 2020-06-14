@@ -14,6 +14,7 @@ function checkIfLoggedIn(){
 
 $(document).ready(function() {
   checkIfLoggedIn();
+  $("div#tag").hide();
 
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
   getVideos();
@@ -21,15 +22,6 @@ $(document).ready(function() {
   //header buttons//
   $("#search-input").on('keyup', function() {
     searchAndFilter($(this).val());
-  });
-
-  $("button.video").mouseover(function(e){
-    $("#tag").show();
-    $("#tag").html(e.currentTarget.value);
-  });
-
-  $("button.video").mouseleave(function(){
-    $("#tag").hide();
   });
 
 });
@@ -54,9 +46,11 @@ function searchAndFilter(searchTerm) {
       $("#no-results").hide();
     });
   } else {
+    let results = 0;
     $("button.video").each(function() {
       if($(this).attr('value').toLowerCase().includes(searchTerm)) {
         $(this).show();
+        results++;
         if(!$(".videos").is(":visible")){
           $(".videos").show();
         }
@@ -65,34 +59,46 @@ function searchAndFilter(searchTerm) {
         $(this).hide();
       }
     });
+    if(results==0) $("#no-results").show();
+    else $("#no-results").hide();
   }
 }
 
-//ADD STUFF LATER//
 function getVideos(){
-  generateVideo('Daince', 'assets/daince-art.png', 'daince logo');
-  generateVideo('wave', 'assets/wave.png', 'teaching the wave');
-
   Videos.list().then(function(e) {
     let videosArray = e.data;
-    console.log(e);
     for(let i=0;i < videosArray.length; i++) {
       generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
+    $("#loading").hide();
   });
+}
+
+function setTag(e){
+  $("div#tag").show();
+  $("div#tag").html(e.value);
+}
+
+function hideTag(){
+  $("div#tag").hide();
 }
 
 function generateVideo(id, thumb, name){
   let parent = document.getElementById('video-parent');
   let video = document.createElement('button');
   parent.appendChild(video);
-  video.setAttribute("id", id);
+
   video.setAttribute("value", name);
+  video.setAttribute("onmouseover", "setTag(this)");
+  video.setAttribute("onmouseleave", "hideTag()");
   video.setAttribute("class", "wrapper block video");
+  video.setAttribute("id", id);
 
   let videoImage = document.createElement('img');
   video.appendChild(videoImage);
-  videoImage.setAttribute("src", thumb); //CHECK THIS LATER
+  Videos.thumbnail(thumb).then(function(e){
+    videoImage.setAttribute("src", e);
+  });
 
   video.addEventListener('click', function(){
     localStorage.setItem('id', id);

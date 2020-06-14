@@ -42,16 +42,26 @@ div.header img#icon {
   width: 130px;
 }
 
-#tag {
+div#tag {
   z-index: 2;
   position: absolute;
   font-size: 10px;
   padding: 5px 10px;
+  display: block;
+}
+
+h1#no-results {
   display: none;
+  font-size: 20px;
+}
+
+h1#loading {
+  font-size: 20px;
 }
 
 div.main input[type=text] {
   width: 75%;
+  cursor: pointer;
 }
 
 div.header button#icon-button {
