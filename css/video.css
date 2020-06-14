@@ -58,9 +58,13 @@ div.header {
 
 #webcam-canvas {
     position: absolute;
-    margin-top: 500px;
+    margin-top: 450px;
+    pointer-events: none;
+
 }
 
 #video-canvas {
     position: absolute;
+    pointer-events: none;
+
 }

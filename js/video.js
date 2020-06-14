@@ -26,6 +26,9 @@ var webcamcanvas;
 var webcamctx;
 
 $(document).ready(function () {
+    var songname = "The Testing Song";
+    localStorage.setItem('songname', songname);
+
     color = 'aqua';
     // webcam & video canvas setup
     webcamcanvas = document.getElementById('webcam-canvas');
@@ -33,13 +36,14 @@ $(document).ready(function () {
     webcamctx = webcamcanvas.getContext('2d');
     webcamctx.fillStyle = 'rgba(0, 200, 0, 0.6)';
     webcamctx.fillRect(0, 0, webcamcanvas.width, webcamcanvas.height);
-    console.log(webcamctx);
-
+    6
     videocanvas = document.getElementById('video-canvas');
     videocanvas.style.zIndex = 3;
     ctx = videocanvas.getContext('2d');
     ctx.fillStyle = 'rgba(200, 0, 0, 0.6)';
     ctx.fillRect(0, 0, videocanvas.width, videocanvas.height);
+
+    setInterval(clearPoints, 400);
 
     loadPosenet();
 
@@ -124,7 +128,10 @@ $(document).ready(function () {
 
     check();
 
+
 });
+
+
 
 var check = function () {
     if (fileread === true) {
@@ -257,37 +264,46 @@ function take_snapshot() {
         phot.setAttribute('height', '360px');
         posenetImg(phot);
     });
-    setTimeout(take_snapshot, 1000);
+    setTimeout(take_snapshot, 200);
 }
 
 /**
  * DRAWING FUNCTIONS
  */
 
+function clearPoints() {
+    ctx.clearRect(0, 0, videocanvas.width, videocanvas.height);
+    webcamctx.clearRect(0, 0, webcamcanvas.width, webcamcanvas.height);
+}
+
 function drawPoint(y, x, r, color, canvasctx) {
+    //ctx.clearRect(0, 0, videocanvas.width, videocanvas.height);
+    //webcamctx.clearRect(0, 0, webcamcanvas.width, webcamcanvas.height);
     canvasctx.beginPath();
     canvasctx.arc(x, y, r, 0, 2 * Math.PI);
     canvasctx.fillStyle = color;
+
     canvasctx.fill();
 }
 
 function drawKeypoints(keypoints, canvasctx, scale = 1) {
     for (let i = 0; i < keypoints.length; i++) {
+        // setTimeout(ctx.clearRect(0, 0, videocanvas.width, videocanvas.height), 200);
+        // setTimeout(webcamctx.clearRect(0, 0, webcamcanvas.width, webcamcanvas.height), 200);
+
         const keypoint = keypoints[i];
-        // 0.5 is the min part confidence
+        // 0.7 is the min part confidence
         if (keypoint.score < 0.7) {
             continue;
         }
         const {
-            //reflect y somehow
             y,
             x
         } = keypoint.position;
-        //(webcamcanvas.width - x)
         drawPoint(y * scale, (webcamcanvas.width - x) * scale, 3, color, canvasctx);
+
     }
 }
-
 
 var result;
 
@@ -302,6 +318,8 @@ function posenetImg(inputimg) {
             var slide = Math.round(video.currentTime() / 0.2);
             if (slide === poses.length) slide--;
             drawKeypoints(pose["keypoints"], webcamctx);
+            drawKeypoints(poses[Math.round(video.currentTime() / 0.2)]["keypoints"], ctx);
+
             var result = compPoseNet(pose, poses[slide]);
             //console.log(result);
             document.getElementById("score").innerHTML = result;
