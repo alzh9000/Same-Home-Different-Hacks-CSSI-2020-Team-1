@@ -59,7 +59,7 @@ function getScores(){
 
         Videos.read(key).then(function(f){
           date = {
-            label: f.video_name,
+            label: f.data.name,
             backgroundColor: c,
             data: scores[key]
           };
