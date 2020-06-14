@@ -23,13 +23,13 @@ body {
   padding-bottom: 50px;
 }
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: default;
 }
 .pointer{
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 .text{
-  cursor: url(../assets/text.png), auto;
+  cursor: default;
 }
 .inputfile {
   width: 0.1px;
@@ -40,6 +40,10 @@ body {
   z-index: -1;
 }
 
+label#title-label {
+  border: none;
+}
+
 .inputfile+label, #ok-button {
   font-size: 14px;
   font-weight: 700;
@@ -47,7 +51,7 @@ body {
   background-color: var(--background);
   border: 2px solid var(--black);
   padding: 10px 20px;
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
   transition: 0.3s;
 }
 
@@ -91,13 +95,6 @@ div.upload{
     transform: scale(1.01);
 }
 }
-div.upload:hover{
-  animation-direction: alternate;
-  animation-duration: 0.5s;
-  animation-iteration-count: infinite;
-  animation-name: pulse-grow;
-  animation-timing-function: linear;
-}
 
 div.upload p {
   margin-left: 10px;
@@ -114,7 +111,7 @@ div.timestamps {
   margin-top: 40px;
 }
 
-div.timestamps textarea {
+div.timestamps textarea, input#title{
   resize: none;
   margin-top: -7px;
   background-color: var(--background);
@@ -128,6 +125,13 @@ div.timestamps textarea:focus {
   outline: none;
   background-color: var(--yellow);
 }
+
+input#title:focus {
+  border-radius: 0px;
+  outline: none;
+  background-color: var(--orange);
+}
+
 
 div.timestamps textarea{
   height: 100px;
@@ -148,7 +152,7 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-  cursor: url(../assets/pointer.png), auto !important;
+  cursor: pointer;
 }
 .video{
   width: 100%;

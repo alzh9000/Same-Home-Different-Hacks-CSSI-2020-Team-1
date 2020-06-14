@@ -6,7 +6,15 @@ function goUpload() {
   window.location.href = "upload.html";
 }
 
+function checkIfLoggedIn(){
+  Authentication.self().then(function(e){
+    if(e.reason==="unauthorized") window.location.href = "login.html";
+  });
+}
+
 $(document).ready(function() {
+  checkIfLoggedIn();
+
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
   getVideos();
 

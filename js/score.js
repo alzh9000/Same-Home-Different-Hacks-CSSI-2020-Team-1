@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  initChart(localStorage.getItem('score'));
+  let score = localStorage.getItem('score') || '00';
+  initChart(score);
 });
 
 let red = 'rgb(231, 111, 081)';
@@ -50,6 +51,13 @@ function initChart(score) {
   else if (score > 60) data = [20, 20, score - 40, 0, 100 - score];
   else if (score > 40) data = [20, score - 20, 0, 0, 100 - score];
   else data = [score, 0, 0, 0, 100 - score];
+
+  let songName = localStorage.getItem('songname') || 'No song selected.';
+  let description = songName + "<br><br>";
+  if(score > 90) description += "Wow, you've practically mastered it! Practice more to perfect this dance or take on a new challenge.";
+  else if (score > 75) description += "Great job! You're almost there. Practice more to bump up your score."
+  else description += "Nice try! Practice more to improve your score."
+  $("#score-description").html(description);
 
   let scoreChart = new Chart(ctx, {
     type: 'doughnut',
