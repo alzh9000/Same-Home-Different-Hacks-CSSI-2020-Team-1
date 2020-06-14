@@ -5,7 +5,13 @@ const admin = require("firebase-admin");
 
 // week long token lifetime
 const expiresIn = 60 * 60 * 24 * 7 * 1000;
-const options = { maxAge: expiresIn, httpOnly: true, secure: false, sameSite: "none" };
+const options = {
+    maxAge: expiresIn,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    domain: "us-central1-daince-b612d.cloudfunctions.net"
+};
 
 // Create a session token for a user
 router.get("/session", (req, res) => {

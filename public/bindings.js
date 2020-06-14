@@ -95,6 +95,11 @@ class Videos {
     static async delete(id) {
         return await sendRequest("DELETE", `/videos/${id}`);
     }
+
+    // Retrieve the thumbnail for a video
+    static async thumbnail(path) {
+        return await firebase.storage().ref().child(path).getDownloadURL();
+    }
 }
 
 class Scores {
