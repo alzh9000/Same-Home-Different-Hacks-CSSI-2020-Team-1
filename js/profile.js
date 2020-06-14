@@ -8,18 +8,8 @@ let myChart, today, lastSevenDays;
 $(document).ready(function() {
   initChart();
   initProfile();
-  addData();
+  getScores();
 });
-
-function addData() {
-  data = {
-    label: 'Rssssssss',
-    backgroundColor: black,
-    data: [22, 34, 0, 24, 0, 0, 0, 0, 42, 0, 0]
-  };
-  myChart.data.datasets.push(data);
-  myChart.update();
-}
 
 function goHome() {
   window.location.href = "index.html";
@@ -104,7 +94,7 @@ function initChart() {
       type: 'bar',
       data: {
         labels: getlastSevenDays(),
-        datasets: [{
+        datasets: [/*{
           label: 'Rick Astley - Never Gonna Give You Up',
           backgroundColor: red,
           data: [98, 37, 0, 0, 0, 0, 0],
@@ -120,7 +110,7 @@ function initChart() {
           label: 'Big Time Rush - Big Time Rush',
           backgroundColor: green,
           data: [0, 0, 0, 0, 0, 0, 0],
-        }]
+        }*/]
       },
       options: {
         title: {
