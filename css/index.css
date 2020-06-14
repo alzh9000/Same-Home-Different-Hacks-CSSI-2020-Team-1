@@ -17,7 +17,7 @@ body {
 }
 
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: url(../assets/cursor.png), auto;
 }
 button {
   --block-shadow-color: var(--black);
@@ -83,7 +83,7 @@ div.search {
   width: 42px;
   height: 48px;
   border: none;
-  background-color: var(--background);
+  background-color: transparent;
 }
 
 #s-circle {
@@ -180,6 +180,7 @@ div.main input:focus {
 
 div.videos {
   margin-left: 26px;
+  min-height: 100px; 
 }
 
 div.main input:hover {
@@ -197,6 +198,37 @@ div.main input:hover {
 .logo:hover{
   transform: scale(1.1);
   transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36)
+}
+
+.bob-animation {
+  object-fit: contain;
+  animation-delay: 0s, 0.3s;
+  animation-direction: normal, alternate;
+  animation-duration: 0.3s, 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1, infinite;
+  animation-name: bob, bob-float;
+  animation-timing-function: ease-out, ease-in-out;
+}
+
+@keyframes bob {
+  0% {
+    transform: translateY(-1px);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes bob-float {
+  100% {
+    transform: translateY(-4px);
+  }
 }
 @media only screen and (max-width: 749px) {
   body {

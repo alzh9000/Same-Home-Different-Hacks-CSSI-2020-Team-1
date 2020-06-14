@@ -14,7 +14,7 @@ async function loadPosenet() {
 
 
 //video player
-var start, end, video;
+var start, end, video, poses, fileread;
 var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
@@ -88,26 +88,39 @@ $(document).ready(function () {
 
 
     // READ TEST FILE //
-    var stringData = $.ajax({
-        url: "dance posenet.txt",
-        async: false
-    }).responseText;
-    var poses = JSON.parse(stringData);
-
-
-    Webcam.set({
-        width: 640,
-        height: 480,
-        image_format: 'jpeg',
-        jpeg_quality: 90,
-        flip_horiz: true
-    });
-    Webcam.attach('#webcam');
-    Webcam.on('live', function () {
-        take_snapshot();
-    });
-
+    fileread = false;
+    if (fileread === false) {
+        var stringData = $.ajax({
+            url: "dance posenet.txt",
+            async: false
+        }).responseText;
+        poses = JSON.parse(stringData);
+        console.log(poses);
+        fileread = true;
+    }
+    
+    check();
+    
 });
+
+var check = function(){
+    if (fileread === true) {
+        Webcam.set({
+            width: 640,
+            height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            flip_horiz: true
+        });
+        Webcam.attach('#webcam');
+        Webcam.on('live', function () {
+            take_snapshot();
+        });
+    } 
+    else {
+        setTimeout(check, 1000); 
+    }
+}
 
 // convert timestamp to seconds
 function stamp2sec(stamp) {
@@ -230,8 +243,9 @@ function posenetImg(inputimg) {
         net.estimateSinglePose(inputimg, {
             flipHorizontal: true
         }).then(function (pose) {
-            //console.log(pose);
-            //console.log(poses[Math.round(video.currentTime() / 0.2)]);
+            // console.log(pose);
+            // console.log(poses[Math.round(video.currentTime() / 0.2)]);
+            console.log(compPoseNet(pose, poses[Math.round(video.currentTime() / 0.2)]));
         });
     })
 }
