@@ -10,10 +10,10 @@
   --black: rgb(38, 70, 83);
 }
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: default;
 }
 .pointer{
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 body {
   background-color: var(--green);
@@ -42,7 +42,7 @@ div.header {
 
 div.header img#icon {
   width: 140px;
-cursor: url(../assets/cursor.png), auto
+  cursor: default;
 }
 
 div.header-info{
@@ -80,7 +80,7 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 .bob-animation {
   object-fit: contain;

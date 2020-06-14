@@ -18,10 +18,10 @@ body {
   padding-bottom: 50px;
 }
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: default;
 }
 .pointer{
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 button {
   --block-shadow-color: var(--black);
@@ -57,14 +57,14 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 
 button#ok-button {
   margin: auto;
   margin-top: 20px;
   padding: 10px 40px;
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 
 h1#score-text {

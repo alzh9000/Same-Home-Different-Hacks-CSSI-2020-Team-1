@@ -22,10 +22,10 @@ body {
   overflow: hidden;
 }
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: default;
 }
 .pointer{
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 div.container {
   display: absolute;

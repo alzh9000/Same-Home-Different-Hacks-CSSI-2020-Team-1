@@ -23,13 +23,13 @@ body {
   padding-bottom: 50px;
 }
 .cursor{
-  cursor: url(../assets/cursor.png), auto !important;
+  cursor: default;
 }
 .pointer{
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
 }
 .text{
-  cursor: url(../assets/text.png), auto;
+  cursor: default;
 }
 .inputfile {
   width: 0.1px;
@@ -51,7 +51,7 @@ label#title-label {
   background-color: var(--background);
   border: 2px solid var(--black);
   padding: 10px 20px;
-  cursor: url(../assets/pointer.png), auto;
+  cursor: pointer;
   transition: 0.3s;
 }
 
@@ -152,7 +152,7 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
-  cursor: url(../assets/pointer.png), auto !important;
+  cursor: pointer;
 }
 .video{
   width: 100%;
