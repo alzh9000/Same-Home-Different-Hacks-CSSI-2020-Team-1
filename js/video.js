@@ -24,8 +24,31 @@ var videocanvas;
 var ctx;
 var webcamcanvas;
 var webcamctx;
+var videourl;
+var name;
 
 $(document).ready(function () {
+    let id = localStorage.getItem('id');
+    Videos.read(id).then(function (e) {
+        name = e.data.name; //gets name
+        videourl = e.data.url; //gets url
+    });
+    document.getElementById("name").innerHTML = name;
+
+    var video = document.getElementById('vid');
+    console.log(video);
+    var source = document.createElement('source');
+    source.setAttribute('src', videourl);
+    video.appendChild(source);
+    video.play();
+
+
+
+
+
+
+
+
     var songname = "The Testing Song";
     localStorage.setItem('songname', songname);
 
