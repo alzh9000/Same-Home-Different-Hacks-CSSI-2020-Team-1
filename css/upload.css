@@ -22,7 +22,9 @@ body {
   padding-top: 30px;
   padding-bottom: 50px;
 }
-
+.cursor{
+  cursor: url(../assets/cursor.png), auto !important;
+}
 .inputfile {
   width: 0.1px;
   height: 0.1px;

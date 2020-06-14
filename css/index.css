@@ -16,6 +16,9 @@ body {
   color: var(--black);
 }
 
+.cursor{
+  cursor: url(../assets/cursor.png), auto !important;
+}
 button {
   --block-shadow-color: var(--black);
 }

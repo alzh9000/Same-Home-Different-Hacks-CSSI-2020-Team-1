@@ -9,7 +9,9 @@
   --green: rgb(042, 157, 143);
   --black: rgb(38, 70, 83);
 }
-
+.cursor{
+  cursor: url(../assets/cursor.png), auto !important;
+}
 body {
   background-color: var(--green);
   font-family: 'Montserrat';
