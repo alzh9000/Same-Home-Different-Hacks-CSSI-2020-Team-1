@@ -3,6 +3,10 @@ $(document).ready(function() {
   initProfile();
 });
 
+function goHome() {
+  window.location.href = "index.html";
+}
+
 let red = 'rgb(231, 111, 081)';
 let orange = 'rgb(244, 162, 097)';
 let yellow = 'rgb(233, 196, 106)';
@@ -20,30 +24,48 @@ function getFirstWord(string){
   return firstWord;
 }
 
+function getLastTenDays(){
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  today = mm + '/' + dd;
+
+  let labels = [];
+  for (let i=11; i > -1; i--){
+    let thisDate = new Date();
+    thisDate.setDate(thisDate.getDate()-i);
+    let thisDD = String(thisDate.getDate()).padStart(2, '0');
+    let thisMM = String(thisDate.getMonth() + 1).padStart(2, '0');
+    labels.push(thisMM + '/' + thisDD);
+  }
+  return labels;
+}
+
 function initChart() {
   Chart.defaults.global.defaultFontSize = 16
   Chart.defaults.global.defaultFontColor = '#264653'
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
+  let ctx = document.getElementById('myChart').getContext('2d');
+
+  let myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ["06/04/19", "06/05/19", "06/06/19", "06/07/19", "06/08/19", "06/09/19", "06/10/19", "06/11/19", "06/12/19"],
+        labels: getLastTenDays(),
         datasets: [{
           label: 'Rick Astley - Never Gonna Give You Up',
           backgroundColor: red,
-          data: [98, 37, 0, 0, 0, 0, 0, 0, 0],
+          data: [98, 37, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         }, {
           label: 'Darude - Sandstorm',
           backgroundColor: orange,
-          data: [30, 70, 75, 90, 0, 0, 0, 0, 0],
+          data: [30, 70, 75, 90, 0, 0, 0, 0, 0, 0, 0],
         }, {
           label: 'All Star - Smash Mouth',
           backgroundColor: yellow,
-          data: [0, 0, 0, 0, 58, 80, 87, 0, 51],
+          data: [0, 0, 0, 0, 58, 80, 87, 0, 51, 0, 0],
         }, {
           label: 'Big Time Rush - Big Time Rush',
           backgroundColor: green,
-          data: [0, 0, 0, 0, 0, 0, 0, 12, 74],
+          data: [0, 0, 0, 0, 0, 0, 0, 12, 54, 80, 0],
         }]
       },
       options: {
@@ -73,8 +95,4 @@ function initChart() {
         }
     }
   });
-}
-
-function goHome() {
-  window.location.href = "index.html";
 }

@@ -88,7 +88,7 @@ div.search {
   width: 42px;
   height: 48px;
   border: none;
-  background-color: transparent;
+  background-color: var(--background);
 }
 
 #s-circle {
@@ -185,7 +185,6 @@ div.main input:focus {
 
 div.videos {
   margin-left: 26px;
-  min-height: 100px;
 }
 
 div.main input:hover {
@@ -226,7 +225,7 @@ div.main input:hover {
   }
 
   div.videos img {
-    width: 320px; 
+    width: 320px;
     height: 150px;
     object-fit: contain;
   }

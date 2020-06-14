@@ -105,11 +105,9 @@ function stamp2sec(stamp) {
     return parseInt(stamp.slice(0, 2)) * 60 + parseInt(stamp.slice(3));
 }
 
+var frames = [];
 
 // MOVED TO UPLOAD
-
-// var frames = [];
-
 // // extract frames from video
 // function getVideoImage(path, secs, callback) {
 //     var me = this,
@@ -173,18 +171,18 @@ function stamp2sec(stamp) {
 
 // function applyPosenet() {
 
-//     var currentFrame = 0;
+//     var i = 0;
 
 //     // single pose
 //     var flipHorizontal = false;
-//     while (currentFrame <= frames.length) {
+//     while (i <= frames.length) {
 //         posenet.load().then(function (net) {
 //             var img = new Image();
 //             img.onload = function () {
 
 //             };
 
-//             img.setAttribute('src', frames[currentFrame].src);
+//             img.setAttribute('src', frames[i].src);
 //             img.setAttribute('width', '640px');
 //             img.setAttribute('height', '360px');
 
@@ -198,7 +196,7 @@ function stamp2sec(stamp) {
 //                 });
 
 //         });
-//         currentFrame++;
+//         i++;
 //     }
 
 // }

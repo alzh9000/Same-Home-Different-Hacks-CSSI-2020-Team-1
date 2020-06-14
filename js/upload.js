@@ -1,19 +1,12 @@
-var fileUrl;
 $(document).ready(function () {
-  //$("#vidiv").hide();
   $('#file').change(function (e) {
-    var fileInput = document.getElementById('file');
-    fileUrl = window.URL.createObjectURL(fileInput.files[0]);
     $('#file-label').html(getfileName(e.currentTarget.value));
-    $("#vidiv").attr("src", fileUrl);
-    console.log(fileUrl);
   });
   loadPosenet();
-
-
+  showImageAt(0);
 
   $('#ok-button').click(function () {
-    showImageAt(0);
+
   });
 });
 
@@ -33,8 +26,8 @@ async function loadPosenet() {
   });
 }
 
-var frames = [];
-
+// https://cwestblog.com/2017/05/03/javascript-snippet-get-video-frame-as-an-image/
+// extract frames from video
 function getVideoImage(path, secs, callback) {
   var me = this,
     video = document.createElement('video');
@@ -61,11 +54,9 @@ function getVideoImage(path, secs, callback) {
   video.src = path;
 }
 
-var extract_complete = false;
-
 function showImageAt(secs) {
   getVideoImage(
-    fileUrl,
+    'testvid.mp4',
     function (totalTime) {
       duration = totalTime;
       return secs;
@@ -77,9 +68,9 @@ function showImageAt(secs) {
         frames.push(img);
         //li.appendChild(img);
         //document.getElementById('olFrames').appendChild(li);
-        if (duration >= (secs += 0.2)) {
+        if ((duration - 0.2) >= (secs += 0.2)) {
           showImageAt(secs);
-          console.log("working");
+          // console.log("working");
         } else {
           extract_complete = true;
           console.log('done working');
@@ -91,43 +82,39 @@ function showImageAt(secs) {
   );
 }
 
-
 var poses = [];
 
 function applyPosenet() {
   // execute after showImageAt(0) is completely done executing
   // const result = await showImageAt(0);
-  console.log(frames);
-
-  var currentFrame = 0;
+  // console.log(frames);
 
   // single pose
-  while (currentFrame <= frames.length) {
-    posenet.load().then(function (net) {
-      var img = new Image();
-      img.onload = function () {
+  for (var i = 0; i < frames.length; i++) {
+    // console.log(i);
 
-      };
+    var img = new Image();
+    img.onload = function () {
 
-      img.setAttribute('src', frames[currentFrame].src);
-      img.setAttribute('width', '640px');
-      img.setAttribute('height', '360px');
+    };
+    //console.log(i);
+    img.setAttribute('src', frames[i].src);
+    img.setAttribute('width', '640px');
+    img.setAttribute('height', '360px');
 
-      net.estimateSinglePose(img, {
-          flipHorizontal: true
-        }).then(function (pose) {
-          poses.push(pose);
-        })
-        .then(function (pose) {
-          console.log(currentFrame);
-        });
+    net.estimateSinglePose(img, {
+        flipHorizontal: true
+      }).then(function (pose) {
+        poses.push(pose);
+        //console.log(poses);
+      })
+      .then(function (pose) {
+        //console.log(i);
+      });
 
-    });
-    currentFrame++;
   }
-  console.log(poses);
-}
 
+}
 
 /* POSENET STUFF ENDS HERE */
 
