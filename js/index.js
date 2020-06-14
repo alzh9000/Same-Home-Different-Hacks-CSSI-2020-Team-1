@@ -6,7 +6,15 @@ function goUpload() {
   window.location.href = "upload.html";
 }
 
+function checkIfLoggedIn(){
+  Authentication.self().then(function(e){
+    if(e.reason==="unauthorized") window.location.href = "login.html";
+  });
+}
+
 $(document).ready(function() {
+  checkIfLoggedIn();
+
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
   getVideos();
 
@@ -25,6 +33,11 @@ $(document).ready(function() {
   });
 
 });
+
+function logout(){
+  Authentication.logout();
+  window.location.href = "login.html";
+}
 
 $(document).bind('mousemove', function(e) {
   $("#tag").css({
@@ -53,17 +66,16 @@ function searchAndFilter(searchTerm) {
       }
     });
   }
-
 }
-
 
 //ADD STUFF LATER//
 function getVideos(){
-  generateVideo('asjdfsfksd', 'assets/daince-art.png', 'daince logo');
-  generateVideo('jfiovkxvd', 'assets/sample-thumb-1.png', 'lofi beats to study/relax to');
+  generateVideo('Daince', 'assets/daince-art.png', 'daince logo');
+  generateVideo('wave', 'assets/wave.png', 'teaching the wave');
 
   Videos.list().then(function(e) {
-    videosArray = e.data;
+    let videosArray = e.data;
+    console.log(e);
     for(let i=0;i < videosArray.length; i++) {
       generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
@@ -83,6 +95,7 @@ function generateVideo(id, thumb, name){
   videoImage.setAttribute("src", thumb); //CHECK THIS LATER
 
   video.addEventListener('click', function(){
-    alert("you clicked on " + name);
+    localStorage.setItem('id', id);
+    window.location.href = "video.html";
   });
 }

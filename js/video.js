@@ -14,12 +14,33 @@ async function loadPosenet() {
 
 
 //video player
-var start, end, video;
+var start, end, video, poses, fileread, sumscores, sumframes;
+var record = false;
 var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
+var color;
+var videocanvas;
+var ctx;
+var webcamcanvas;
+var webcamctx;
 
 $(document).ready(function () {
+    color = 'aqua';
+    // webcam & video canvas setup
+    webcamcanvas = document.getElementById('webcam-canvas');
+    webcamcanvas.style.zIndex = 3;
+    webcamctx = webcamcanvas.getContext('2d');
+    webcamctx.fillStyle = 'rgba(0, 200, 0, 0.6)';
+    webcamctx.fillRect(0, 0, webcamcanvas.width, webcamcanvas.height);
+    console.log(webcamctx);
+
+    videocanvas = document.getElementById('video-canvas');
+    videocanvas.style.zIndex = 3;
+    ctx = videocanvas.getContext('2d');
+    ctx.fillStyle = 'rgba(200, 0, 0, 0.6)';
+    ctx.fillRect(0, 0, videocanvas.width, videocanvas.height);
+
     loadPosenet();
 
     var d = 10000;
@@ -74,9 +95,11 @@ $(document).ready(function () {
         });
     });
 
-    var record = false;
+    record = false;
     $("#rec").click(function () {
         record = true;
+        sumscores = 0;
+        sumframes = 0;
         video.ready(function () {
             this.abLoopPlugin.setStart(0).setEnd(d).togglePauseAfterLooping().playLoop();
         });
@@ -86,19 +109,40 @@ $(document).ready(function () {
         this.abLoopPlugin.setStart(start).setEnd(end).playLoop();
     });
 
-    Webcam.set({
-        width: 640,
-        height: 480,
-        image_format: 'jpeg',
-        jpeg_quality: 90,
-        flip_horiz: true
-    });
-    Webcam.attach('#webcam');
-    Webcam.on('live', function () {
-        take_snapshot();
-    });
+
+    // READ TEST FILE //
+    fileread = false;
+    if (fileread === false) {
+        var stringData = $.ajax({
+            url: "dance posenet.txt",
+            async: false
+        }).responseText;
+        poses = JSON.parse(stringData);
+        console.log(poses);
+        fileread = true;
+    }
+
+    check();
 
 });
+
+var check = function () {
+    if (fileread === true) {
+        Webcam.set({
+            width: 640,
+            height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            flip_horiz: true
+        });
+        Webcam.attach('#webcam');
+        Webcam.on('live', function () {
+            take_snapshot();
+        });
+    } else {
+        setTimeout(check, 1000);
+    }
+}
 
 // convert timestamp to seconds
 function stamp2sec(stamp) {
@@ -171,18 +215,18 @@ var frames = [];
 
 // function applyPosenet() {
 
-//     var currentFrame = 0;
+//     var i = 0;
 
 //     // single pose
 //     var flipHorizontal = false;
-//     while (currentFrame <= frames.length) {
+//     while (i <= frames.length) {
 //         posenet.load().then(function (net) {
 //             var img = new Image();
 //             img.onload = function () {
 
 //             };
 
-//             img.setAttribute('src', frames[currentFrame].src);
+//             img.setAttribute('src', frames[i].src);
 //             img.setAttribute('width', '640px');
 //             img.setAttribute('height', '360px');
 
@@ -196,7 +240,7 @@ var frames = [];
 //                 });
 
 //         });
-//         currentFrame++;
+//         i++;
 //     }
 
 // }
@@ -216,13 +260,184 @@ function take_snapshot() {
     setTimeout(take_snapshot, 1000);
 }
 
+/**
+ * DRAWING FUNCTIONS
+ */
+
+function drawPoint(y, x, r, color, canvasctx) {
+    canvasctx.beginPath();
+    canvasctx.arc(x, y, r, 0, 2 * Math.PI);
+    canvasctx.fillStyle = color;
+    canvasctx.fill();
+}
+
+function drawKeypoints(keypoints, canvasctx, scale = 1) {
+    for (let i = 0; i < keypoints.length; i++) {
+        const keypoint = keypoints[i];
+        // 0.5 is the min part confidence
+        if (keypoint.score < 0.7) {
+            continue;
+        }
+        const {
+            //reflect y somehow
+            y,
+            x
+        } = keypoint.position;
+        //(webcamcanvas.width - x)
+        drawPoint(y * scale, (webcamcanvas.width - x) * scale, 3, color, canvasctx);
+    }
+}
+
+
+var result;
+
 function posenetImg(inputimg) {
     posenet.load().then(function (net) {
         net.estimateSinglePose(inputimg, {
             flipHorizontal: true
         }).then(function (pose) {
-            //console.log(pose);
-            //console.log(poses[Math.round(video.currentTime() / 0.2)]);
+            // console.log(pose);
+            // console.log(poses[Math.round(video.currentTime() / 0.2)]);
+
+            var slide = Math.round(video.currentTime() / 0.2);
+            if (slide === poses.length) slide--;
+            drawKeypoints(pose["keypoints"], webcamctx);
+            var result = compPoseNet(pose, poses[slide]);
+            //console.log(result);
+            document.getElementById("score").innerHTML = result;
+            if (record === true && slide >= poses.length - 20) {
+                record = false;
+                sumscores /= sumframes;
+                localStorage.setItem('score', Math.round(sumscores * 100));
+                window.location = "score.html";
+                //console.log(sumscores);<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<SUMSCORES AT THIS POINT SHOULD BE THE RECORDED VALUE! PLEASE SEND THIS TO SCORE PAGE!!!!
+            } else if (record === false) {
+                //console.log(record);
+            } else {
+                //console.log(slide);
+                sumscores += result;
+                sumframes++;
+            }
         });
     })
+}
+
+
+
+
+// ALBERT's COMPARISON CODE BEGIN //
+function compPoseNet(poseNet1, poseNet2) {
+    let score = 2000
+    vec1 = vectorizePoseNet(poseNet1);
+    // console.log(vec1)
+    vec2 = vectorizePoseNet(poseNet2)
+    // console.log(vec2)
+    score = weightedDistanceMatching(vec1, vec2);
+    // console.log(score)
+    return score
+}
+
+function vectorizePoseNet(poseNet1) {
+    // Initialize the PoseNet vector as an empty arrays that we'll add to
+    let vec1 = new Array();
+
+    for (keypoint in poseNet1["keypoints"]) {
+        let coordinates = poseNet1["keypoints"][keypoint]["position"];
+        // console.log(coordinates);
+        let xCoor = coordinates['x'];
+        let yCoor = coordinates['y'];
+        vec1.push(xCoor);
+        vec1.push(yCoor);
+        // console.log(vec1);
+    }
+
+    // vec1 = array1;
+    // console.log(vec1)
+
+    // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
+    // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
+    minX = Number.MAX_VALUE
+    minY = Number.MAX_VALUE
+    for (i = 0; i < 33; i += 2) {
+        // console.log(minX)
+        currentX = vec1[i];
+        // console.log(currentX)
+        if (currentX < minX) {
+            minX = currentX;
+        }
+        // console.log(i);
+    }
+    for (i = 1; i < 34; i += 2) {
+        // console.log(minY)
+        currentY = vec1[i];
+        // console.log(currentY)
+        if (currentY < minY) {
+            minY = currentY;
+        }
+        // console.log(i);
+    }
+    for (i = 0; i < 33; i += 2) {
+        vec1[i] -= minX;
+    }
+    for (i = 1; i < 34; i += 2) {
+        vec1[i] -= minY;
+    }
+
+    // console.log(vec1)
+
+    // Conduct L2 Vector Normalization
+
+    let squaredSum = 0
+    for (i = 0; i < 34; i++) {
+        squaredSum += Math.pow(vec1[i], 2)
+    }
+    // console.log(squaredSum)
+
+    let normalizedCoefficient = Math.sqrt(squaredSum)
+    // console.log(normalizedCoefficient)
+
+    for (i = 0; i < 34; i++) {
+        vec1[i] /= normalizedCoefficient
+    }
+
+    // console.log(vec1)
+
+
+    // Finish by adding the other values needed in the vector
+    let total_confidence1 = 0;
+    for (keypoint in poseNet1["keypoints"]) {
+        let confidence = poseNet1["keypoints"][keypoint]["score"];
+        // console.log(total_confidence1);
+        vec1.push(confidence);
+        total_confidence1 += confidence;
+    }
+    vec1.push(total_confidence1);
+    return vec1;
+}
+
+// poseVector1 and poseVector2 are 52-float vectors composed of:
+// Values 0-33: are x,y coordinates for 17 body parts in alphabetical order
+// Values 34-51: are confidence values for each of the 17 body parts in alphabetical order
+// Value 51: A sum of all the confidence values
+// Again the lower the number, the closer the distance
+function weightedDistanceMatching(poseVector1, poseVector2) {
+    let vector1PoseXY = poseVector1.slice(0, 34);
+    let vector1Confidences = poseVector1.slice(34, 51);
+    let vector1ConfidenceSum = poseVector1.slice(51, 52);
+
+    let vector2PoseXY = poseVector2.slice(0, 34);
+
+    // First summation
+    let summation1 = 1 / vector1ConfidenceSum;
+
+    // Second summation
+    let summation2 = 0;
+    for (let i = 0; i < vector1PoseXY.length; i++) {
+        let tempConf = Math.floor(i / 2);
+        let tempSum = vector1Confidences[tempConf] * Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
+        summation2 = summation2 + tempSum;
+    }
+    // console.log(summation1)
+    // console.log(summation2)
+    return 1 - summation1 * summation2;
 }

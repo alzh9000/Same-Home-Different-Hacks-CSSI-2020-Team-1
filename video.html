@@ -21,26 +21,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
   <script src="public/bindings.js"></script>
   <script src="js/video.js"></script>
-
-
+  <link rel="stylesheet" href="https://unpkg.com/blocks.css/dist/blocks.min.css" />
 </head>
 
 <body>
+  <div class="container card fixed block cursor">
+    <canvas id="video-canvas" width="640" height="360"></canvas>
+    <canvas id="webcam-canvas" width="640" height="480"></canvas>
 
-  <video width="640px" height="360px" id="vid" controls="controls" class="video-js"
-    data-setup='{ "playbackRates": [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2] }'>
-    <source src="testvid.mp4">
-  </video>
-  <button id="prev" type="button">Previous Section</button>
-  <button id="next" type="button">Next Section</button>
-  <button id="rec" type="button">Record</button>
+    <video width="640px" height="360px" id="vid" controls="controls" class="video-js"
+      data-setup='{ "playbackRates": [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2] }'>
+      <source src="testvid.mp4">
+    </video>
+    <div class="all-settings">
+      <div class="settings">
+        <button id="prev" type="button" class="block">Previous Section</button>
+        <button id="next" type="button" class="block">Next Section</button>
+      </div>
+      <button id="rec" type="button" class="block">Record</button>
+    </div>
+    <!-- <p id="progress"></p> -->
+    <!-- <ol id="olFrames"></ol> -->
 
-  <button type="button" onclick="applyPosenet()">Run Posenet</button>
-  <!-- <p id="progress"></p> -->
-  <!-- <ol id="olFrames"></ol> -->
-
-  <div id="webcam">
-    <video autoplay="true" id="videoElement"></video>
+    <div id="webcam">
+      <video autoplay="true" id="videoElement"></video>
+    </div>
+    <div id="score">
+    </div>
   </div>
 
 </body>
