@@ -14,16 +14,21 @@ body {
   background-color: var(--green);
   font-family: 'Montserrat';
   color: var(--black);
-  padding-top: 30px;
-  padding-bottom: 50px;
+  height: 100vh;
   transform: scale(0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
-
+.cursor{
+  cursor: url(../assets/cursor.png), auto !important;
+}
+.pointer{
+  cursor: url(../assets/pointer.png), auto;
+}
 div.container {
   display: absolute;
-  margin: 0 auto;
-  width: 1000px;
-  padding: 30px 30px;
   --block-background-color: var(--background);
 }
 
@@ -79,7 +84,7 @@ p {
   }
 }
 
-@media only screen and (min-width: 901px) {
+@media only screen and (min-width: 601px) {
   .dancing-person {
     display: block;
   }
@@ -97,7 +102,11 @@ p {
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
+  .container{
+    height: 100vh;
+
+  }
   .dancing-person {
     display: flex;
     justify-content: center;
@@ -105,7 +114,6 @@ p {
 
   #dancing-person {
     width: 200px;
-    display: block;
   }
 
   .logo {
@@ -114,18 +122,17 @@ p {
 
   div.header {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
   }
 
   div.side-left {
-    align-items: left;
-    height: 40px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
 
-  div.side-left {
-    align-items: right;
-    height: 40px;
+  div.right-left {
+padding: 5%;
   }
 }

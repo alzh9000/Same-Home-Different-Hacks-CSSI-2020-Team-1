@@ -25,6 +25,12 @@ body {
 .cursor{
   cursor: url(../assets/cursor.png), auto !important;
 }
+.pointer{
+  cursor: url(../assets/pointer.png), auto;
+}
+.text{
+  cursor: url(../assets/text.png), auto;
+}
 .inputfile {
   width: 0.1px;
   height: 0.1px;
@@ -45,7 +51,7 @@ label#title-label {
   background-color: var(--background);
   border: 2px solid var(--black);
   padding: 10px 20px;
-  cursor: pointer;
+  cursor: url(../assets/pointer.png), auto;
   transition: 0.3s;
 }
 
@@ -146,6 +152,7 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
+  cursor: url(../assets/pointer.png), auto !important;
 }
 .video{
   width: 100%;
