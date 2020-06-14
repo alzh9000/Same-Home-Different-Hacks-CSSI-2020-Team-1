@@ -19,6 +19,12 @@ body {
 .cursor{
   cursor: url(../assets/cursor.png), auto !important;
 }
+.pointer{
+  cursor: url(../assets/pointer.png), auto;
+}
+.text{
+  cursor: url(../assets/text.png), auto;
+}
 button {
   --block-shadow-color: var(--black);
 }
@@ -84,6 +90,7 @@ div.search {
   height: 48px;
   border: none;
   background-color: transparent;
+  cursor: url(../assets/cursor.png), auto;
 }
 
 #s-circle {
@@ -163,7 +170,6 @@ div.main input {
   border-bottom: 2px solid var(--green);
   font-family: 'Montserrat';
   transition: 0.3s;
-  cursor: pointer;
   height: 30px;
   padding: 10px 20px 5px;
   font-size: 24px;
@@ -181,6 +187,7 @@ div.main input:focus {
 div.videos {
   margin-left: 26px;
   min-height: 100px;
+  cursor: url(../assets/pointer.png), auto;
 }
 
 div.main input:hover {
@@ -283,6 +290,7 @@ div.main input:hover {
     float: right;
     padding: 10px 30px;
     font-size: 20px;
+    cursor: url(../assets/pointer.png), auto;
   }
 
   div.header button#logout-button {
@@ -292,6 +300,7 @@ div.main input:hover {
     font-size: 20px;
     margin-top: 10px;
     margin-left: -22px;
+    cursor: url(../assets/pointer.png), auto;
   }
 }
 
@@ -338,6 +347,7 @@ div.main input:hover {
     width: 270px;
     height: 152px;
     object-fit: contain;
+    cursor: url(../assets/pointer.png), auto;
   }
 
   div.header button#upload-button {
@@ -346,6 +356,7 @@ div.main input:hover {
     float: right;
     padding: 10px 40px;
     font-size: 20px;
+    cursor: url(../assets/pointer.png), auto;
   }
 
   div.header button#logout-button {
@@ -354,5 +365,6 @@ div.main input:hover {
     font-size: 20px;
     margin-top: 10px;
     margin-left: -14px;
+  cursor: url(../assets/pointer.png), auto;
   }
 }
