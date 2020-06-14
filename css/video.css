@@ -14,6 +14,8 @@ body {
     background-color: var(--green);
     font-family: 'Montserrat';
     color: var(--black);
+    padding-top: 30px;
+    padding-bottom: 50px;
 }
 
 div.all-settings button {
@@ -42,7 +44,7 @@ button.long-button {
 }
 
 div.container {
-    width: 800px;
+    width: 750px;
     display: absolute;
     margin: 0 auto;
     padding: 30px 50px;
