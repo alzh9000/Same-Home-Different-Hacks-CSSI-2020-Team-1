@@ -26,6 +26,11 @@ $(document).ready(function() {
 
 });
 
+function logout(){
+  Authentication.logout();
+  window.location.href = "login.html";
+}
+
 $(document).bind('mousemove', function(e) {
   $("#tag").css({
     left: e.pageX + 5,
@@ -62,6 +67,7 @@ function getVideos(){
 
   Videos.list().then(function(e) {
     let videosArray = e.data;
+    console.log(e);
     for(let i=0;i < videosArray.length; i++) {
       generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
