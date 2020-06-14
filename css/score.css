@@ -36,28 +36,6 @@ div.header {
   margin-top: 45px;
 }
 
-div.header img#icon {
-  width: 140px;
-}
-
-div.header-info {
-  margin: -110px 170px;
-  width: 200px;
-  line-height: 2px;
-}
-
-div.header-info h1 {
-  font-family: 'Sacramento';
-  color: var(--green);
-  font-size: 50px;
-}
-
-div.main button#upload-button {
-  padding: 10px 18px;
-  font-size: 16px;
-  font-family: 'Montserrat';
-}
-
 div.upload p {
   margin-left: 10px;
   display: inline-block;
@@ -133,7 +111,7 @@ img#deco-3:hover{
     margin: -1px 355px;
   }
   h1#score-text{
-    margin: -150px 90px;
+    margin: -150px 85px;
   }
   img#deco-3 {
     width: 280px;

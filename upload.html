@@ -28,9 +28,12 @@
     <div class="main">
       <form id="uploadform">
         <div class="upload ">
-          <input type="file" name="file" id="file" class="inputfile" accept="video/mp4,video/x-m4v,video/*" />
+          <input type="file" name="file" required id="file" class="inputfile" accept="video/mp4,video/x-m4v,video/*" />
           <label for="file"><i class="fa fa-upload" aria-hidden="true"></i> UPLOAD</label>
           <p id="file-label">No file selected.</p>
+          <br><br><br>
+          <label for="title" id="title-label">Title</label><br><br>
+          <input type="text" name="title" required minlength="4" maxlength="20" placeholder="(4-20 characters)" id="title">
         </div>
         <video controls  class="video" src="" id="vidiv"></video>
 

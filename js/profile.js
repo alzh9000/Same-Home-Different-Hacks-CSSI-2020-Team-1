@@ -9,7 +9,14 @@ $(document).ready(function() {
   initChart();
   initProfile();
   getScores();
+  checkIfLoggedIn();
 });
+
+function checkIfLoggedIn(){
+  Authentication.self().then(function(e){
+    if(e.reason==="unauthorized") window.location.href = "login.html";
+  });
+}
 
 function goHome() {
   window.location.href = "index.html";
