@@ -8,6 +8,15 @@ const common = require("./common");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
+const algolia = require("algoliasearch")(functions.config().algolia.app_id, functions.config().algolia.api_key);
+const videos_index = algolia.initIndex(functions.config().algolia.index);
+
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
+const spawn = require("child-process-promise").spawn;
+const ffmpeg_static = require("ffmpeg-static");
+
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
     admin.initializeApp({
@@ -26,12 +35,6 @@ app.use(cors({ origin: ["http://localhost:5000", "https://daince-b612d.web.app",
     .use((req, res, next) => {
         // Defer to header verification for session generation
         if (req.path === "/authentication/session") {
-            next();
-            return;
-        }
-
-        if (req.path.startsWith("/scores") || req.path.startsWith("/videos")) {
-            httpContext.set("uid", "LtiN0sE9hPQfD4tj5syIlWVzL4G2");
             next();
             return;
         }
@@ -69,3 +72,48 @@ exports.userSetup = functions.auth.user().onCreate(user => admin.firestore().col
     email: user.email
 }));
 
+// Add new videos to Algolia
+exports.addVideoToAlgolia = functions.firestore.document("videos/{videoId}").onCreate((snapshot) =>
+    videos_index.saveObject(snapshot.data(), { autoGenerateObjectIDIfNotExist: true })
+        .then(({ objectID }) => snapshot.ref.set({ objectID }, { merge: true }))
+        .catch(err => console.error(`failed to add video to Algolia: ${err}`)));
+
+// Delete videos from Algolia when document is removed
+exports.deleteVideoFromAlgolia = functions.firestore.document("videos/{videoId}").onDelete((snapshot) =>
+    videos_index.deleteObject(snapshot.data().objectID)
+        .catch(err => console.error(`failed to remove video from Algolia: ${err}`)));
+
+// Generate the thumbnail for an image
+exports.generateThumbnail = functions.firestore.document("videos/{videoId}").onCreate(async (snapshot) => {
+    // Get file paths
+    const filePath = snapshot.data().path;
+    const fileName = filePath.split("/")[1];
+    const targetFileName = fileName.replace(/\.[^/.]+$/, '') + "_thumb.png";
+    const tempFilePath = path.join(os.tmpdir(), fileName);
+    const targetTempFilePath = path.join(os.tmpdir(), targetFileName);
+
+    // Retrieve files from bucket
+    const bucket = admin.storage().bucket();
+    await bucket.file(filePath).download({ destination: tempFilePath });
+
+    // Generate image
+    let result = await spawn(ffmpeg_static, ["-i", tempFilePath, "-vf", "select=eq(n\\,0)", "-q:v", "3", targetTempFilePath]);
+    if (result.code !== 0) {
+        console.error("failed to generate thumbnail for video");
+        fs.unlinkSync(tempFilePath);
+        return;
+    }
+
+    // Upload file to storage
+    await bucket.upload(targetTempFilePath, {
+        destination: `${filePath.split('/')[0]}/${targetFileName}`,
+        metadata: { contentType: "image/png" }
+    });
+
+    // Delete temporary files
+    fs.unlinkSync(tempFilePath);
+    fs.unlinkSync(targetTempFilePath);
+
+    // Add thumbnail to object
+    await snapshot.ref.set({ thumbnail: `${filePath.split('/')[0]}/${targetFileName}` }, { merge: true });
+});
