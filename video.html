@@ -21,27 +21,27 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
   <script src="public/bindings.js"></script>
   <script src="js/video.js"></script>
-
-
+  <link rel="stylesheet" href="https://unpkg.com/blocks.css/dist/blocks.min.css" />
 </head>
 
 <body>
+  <div class="container card fixed block cursor">
+    <video width="640px" height="360px" id="vid" controls="controls" class="video-js"
+      data-setup='{ "playbackRates": [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2] }'>
+      <source src="testvid.mp4">
+    </video>
+    <button id="prev" type="button">Previous Section</button>
+    <button id="next" type="button">Next Section</button>
+    <button id="rec" type="button">Record</button>
+    <!-- <p id="progress"></p> -->
+    <!-- <ol id="olFrames"></ol> -->
 
-  <video width="640px" height="360px" id="vid" controls="controls" class="video-js"
-    data-setup='{ "playbackRates": [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2] }'>
-    <source src="testvid.mp4">
-  </video>
-  <button id="prev" type="button">Previous Section</button>
-  <button id="next" type="button">Next Section</button>
-  <button id="rec" type="button">Record</button>
-  <!-- <p id="progress"></p> -->
-  <!-- <ol id="olFrames"></ol> -->
-
-  <div id="webcam">
-    <video autoplay="true" id="videoElement"></video>
-  </div>
-  <div id="score">
-
+    <div id="webcam">
+      <canvas id="canvas" width="520" height="550"></canvas>
+      <video autoplay="true" id="videoElement"></video>
+    </div>
+    <div id="score">
+    </div>
   </div>
 
 </body>
