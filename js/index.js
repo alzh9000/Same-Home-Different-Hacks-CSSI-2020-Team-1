@@ -70,12 +70,8 @@ function searchAndFilter(searchTerm) {
 
 //ADD STUFF LATER//
 function getVideos(){
-  generateVideo('Daince', 'assets/daince-art.png', 'daince logo');
-  generateVideo('wave', 'assets/wave.png', 'teaching the wave');
-
   Videos.list().then(function(e) {
     let videosArray = e.data;
-    console.log(e);
     for(let i=0;i < videosArray.length; i++) {
       generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
@@ -92,7 +88,9 @@ function generateVideo(id, thumb, name){
 
   let videoImage = document.createElement('img');
   video.appendChild(videoImage);
-  videoImage.setAttribute("src", thumb); //CHECK THIS LATER
+  Videos.thumbnail(thumb).then(function(e){
+    videoImage.setAttribute("src", e);
+  });
 
   video.addEventListener('click', function(){
     localStorage.setItem('id', id);
