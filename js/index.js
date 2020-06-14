@@ -95,6 +95,7 @@ function generateVideo(id, thumb, name){
   videoImage.setAttribute("src", thumb); //CHECK THIS LATER
 
   video.addEventListener('click', function(){
-    alert("you clicked on " + name);
+    localStorage.setItem('id', id);
+    window.location.href = "video.html";
   });
 }

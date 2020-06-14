@@ -38,6 +38,8 @@ let options = {
 };
 
 function initChart(score) {
+  let id = localStorage.getItem('id');
+  Scores.submit(id, score);
   let ctx = document.getElementById('myChart').getContext('2d');
   $("#score-text").html(score + "%");
 
