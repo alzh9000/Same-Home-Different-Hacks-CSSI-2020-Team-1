@@ -6,9 +6,9 @@ const admin = require("firebase-admin");
 const firestore = admin.firestore();
 
 router.get("/", (req, res) =>
-    firestore.collection("videos")
-        .where("owner", "==", httpContext.get("uid")).get()
-        .then(snapshot => snapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id })))
+    firestore.collection("videos").get()
+        .then(snapshot => snapshot.docs.filter(doc => doc.data().user === httpContext.get("uid") || doc.data().public))
+        .then(documents => documents.map(doc => Object.assign(doc.data(), { id: doc.id })))
         .then(documents => res.status(200).json({ success: true, data: documents }))
         .catch(common.internalError(res, "list-videos")));
 
