@@ -1,6 +1,9 @@
 ## Same Home Different Hacks: Daince
 Submitted for the "Educational" track. It also can be considered for the "Best use of Google Cloud" since it uses Firebase and "Best Domain Name".
 
+##Watch our demo video here!
+https://www.youtube.com/watch?v=M2PPPX7IPhw&feature=emb_title
+
 ##Inspiration
 Dance is a beautiful art form and many people want to learn it, as shown by the growing number of dance studios. With our new physically-distanced world, we can no longer take advantage of that. Learning dance moves from choreography videos is a wonderful tool, but videos cannot tell you if you are doing a dance move correctly. We want people to experience the benefits of a real-life coach with the convenience of on-demand video.
 
