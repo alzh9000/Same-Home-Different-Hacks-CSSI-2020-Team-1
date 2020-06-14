@@ -14,7 +14,8 @@ async function loadPosenet() {
 
 
 //video player
-var start, end, video, poses, fileread, record, sumscores, sumframes;
+var start, end, video, poses, fileread, sumscores, sumframes;
+var record = false;
 var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
@@ -293,8 +294,24 @@ function posenetImg(inputimg) {
 
             console.log(poses[Math.round(video.currentTime() / 0.2)]);
             result = compPoseNet(pose, poses[Math.round(video.currentTime() / 0.2)]);
+            // console.log(pose);
+            // console.log(poses[Math.round(video.currentTime() / 0.2)]);
+            var slide = Math.round(video.currentTime() / 0.2);
+            if (slide === poses.length) slide--;
+            var result = compPoseNet(pose, poses[slide]);
             //console.log(result);
             document.getElementById("score").innerHTML = result;
+            if (record === true && slide >= poses.length - 20) {
+                record = false;
+                sumscores /= sumframes;
+                //console.log(sumscores); <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<SUMSCORES AT THIS POINT SHOULD BE THE RECORDED VALUE! PLEASE SEND THIS TO SCORE PAGE!!!!
+            } else if (record === false) {
+                //console.log(record);
+            } else {
+                //console.log(slide);
+                sumscores += result;
+                sumframes++;
+            }
         });
     })
 }
