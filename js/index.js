@@ -27,8 +27,16 @@ $(document).ready(function() {
 });
 
 function logout(){
-  Authentication.logout();
-  window.location.href = "login.html";
+  Authentication.logout()
+      .then(() => {
+        localStorage.removeItem("id");
+        localStorage.removeItem("name");
+        localStorage.removeItem("photo");
+        localStorage.removeItem("songname");
+        localStorage.removeItem("uid");
+        window.location.href = "login.html";
+      })
+      .catch(console.error);
 }
 
 $(document).bind('mousemove', function(e) {
