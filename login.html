@@ -23,6 +23,9 @@
           appId: "1:109949199255:web:92a0d12c5014785ea91ad2"
       });
   </script>
+  <script>
+    Authentication.self().then(res => (res.code === 200) ? window.location.href = "index.html" : null).catch(console.error);
+  </script>
 </head>
 
 <body >
@@ -41,9 +44,12 @@
   </div>
   <script>
     $(document).ready(() => {
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error)
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error);
 
-      $("#login").on("click", function(event) {
+      let login = $("#login");
+      login.on("click", function(event) {
+        login.html(`<div class="lds-dual-ring"></div>`);
+
         let provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope("profile");
         provider.addScope("email");
@@ -61,7 +67,10 @@
                   if (res.success) window.location.assign("/index.html");
                   else console.error("failed to login");
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                  login.html("Login with Google");
+                  console.log(err);
+                });
       });
     })
   </script>
