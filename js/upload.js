@@ -12,10 +12,55 @@ $(document).ready(function () {
 
 
 
-  $('#ok-button').click(function () {
-    showImageAt(0);
+  $('#ok-button').click(function (event) {
+    let status = $("#status");
+    event.preventDefault();
+
+    let name = $("#title").val();
+    let timestamps = $("#timestamps").val().split(",");
+
+    // Validate input
+    if (name === "") {
+      status.html("<p style='color: red'>You must title your video</p>");
+      return;
+    } else if (timestamps.length === 0) {
+      status.html("<p style='color: red'>You must add timestamps</p>");
+      return;
+    }
+
+    // Get file
+    let file = $("#file").prop("files")[0];
+    if (file === undefined) {
+      status.html("<p style='color: red'>You must upload a MP4 video</p>");
+      return;
+    } else if (file.type !== "video/mp4") {
+      status.html("<p style='color: red'>You may only upload MP4 videos</p>");
+      return;
+    }
+
+    // Upload the video
+    Videos.upload(file, name, false, timestamps, statusCallback, errorCallback)
+        .then(() => {
+          status.html("<p style='color: green'>Successfully uploaded!</p>");
+          setTimeout(() => window.location.href = "index.html", 1500);
+        })
+        .catch(errorCallback);
+
+    //showImageAt(0);
   });
 });
+
+function statusCallback(snapshot) {
+  let status = $("#status");
+  let percent = ((snapshot.bytesTransferred/snapshot.totalBytes) * 100);
+  if (percent === 100.00) status.html(`<p>Processing...</p>`);
+  else status.html(`<p>Uploading: ${percent.toFixed(2)}%</p>`);
+}
+
+function errorCallback(err) {
+  console.error(err);
+  $("#status").html("<p style='color: red'>An error occurred while uploading</p>");
+}
 
 /* POSENET STUFF BEGINS HERE */
 
