@@ -191,7 +191,18 @@ div.main input:hover {
   color: var(--black);
   opacity: 0.6;
 }
-
+#no-results{
+  text-align: center;
+  display: none;
+}
+.logo{
+  transform: translateZ(0px);
+  transition-duration: 0.5s;
+}
+.logo:hover{
+  transform: scale(1.1);
+  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36)
+}
 @media only screen and (max-width: 749px) {
   body {
     padding-top: 30px;
@@ -202,7 +213,7 @@ div.main input:hover {
   div.container {
     display: absolute;
     margin: 0 auto;
-    width: 500px;
+    width: 450px;
     padding: 30px 30px;
   }
 
@@ -214,8 +225,8 @@ div.main input:hover {
   }
 
   div.videos img {
-    width: 180px;
-    height: 102px;
+    width: 320px;
+    height: 150px;
     object-fit: contain;
   }
 

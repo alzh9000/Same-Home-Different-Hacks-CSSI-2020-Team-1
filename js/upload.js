@@ -68,8 +68,13 @@ function showImageAt(secs) {
         frames.push(img);
         //li.appendChild(img);
         //document.getElementById('olFrames').appendChild(li);
-        if (duration >= (secs += 0.2)) {
+        if ((duration - 0.2) >= (secs += 0.2)) {
           showImageAt(secs);
+          // console.log("working");
+        } else {
+          extract_complete = true;
+          console.log('done working');
+          applyPosenet();
         };
         // ok we need to store all of the frames together in one big frames[] array
       }
@@ -80,33 +85,33 @@ function showImageAt(secs) {
 var poses = [];
 
 function applyPosenet() {
-
-  var currentFrame = 0;
+  // execute after showImageAt(0) is completely done executing
+  // const result = await showImageAt(0);
+  // console.log(frames);
 
   // single pose
-  var flipHorizontal = false;
-  while (currentFrame <= frames.length) {
-    posenet.load().then(function (net) {
-      var img = new Image();
-      img.onload = function () {
+  for (var i = 0; i < frames.length; i++) {
+    // console.log(i);
 
-      };
+    var img = new Image();
+    img.onload = function () {
 
-      img.setAttribute('src', frames[currentFrame].src);
-      img.setAttribute('width', '640px');
-      img.setAttribute('height', '360px');
+    };
+    //console.log(i);
+    img.setAttribute('src', frames[i].src);
+    img.setAttribute('width', '640px');
+    img.setAttribute('height', '360px');
 
-      net.estimateSinglePose(img, {
-          flipHorizontal: true
-        }).then(function (pose) {
-          poses.push(pose);
-        })
-        .then(function (pose) {
-          console.log(poses);
-        });
+    net.estimateSinglePose(img, {
+        flipHorizontal: true
+      }).then(function (pose) {
+        poses.push(pose);
+        //console.log(poses);
+      })
+      .then(function (pose) {
+        //console.log(i);
+      });
 
-    });
-    currentFrame++;
   }
 
 }
