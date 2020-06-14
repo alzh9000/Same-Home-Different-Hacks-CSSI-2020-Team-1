@@ -34,14 +34,11 @@ $(document).ready(function () {
     webcamcanvas = document.getElementById('webcam-canvas');
     webcamcanvas.style.zIndex = 3;
     webcamctx = webcamcanvas.getContext('2d');
-    webcamctx.fillStyle = 'rgba(0, 200, 0, 0.6)';
-    webcamctx.fillRect(0, 0, webcamcanvas.width, webcamcanvas.height);
-    6
+
+
     videocanvas = document.getElementById('video-canvas');
     videocanvas.style.zIndex = 3;
     ctx = videocanvas.getContext('2d');
-    ctx.fillStyle = 'rgba(200, 0, 0, 0.6)';
-    ctx.fillRect(0, 0, videocanvas.width, videocanvas.height);
 
     setInterval(clearPoints, 400);
 

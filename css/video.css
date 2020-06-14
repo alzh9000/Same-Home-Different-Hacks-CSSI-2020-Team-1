@@ -28,6 +28,11 @@ div.settings {
     text-align: center;
 }
 
+div.text {
+    text-align: center;
+
+}
+
 div.settings button {
     display: inline-block;
     width: 130px;

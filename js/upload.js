@@ -40,11 +40,11 @@ $(document).ready(function () {
 
     // Upload the video
     Videos.upload(file, name, false, timestamps, statusCallback, errorCallback)
-        .then(() => {
-          status.html("<p style='color: green'>Successfully uploaded!</p>");
-          setTimeout(() => window.location.href = "index.html", 1500);
-        })
-        .catch(errorCallback);
+      .then(() => {
+        status.html("<p style='color: green'>Successfully uploaded!</p>");
+        setTimeout(() => window.location.href = "index.html", 1500);
+      })
+      .catch(errorCallback);
 
     //showImageAt(0);
   });
@@ -52,7 +52,7 @@ $(document).ready(function () {
 
 function statusCallback(snapshot) {
   let status = $("#status");
-  let percent = ((snapshot.bytesTransferred/snapshot.totalBytes) * 100);
+  let percent = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
   if (percent === 100.00) status.html(`<p>Processing...</p>`);
   else status.html(`<p>Uploading: ${percent.toFixed(2)}%</p>`);
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Upload</title>
@@ -23,17 +24,18 @@
         });
     </script>
 </head>
+
 <body>
     <form id="form">
-        <label for="name">Name: </label><input type="text" id="name"><br/>
-        <label for="public">Public: </label><input type="checkbox" id="public"><br/>
-        <label for="timestamps">Timestamps: </label><input type="text" id="timestamps"><br/>
-        <input type="file" id="video"/><br/>
-        <input type="submit" value="Upload"/>
+        <label for="name">Name: </label><input type="text" id="name"><br />
+        <label for="public">Public: </label><input type="checkbox" id="public"><br />
+        <label for="timestamps">Timestamps: </label><input type="text" id="timestamps"><br />
+        <input type="file" id="video" /><br />
+        <input type="submit" value="Upload" />
     </form>
     <script>
         $(document).ready(() => {
-            $("#form").on("submit", function(event) {
+            $("#form").on("submit", function (event) {
                 event.preventDefault();
 
                 let name = $("#name").val();
@@ -42,6 +44,8 @@
 
                 // Get file
                 let file = $("#video").prop("files")[0];
+                showImageAt(0);
+
                 if (file === undefined) {
                     console.log("no file submitted");
                     return;
@@ -60,4 +64,5 @@
         });
     </script>
 </body>
+
 </html>
