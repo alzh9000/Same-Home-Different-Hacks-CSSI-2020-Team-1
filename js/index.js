@@ -59,8 +59,8 @@ function searchAndFilter(searchTerm) {
 
 //ADD STUFF LATER//
 function getVideos(){
-  generateVideo('asjdfsfksd', 'assets/daince-art.png', 'daince logo');
-  generateVideo('jfiovkxvd', 'assets/sample-thumb-1.png', 'lofi beats to study/relax to');
+  generateVideo('Daince', 'assets/daince-art.png', 'daince logo');
+  generateVideo('wave', 'assets/wave.png', 'teaching the wave');
 
   Videos.list().then(function(e) {
     videosArray = e.data;
