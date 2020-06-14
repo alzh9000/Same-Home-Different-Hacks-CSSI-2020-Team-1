@@ -79,7 +79,7 @@ function showImageAt(secs) {
         //document.getElementById('olFrames').appendChild(li);
         if ((duration - 0.2) >= (secs += 0.2)) {
           showImageAt(secs);
-          // console.log("working");
+          console.log("working");
         } else {
           extract_complete = true;
           console.log('done working');
@@ -119,7 +119,7 @@ function applyPosenet() {
         //console.log(poses);
       })
       .then(function (pose) {
-        //console.log(i);
+        console.log("pose..");
       });
 
   }

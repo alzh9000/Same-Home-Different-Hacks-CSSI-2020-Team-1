@@ -1,9 +1,13 @@
 const url = "https://us-central1-daince-b612d.cloudfunctions.net/api";
 
 // Helper function
-async function sendRequest(method, path, body= null) {
+async function sendRequest(method, path, body = null) {
     // Build request
-    let options = { method: method, headers: {}, credentials: "include" }
+    let options = {
+        method: method,
+        headers: {},
+        credentials: "include"
+    }
 
     // Add options for POST/PUT requests
     if ((method === "POST" || method === "PUT") && body !== null) options.headers["Content-Type"] = "application/json";
@@ -14,7 +18,10 @@ async function sendRequest(method, path, body= null) {
     let json = await response.json();
 
     // Generate return data
-    let base = { code: response.status, success: json.success }
+    let base = {
+        code: response.status,
+        success: json.success
+    }
     if (response.ok) base.data = json.data;
     else base.reason = json.reason;
 
@@ -23,7 +30,7 @@ async function sendRequest(method, path, body= null) {
 
 // Generate a uuid
 function uuid() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
 }
@@ -42,7 +49,10 @@ class Authentication {
         let json = await response.json();
 
         // Generate return data
-        return { code: response.status, success: json.success };
+        return {
+            code: response.status,
+            success: json.success
+        };
     }
 
     // Revoke a user's session
@@ -63,7 +73,7 @@ class Videos {
     }
 
     // Upload a file
-    static async upload(file, name, pub, timestamps, status_callback=(snap) => console.log(snap.bytesTransferred / snap.totalBytes) * 100, error_callback=console.error) {
+    static async upload(file, name, pub, timestamps, status_callback = (snap) => console.log(snap.bytesTransferred / snap.totalBytes) * 100, error_callback = console.error) {
         let uid = localStorage.getItem("uid");
         let path = `${uid}/${uuid()}.mp4`;
         let ref = firebase.storage().ref().child(path);
@@ -99,12 +109,12 @@ class Videos {
 
 class Scores {
     // Retrieve all a user's scores
-    static async all(days=7) {
+    static async all(days = 7) {
         return await sendRequest("GET", `/scores?days=${days}`);
     }
 
     // Retrieve all a user's scores for a video
-    static async for_video(id, days=7) {
+    static async for_video(id, days = 7) {
         return await sendRequest("GET", `/scores/${id}?days=${days}`)
     }
 
