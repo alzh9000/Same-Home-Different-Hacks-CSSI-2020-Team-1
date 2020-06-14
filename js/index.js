@@ -53,9 +53,7 @@ function searchAndFilter(searchTerm) {
       }
     });
   }
-
 }
-
 
 //ADD STUFF LATER//
 function getVideos(){
@@ -63,7 +61,7 @@ function getVideos(){
   generateVideo('jfiovkxvd', 'assets/sample-thumb-1.png', 'lofi beats to study/relax to');
 
   Videos.list().then(function(e) {
-    videosArray = e.data;
+    let videosArray = e.data;
     for(let i=0;i < videosArray.length; i++) {
       generateVideo(videosArray[i].id, videosArray[i].thumbnail, videosArray[i].name);
     }
