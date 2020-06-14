@@ -12,6 +12,9 @@
 .cursor{
   cursor: url(../assets/cursor.png), auto !important;
 }
+.pointer{
+  cursor: url(../assets/pointer.png), auto;
+}
 body {
   background-color: var(--green);
   font-family: 'Montserrat';
@@ -39,6 +42,7 @@ div.header {
 
 div.header img#icon {
   width: 140px;
+cursor: url(../assets/cursor.png), auto
 }
 
 div.header-info{
@@ -62,15 +66,6 @@ p#uid {
   font-size: 13px;
 }
 
-div.header button#upload-button {
-  margin-top: 50px;
-  margin-right: 30px;
-  float: right;
-  padding: 10px 20px;
-  font-size: 20px;
-  font-family: 'Montserrat';
-}
-
 div.chart {
   margin-top: 200px;
 }
@@ -85,6 +80,7 @@ button#x-button {
   width: 42px;
   height: 31px;
   z-index: 3;
+  cursor: url(../assets/pointer.png), auto;
 }
 .bob-animation {
   object-fit: contain;
