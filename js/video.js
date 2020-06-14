@@ -392,7 +392,7 @@ function vectorizePoseNet(poseNet1) {
     // vec1 = array1;
     // console.log(vec1)
 
-    // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :) 
+    // At this moment, the vec1 is not scaled or normalized. This code will do that before combining it with the scores. :)
     // To scale the vectors, we subtract the minimum coordinate value of that axis from all the coordinates for that axis
     minX = Number.MAX_VALUE
     minY = Number.MAX_VALUE

@@ -101,23 +101,23 @@ function initChart() {
       type: 'bar',
       data: {
         labels: getlastSevenDays(),
-        datasets: [/*{
-          label: 'Rick Astley - Never Gonna Give You Up',
+        datasets: [{
+          label: 'ITZY - Wannabe - lisarhee',
           backgroundColor: red,
           data: [98, 37, 0, 0, 0, 0, 0],
         }, {
-          label: 'Darude - Sandstorm',
+          label: 'BAEKHYUN - Candy - Fol2esTz',
           backgroundColor: orange,
           data: [30, 70, 75, 90, 0, 0, 0],
         }, {
-          label: 'All Star - Smash Mouth',
+          label: 'EXO - Lotto - YouKnowDan',
           backgroundColor: yellow,
           data: [0, 0, 0, 0, 58, 80, 87],
         }, {
           label: 'Big Time Rush - Big Time Rush',
           backgroundColor: green,
           data: [0, 0, 0, 0, 0, 0, 0],
-        }*/]
+        }]
       },
       options: {
         title: {

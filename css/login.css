@@ -160,3 +160,9 @@ padding: 5%;
     transform: rotate(360deg);
   }
 }
+
+img#line {
+  position: absolute;
+  z-index: -1;
+  width: 110%;
+}
