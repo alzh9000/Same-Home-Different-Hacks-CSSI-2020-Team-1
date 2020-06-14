@@ -17,7 +17,7 @@ body {
 }
 
 .cursor{
-  cursor: url(../assets/cursor.png), auto;
+  cursor: url(../assets/cursor.png), auto !important;
 }
 button {
   --block-shadow-color: var(--black);
@@ -188,7 +188,7 @@ div.main input:focus {
 
 div.videos {
   margin-left: 26px;
-  min-height: 100px; 
+  min-height: 100px;
 }
 
 div.main input:hover {

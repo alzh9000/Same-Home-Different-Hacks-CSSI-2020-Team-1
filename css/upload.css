@@ -143,7 +143,10 @@ button#x-button {
   height: 31px;
   z-index: 3;
 }
-
+.video{
+  width: 100%;
+  display: none; 
+}
 @media only screen and (max-width: 600px) {
   div.container {
     width: 400px;
