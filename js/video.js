@@ -20,24 +20,26 @@ var timestamps = ['00:03', '00:07', '00:15', '01:22']
 var endi = 0;
 
 var color;
-var canvas;
+var videocanvas;
 var ctx;
+var webcamcanvas;
+var webcamctx;
 
 $(document).ready(function () {
     color = 'aqua';
-    canvas = document.getElementById('canvas');
-    canvas.style.zIndex = 3;
+    // webcam & video canvas setup
+    webcamcanvas = document.getElementById('webcam-canvas');
+    webcamcanvas.style.zIndex = 3;
+    webcamctx = webcamcanvas.getContext('2d');
+    webcamctx.fillStyle = 'rgba(0, 200, 0, 0.6)';
+    webcamctx.fillRect(0, 0, webcamcanvas.width, webcamcanvas.height);
+    console.log(webcamctx);
 
-    // canvas = document.getElementById('videoElement');
-    console.log(canvas.getContext);
-    ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = 'rgb(200, 0, 0)';
-    ctx.fillRect(10, 10, 50, 50);
-
-    ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-    ctx.fillRect(30, 30, 50, 50);
-
+    videocanvas = document.getElementById('video-canvas');
+    videocanvas.style.zIndex = 3;
+    ctx = videocanvas.getContext('2d');
+    ctx.fillStyle = 'rgba(200, 0, 0, 0.6)';
+    ctx.fillRect(0, 0, videocanvas.width, videocanvas.height);
 
     loadPosenet();
 
@@ -258,53 +260,57 @@ function take_snapshot() {
     setTimeout(take_snapshot, 1000);
 }
 
-var result;
-
 /**
  * DRAWING FUNCTIONS
  */
 
-function drawPoint(y, x, r, color) {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, 2 * Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
+function drawPoint(y, x, r, color, canvasctx) {
+    canvasctx.beginPath();
+    canvasctx.arc(x, y, r, 0, 2 * Math.PI);
+    canvasctx.fillStyle = color;
+    canvasctx.fill();
 }
 
-function drawKeypoints(keypoints, scale = 1) {
+function drawKeypoints(keypoints, canvasctx, scale = 1) {
     for (let i = 0; i < keypoints.length; i++) {
         const keypoint = keypoints[i];
+        // 0.5 is the min part confidence
+        if (keypoint.score < 0.7) {
+            continue;
+        }
         const {
+            //reflect y somehow
             y,
             x
         } = keypoint.position;
-        drawPoint(y * scale, x * scale, 3, color);
+        //(webcamcanvas.width - x)
+        drawPoint(y * scale, (webcamcanvas.width - x) * scale, 3, color, canvasctx);
     }
 }
 
+
+var result;
 
 function posenetImg(inputimg) {
     posenet.load().then(function (net) {
         net.estimateSinglePose(inputimg, {
             flipHorizontal: true
         }).then(function (pose) {
-            //draw the keypoints
-            console.log(pose["keypoints"]);
-            drawKeypoints(pose["keypoints"]);
-
-            console.log(poses[Math.round(video.currentTime() / 0.2)]);
-            result = compPoseNet(pose, poses[Math.round(video.currentTime() / 0.2)]);
             // console.log(pose);
             // console.log(poses[Math.round(video.currentTime() / 0.2)]);
+
             var slide = Math.round(video.currentTime() / 0.2);
             if (slide === poses.length) slide--;
+            drawKeypoints(pose["keypoints"], webcamctx);
             var result = compPoseNet(pose, poses[slide]);
             //console.log(result);
             document.getElementById("score").innerHTML = result;
             if (record === true && slide >= poses.length - 20) {
                 record = false;
                 sumscores /= sumframes;
-                //console.log(sumscores); <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<SUMSCORES AT THIS POINT SHOULD BE THE RECORDED VALUE! PLEASE SEND THIS TO SCORE PAGE!!!!
+                localStorage.setItem('score', Math.round(sumscores * 100));
+                window.location = "score.html";
+                //console.log(sumscores);<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<SUMSCORES AT THIS POINT SHOULD BE THE RECORDED VALUE! PLEASE SEND THIS TO SCORE PAGE!!!!
             } else if (record === false) {
                 //console.log(record);
             } else {

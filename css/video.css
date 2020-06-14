@@ -16,23 +16,49 @@ body {
     color: var(--black);
 }
 
+div.all-settings button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.settings {
+    text-align: center;
+}
+
+div.settings button {
+    display: inline-block;
+    width: 130px;
+}
+
 button {
+    font-size: 12px;
     --block-shadow-color: var(--black);
 }
 
+button.long-button {
+    padding: 4px;
+    width: 260px;
+}
+
 div.container {
-    width: 600px;
+    width: 800px;
     display: absolute;
     margin: 0 auto;
     padding: 30px 50px;
     --block-background-color: var(--background);
 }
 
-#vid {
-    width: 100%;
-}
-
 div.header {
     width: 100%;
     margin-top: 20px;
+}
+
+#webcam-canvas {
+    position: absolute;
+    margin-top: 500px;
+}
+
+#video-canvas {
+    position: absolute;
 }
