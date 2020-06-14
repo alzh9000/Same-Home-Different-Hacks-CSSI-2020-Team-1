@@ -266,7 +266,7 @@ div.main input:hover {
   }
 
   div.videos img {
-    width: 320px;
+    width: 264px;
     height: 150px;
     object-fit: contain;
   }
@@ -372,6 +372,6 @@ div.main input:hover {
     font-size: 20px;
     margin-top: 10px;
     margin-left: -14px;
-  cursor: pointer;
+    cursor: pointer;
   }
 }
