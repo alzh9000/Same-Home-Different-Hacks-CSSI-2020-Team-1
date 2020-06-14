@@ -3,7 +3,7 @@ let orange = 'rgb(244, 162, 097)';
 let yellow = 'rgb(233, 196, 106)';
 let green = 'rgb(042, 157, 143)';
 let black = 'rgb(038, 070, 083)';
-let myChart, today;
+let myChart, today, lastSevenDays;
 
 $(document).ready(function() {
   initChart();
@@ -25,31 +25,6 @@ function goHome() {
   window.location.href = "index.html";
 }
 
-function getScores(){ //HAVENT TESTED YET
-  Scores.all().then(function(e){
-
-    //sorts all scores in a dictionary with each unique id
-    let scoresArray = e.data;
-    let scores = {};
-    for(let i=0;i < scoresArray.length; i++){
-      let s = scoresArray[i];
-      if(s.name in scores) scores[s.name].push(s.score);
-      else scores[s.name] = [s.score];
-    }
-
-    for (var key in scores) {
-      if (scores.hasOwnProperty(key)) {
-        Videos.read(key).then(function(e){
-
-        });
-        console.log(key, scores[key]);
-      }
-    }
-  });
-}
-
-
-
 function initProfile() {
   if (localStorage.getItem("photo") !== null) $("#icon").attr("src", localStorage.getItem("photo"));
   let myName = localStorage.getItem("name") || 'Name';
@@ -61,21 +36,61 @@ function getFirstWord(string){
   return firstWord;
 }
 
-function getLastTenDays(){
-  today = new Date();
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0');
-  today = mm + '/' + dd;
+//CHART STUFF - NONE OF THIS HAS BEEN TESTED YET//
 
-  let labels = [];
+function getScores(){
+  Scores.all().then(function(e){
+    //sorts all scores in a dictionary with each unique id
+    let scoresArray = e.data;
+    let scores = {};
+    for(let i=0;i < scoresArray.length; i++){
+      let s = scoresArray[i];
+      //converts date to find index in lastSevenDays
+      let d = new Date(s.timestamp * 1000);
+      let index = lastSevenDays.findIndex(getDateString(d));
+      scores[s.video_id][index] = s.score;
+    }
+
+    let colorInt = -1;
+    let colors = [red, orange, yellow, green, black];
+
+    for (var key in scores) {
+      if (scores.hasOwnProperty(key)) {
+        colorInt++;
+        if(colorInt > colors.length-1) colorInt = 0;
+        let c = colors[colorInt];
+
+        Videos.read(key).then(function(f){
+          date = {
+            label: f.name,
+            backgroundColor: c,
+            data: scores[key]
+          };
+          myChart.data.datasets.push(data);
+          myChart.update();
+        });
+      }
+    }
+  });
+}
+
+function getlastSevenDays(){
+  today = new Date();
+
+  lastSevenDays = [];
   for (let i=7; i > -1; i--){
     let thisDate = new Date();
     thisDate.setDate(thisDate.getDate()-i);
-    let thisDD = String(thisDate.getDate()).padStart(2, '0');
-    let thisMM = String(thisDate.getMonth() + 1).padStart(2, '0');
-    labels.push(thisMM + '/' + thisDD);
+    lastSevenDays.push(getDateString(thisDate));
   }
-  return labels;
+  return lastSevenDays;
+}
+
+function getDateString(today) {
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  today = mm + '/' + dd;
+  return today;
 }
 
 function initChart() {
@@ -88,7 +103,7 @@ function initChart() {
   myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: getLastTenDays(),
+        labels: getlastSevenDays(),
         datasets: [{
           label: 'Rick Astley - Never Gonna Give You Up',
           backgroundColor: red,
