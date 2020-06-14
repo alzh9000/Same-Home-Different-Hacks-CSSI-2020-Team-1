@@ -245,7 +245,9 @@ function posenetImg(inputimg) {
         }).then(function (pose) {
             // console.log(pose);
             // console.log(poses[Math.round(video.currentTime() / 0.2)]);
-            console.log(compPoseNet(pose, poses[Math.round(video.currentTime() / 0.2)]));
+            var result = compPoseNet(pose, poses[Math.round(video.currentTime() / 0.2)]);
+            //console.log(result);
+            document.getElementById("score").innerHTML = result;
         });
     })
 }
