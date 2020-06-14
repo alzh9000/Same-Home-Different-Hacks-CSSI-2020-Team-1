@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
+:root {
+  --background: rgb(237, 234, 225);
+  --red: rgb(231, 111, 081);
+  --orange: rgb(244, 162, 097);
+  --yellow: rgb(233, 196, 106);
+  --green: rgb(042, 157, 143);
+  --black: rgb(038, 070, 083);
+}
+
+body {
+  background-color: var(--green);
+  font-family: 'Montserrat';
+  color: var(--black);
+}
+
+button {
+  --block-shadow-color: var(--black);
+}
+
+div.container {
+  --block-background-color: var(--background);
+}
+
+div.header {
+  width: 100%;
+  margin-top: 20px;
+}
+
+div.header img#icon {
+  width: 130px;
+}
+
+#tag {
+  z-index: 2;
+  position: absolute;
+  font-size: 10px;
+  padding: 5px 10px;
+  display: none;
+}
+
+div.main input[type=text] {
+  width: 75%;
+}
+
+div.header button#icon-button {
+  float: left;
+  margin-left: 30px;
+}
+
+div.header button {
+  display: inline-block;
+}
+
+div.header button#upload-button {
+  margin-top: 10px;
+  margin-right: 30px;
+  float: right;
+  padding: 10px 40px;
+  font-size: 20px;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: var(--green);
+  font-family: 'Montserrat';
+  font-size: 20px;
+  opacity: 0.7;
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+div.search {
+  text-align: center;
+  color: var(--green);
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+  margin-top: -15px;
+  margin-left: -14px;
+}
+
+.td button {
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 48px;
+  border: none;
+  background-color: var(--background);
+}
+
+#s-circle {
+  position: relative;
+  top: -8px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: 0;
+  border: 5px solid var(--green);
+  border-radius: 50%;
+  transition: 0.5s ease all;
+}
+
+button span {
+  position: absolute;
+  top: 30px;
+  left: 22px;
+  display: block;
+  width: 10px;
+  height: 5px;
+  border-radius: 10px;
+  transform: rotateZ(52deg);
+  transition: 0.5s ease all;
+}
+
+button span:before, button span:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 10px;
+  background-color: var(--green);
+  border-radius: 10px;
+  transform: rotateZ(0);
+  transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle {
+  top: 1px;
+  width: 15px;
+  height: 8px;
+  border-width: 0;
+  background-color: var(--green);
+  border-radius: 20px;
+}
+
+#s-cover:hover span {
+  top: 70%;
+  left: 10px;
+  width: 25px;
+  margin-top: -9px;
+  transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before {
+  bottom: 3px;
+  transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after {
+  bottom: -3px;
+  transform: rotateZ(-52deg);
+}
+
+#s-cover:hover button span:before, #s-cover:hover button span:after {
+  right: 0px;
+  width: 20px;
+  background-color: var(--green);
+}
+
+div.main input {
+  color: var(--black);
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--green);
+  font-family: 'Montserrat';
+  transition: 0.3s;
+  cursor: pointer;
+  height: 30px;
+  padding: 10px 20px 5px;
+  font-size: 24px;
+  height: 30px;
+}
+
+div.main {
+  margin-top: 200px;
+}
+
+div.main input:focus {
+  outline: none;
+}
+
+div.videos {
+  margin-left: 26px;
+}
+
+div.main input:hover {
+  color: var(--black);
+  opacity: 0.6;
+}
+
+@media only screen and (max-width: 749px) {
+  body {
+    padding-top: 30px;
+    padding-bottom: 50px;
+    overflow-x: hidden;
+  }
+
+  div.container {
+    display: absolute;
+    margin: 0 auto;
+    width: 500px;
+    padding: 30px 30px;
+  }
+
+  div.videos {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+  }
+
+  div.videos img {
+    width: 180px;
+    height: 102px;
+    object-fit: contain;
+  }
+
+  .td button {
+    margin-left: 15px;
+  }
+
+  div.search {
+    margin-top: 10px;
+    display: inline-flex;
+  }
+
+  #deco-1 {
+    position: absolute;
+    width: 20px;
+    margin: -4px -185px;
+  }
+
+  #deco-2 {
+    width: 150px;
+    margin: -6px -10px;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  body {
+    padding-top: 30px;
+    padding-bottom: 50px;
+  }
+
+  div.container {
+    display: absolute;
+    margin: 0 auto;
+    width: 730px;
+    padding: 30px 50px;
+  }
+
+  div.header {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .td button {
+    margin-left: 20px;
+  }
+
+  div.search {
+    width: 100%;
+    display: flex;
+    float: left;
+  }
+
+  #deco-1 {
+    position: absolute;
+    width: 20px;
+    margin: -4px -200px;
+  }
+
+  #deco-2 {
+    width: 150px;
+    margin: -6px -20px;
+  }
+
+  div.videos img {
+    width: 270px;
+    height: 152px;
+    object-fit: contain;
+  }
+}

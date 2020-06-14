@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
+:root {
+  --background: rgb(237, 234, 225);
+  --red: rgb(231, 111, 081);
+  --orange: rgb(244, 162, 097);
+  --yellow: rgb(233, 196, 106);
+  --green: rgb(042, 157, 143);
+  --black: rgb(038, 070, 083);
+}
+
+body {
+  background-color: var(--green);
+  font-family: 'Montserrat';
+  color: var(--black);
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+button {
+  --block-shadow-color: var(--black);
+}
+
+div.container {
+  display: absolute;
+  margin:0 auto;
+  padding: 30px 50px;
+  --block-background-color: var(--background);
+}
+
+div.header {
+  width: 100%;
+  margin-top: 45px;
+}
+
+div.header img#icon {
+  width: 140px;
+}
+
+div.header-info {
+  margin: -110px 170px;
+  width: 200px;
+  line-height: 2px;
+}
+
+div.header-info h1 {
+  font-family: 'Sacramento';
+  color: var(--green);
+  font-size: 50px;
+}
+
+div.main button#upload-button {
+  padding: 10px 18px;
+  font-size: 16px;
+  font-family: 'Montserrat';
+}
+
+div.upload p {
+  margin-left: 10px;
+  display: inline-block;
+  color: var(--green);
+  border-bottom: 2px solid var(--green);
+}
+
+img#deco-2 {
+  position: absolute;
+  z-index: 2;
+  margin: -80px -53px;
+}
+
+button#x-button {
+  position: absolute;
+  width: 42px;
+  height: 31px;
+  z-index: 3;
+}
+
+button#ok-button {
+  margin: auto;
+  margin-top: 20px;
+  padding: 10px 40px;
+}
+
+h1#score-text {
+  position: absolute;
+  font-size: 60px;
+  color: var(--green);
+}
+
+div.main p {
+  font-weight: 400;
+}
+@keyframes pulse-grow {
+100% {
+    transform: scale(1.01);
+}
+}
+
+img#deco-3 {
+  position: absolute;
+  margin: 30px -15px;
+}
+
+img#deco-3:hover{
+  animation-direction: alternate;
+  animation-duration: 0.3s;
+  animation-iteration-count: infinite;
+  animation-name: pulse-grow;
+  animation-timing-function: linear;
+}
+/* Attempted to make the circle canvas rotate - text in canvas rotates too, will try to fix
+#myChart{
+   -webkit-transition: -webkit-transform .8s ease-in-out;
+           transition:         transform .8s ease-in-out;
+}
+#myChart:hover{
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+  transform-origin: 50% 50%
+}
+*/
+@media only screen and (max-width: 600px) {
+  div.container{
+    width: 400px;
+  }
+  img#deco-2 {
+    width: 400px;
+  }
+  button#x-button {
+    margin: -1px 355px;
+  }
+  h1#score-text{
+    margin: -150px 90px;
+  }
+  img#deco-3 {
+    width: 280px;
+  }
+}
+@media only screen and (min-width: 601px) {
+  div.container {
+    width: 500px;
+  }
+  img#deco-2 {
+    width: 500px;
+  }
+  button#x-button {
+    margin: -1px 455px;
+  }
+  h1#score-text {
+    margin: -200px 135px;
+  }
+  img#deco-3 {
+    width: 380px;
+  }
+}
