@@ -33,7 +33,8 @@
     });
   </script>
   <script>
-    Authentication.self().then(res => (res.code !== 200) ? window.location.href = "login.html" : null).catch(console.error);
+    Authentication.self().then(res => (res.code !== 200) ? window.location.href = "login.html" : null).catch(console
+      .error);
   </script>
 </head>
 
@@ -41,7 +42,7 @@
   <div class="container card fixed block cursor">
     <div class="header ">
       <img src="assets/deco-2.png" id="deco-2" class="cursor"></img>
-      <button class="block pointer" id="x-button" onclick="goHome()" >X</button>
+      <button class="block pointer" id="x-button" onclick="goHome()">X</button>
     </div>
     <div class="main">
       <div id="status"></div>
@@ -52,9 +53,10 @@
           <p id="file-label">No file selected.</p>
           <br><br><br>
           <label for="title" id="title-label">Title</label><br><br>
-          <input type="text" name="title" required minlength="4" maxlength="40" placeholder="(4-40 characters)" id="title">
+          <input type="text" name="title" required minlength="4" maxlength="40" placeholder="(4-40 characters)"
+            id="title">
         </div>
-        <video controls  class="video" src="" id="vidiv"></video>
+        <video controls class="video" src="" id="vidiv"></video>
 
         <div class="timestamps">
           <p>Timestamps</p>
@@ -62,6 +64,7 @@
         </div>
         <br>
         <input type="button" value="Submit" id="ok-button">
+
       </form>
     </div>
   </div>

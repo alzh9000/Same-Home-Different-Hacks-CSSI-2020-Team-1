@@ -40,10 +40,15 @@ $(document).ready(function () {
 
     // Upload the video
     Videos.upload(file, name, false, timestamps, statusCallback, errorCallback)
-      .then(() => {
-        status.html("<p style='color: green'>Successfully uploaded!</p>");
-        setTimeout(() => window.location.href = "index.html", 1500);
-      })
+      .then(
+        showImageAt(0))
+      // this doesn't work, ends too early
+      // .then(
+      //   () => {
+      //     status.html("<p style='color: green'>Successfully uploaded and analyzed with PoseNet!</p>");
+      //     setTimeout(() => window.location.href = "index.html", 1500);
+      //   }
+      // )
       .catch(errorCallback);
 
     //showImageAt(0);
@@ -53,9 +58,10 @@ $(document).ready(function () {
 function statusCallback(snapshot) {
   let status = $("#status");
   let percent = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-  if (percent === 100.00) status.html(`<p>Processing...</p>`);
+  if (percent === 100.00) status.html(`<p>Applying PoseNet AI...</p>`);
   else status.html(`<p>Uploading: ${percent.toFixed(2)}%</p>`);
 }
+
 
 function errorCallback(err) {
   console.error(err);
@@ -169,6 +175,9 @@ function applyPosenet() {
 
   }
   console.log(poses);
+  // these should run last
+  status.html("<p style='color: green'>Successfully uploaded and analyzed with PoseNet!</p>");
+  setTimeout(() => window.location.href = "index.html", 1500);
 }
 
 
