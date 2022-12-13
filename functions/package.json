@@ -16,7 +16,7 @@
     "child-process-promise": "^2.2.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-http-context": "^1.2.3",
     "ffmpeg-static": "^4.2.3",
     "firebase-admin": "^8.10.0",
